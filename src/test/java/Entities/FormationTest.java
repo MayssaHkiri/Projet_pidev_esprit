@@ -13,7 +13,7 @@ public class FormationTest {
         int idEnseignant = 2;
 
         // Act
-        Formation formation = new Formation(id, titre, description, idEnseignant);
+        Formation formation = new Formation(id, titre, description);
 
         // Assert
         Assertions.assertEquals(id, formation.getId());
@@ -25,7 +25,7 @@ public class FormationTest {
     @Test
     public void testModificationFormation() {
         // Arrange
-        Formation formation = new Formation(1, "Titre initial", "Description initiale", 2);
+        Formation formation = new Formation(1, "Titre initial", "Description initiale");
 
         // Act
         formation.setTitre("Nouveau titre"); // Correction ici

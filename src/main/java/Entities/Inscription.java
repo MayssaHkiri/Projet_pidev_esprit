@@ -1,8 +1,6 @@
 package Entities;
 import java.sql.Timestamp;
 
-
-
 public class Inscription {
     private int id;
     private int idFormation;
