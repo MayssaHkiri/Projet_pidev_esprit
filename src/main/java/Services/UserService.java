@@ -62,6 +62,7 @@ public class UserService implements Iservice<User> {
     public boolean add(User u) throws SQLException {
         // Check if the user already exists
         if (emailExists(u.getEmail())) {
+            System.out.println("le mail existe deja !! ");
             return false;
         }
         // Generate a random password and set it to the user
@@ -117,7 +118,7 @@ public class UserService implements Iservice<User> {
         String req = "UPDATE user "
                 + "SET nom='" + U.getNom() + "', "
                 + "prenom='" + U.getPrenom()+ "', "
-                + "email='" + U.getEmail() + "', "
+                + "email='" + U.getEmail() + "' "
                 + "WHERE id=" + U.getId() + "";
         Statement st;
 
@@ -146,13 +147,21 @@ public class UserService implements Iservice<User> {
         return false;
     }
     public User authenticate(String email, String password) throws SQLException {
-        String query = "SELECT id, role , pwd FROM user WHERE email = ?";
+        if (emailExists(email)) {
+            System.out.println("j'ai trouvé le mail souhaité ! ");
+        }
+        else {
+            System.out.println("le email ne se trouve pas ! ");
+        }
+        String query = "SELECT id, role, pwd FROM user WHERE email = ?";
         try (PreparedStatement preparedStatement = cnx.prepareStatement(query)) {
             preparedStatement.setString(1, email);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     int userId = resultSet.getInt("id");
+                    System.out.println(userId);
                     String role = resultSet.getString("role");
+                    System.out.println(role);
                     String storedPassword = resultSet.getString("pwd");
                     if (password.equals(storedPassword)) {
                         return new User(userId, role );
