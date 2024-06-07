@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AccountCreation">
    <children>
       <VBox prefHeight="457.0" prefWidth="181.0" style="-fx-background-color: F8C6C4;">
@@ -88,7 +87,7 @@
                </VBox.margin>
             </Label>
             <ChoiceBox fx:id="myChoiceBox" prefWidth="150.0" />
-            <Button mnemonicParsing="false" text="Ajouter">
+            <Button mnemonicParsing="false" onAction="#AddNewUser" text="Ajouter">
                <VBox.margin>
                   <Insets bottom="20.0" left="110.0" right="20.0" top="20.0" />
                </VBox.margin>

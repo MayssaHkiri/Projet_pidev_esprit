@@ -17,7 +17,7 @@ public class AccountCreation implements Initializable {
     @FXML
     private ChoiceBox<String> myChoiceBox;
     private String[] roles = {"enseignant","etudiant"};
-    UserService userService = new UserService() ;
+
     @FXML
     private TextField tfEmail;
 
@@ -26,7 +26,7 @@ public class AccountCreation implements Initializable {
 
     @FXML
     private TextField tfPrenom;
-
+     UserService userService = new  UserService() ;
     @FXML
     void AddNewUser(ActionEvent event) {
         String chosenRole = myChoiceBox.getValue();
@@ -50,7 +50,6 @@ public class AccountCreation implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -60,8 +59,9 @@ public class AccountCreation implements Initializable {
     }
     public void getRole(ActionEvent event) {
 
-        String myFood = myChoiceBox.getValue();
+        String chosenRole  = myChoiceBox.getValue();
 
     }
+
 
 }

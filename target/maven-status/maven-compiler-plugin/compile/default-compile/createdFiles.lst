@@ -1,9 +1,9 @@
 Controllers\AccountCreation.class
-Controllers\UsersInterface.class
-Entities\User.class
 StartApplication\Main.class
 Utils\DataSource.class
 Services\Iservice.class
+Controllers\UsersInterface.class
 StartApplication\MainFX.class
+Entities\User.class
 Services\UserService.class
 Controllers\LoginInterface.class
