@@ -1,0 +1,14 @@
+.sidebar {
+    -fx-background-color: #f0f0f0; /* Couleur de fond de la barre latérale */
+    -fx-padding: 10; /* Espacement interne de la barre latérale */
+    -fx-spacing: 5; /* Espacement entre les boutons */
+}
+
+.sidebar-button {
+    -fx-pref-width: 100px; /* Largeur des boutons */
+    -fx-font-size: 14px; /* Taille de la police des boutons */
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #dddddd; /* Couleur de fond des boutons au survol */
+}

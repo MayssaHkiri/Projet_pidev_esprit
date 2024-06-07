@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.MatiereViewController">
+    <children>
+        <VBox alignment="CENTER">
+            <TableView fx:id="tableView">
+                <columns>
+                    <TableColumn fx:id="nomColumn" text="Nom" prefWidth="150" />
+                    <TableColumn fx:id="coeffColumn" text="Coefficient" prefWidth="100" />
+                    <TableColumn fx:id="modeEvalColumn" text="Mode d'Évaluation" prefWidth="150" />
+                </columns>
+            </TableView>
+        </VBox>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="Nom:" />
+            <TextField fx:id="nomField" />
+            <Label text="Coefficient:" />
+            <TextField fx:id="coeffField" />
+            <Label text="Mode d'Évaluation:" />
+            <TextField fx:id="modeEvalField" />
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Button text="Ajouter" onAction="#handleAdd" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+            <Button text="Modifier" onAction="#handleUpdate" style="-fx-background-color: #FFC107; -fx-text-fill: white;" />
+            <Button text="Supprimer" onAction="#handleDelete" style="-fx-background-color: #F44336; -fx-text-fill: white;" />
+        </HBox>
+    </children>
+</VBox>

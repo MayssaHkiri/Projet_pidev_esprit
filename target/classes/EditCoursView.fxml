@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.EditCoursController">
+    <Label text="Modifier Cours" />
+
+    <HBox spacing="10">
+        <Label text="Titre:" />
+        <TextField fx:id="titreField" />
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Description:" />
+        <TextField fx:id="descriptionField" />
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Enseignant ID:" />
+        <TextField fx:id="enseignantIdField" />
+    </HBox>
+    <HBox spacing="10">
+        <Label text="ID Chapitre:" />
+        <TextField fx:id="idChapitreField" />
+    </HBox>
+    <!-- Add file upload control for PDF file -->
+    <HBox spacing="10">
+        <Label text="PDF File:" />
+        <TextField fx:id="pdfFileField" />
+        <Button text="Choisir" onAction="#handleChooseFile" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Button text="Enregistrer" onAction="#handleSave" />
+        <Button text="Annuler" onAction="#handleCancel" />
+    </HBox>
+</VBox>
