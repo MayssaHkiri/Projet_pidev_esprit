@@ -1,0 +1,13 @@
+Controllers\ConsulterOffre.class
+Services\IservicesOffres.class
+Services\ServiceOffre.class
+Services\ServiceCandidature.class
+Entities\User.class
+Entities\Offre.class
+StartApplication\Main.class
+Controllers\AjouterOffre.class
+Utils\DataSource.class
+Services\Iservice.class
+Entities\Candidature.class
+StartApplication\MainFX.class
+Controllers\ModifierOffre.class

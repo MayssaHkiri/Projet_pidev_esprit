@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<HBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterOffre">
+    <children>
+        <!-- Sidebar -->
+        <VBox fx:id="sidebar" prefHeight="400.0" prefWidth="163.0" style="-fx-background-color: #C4C4C4;">
+            <children>
+                <!-- Space for Logo -->
+                <ImageView fx:id="logo" fitHeight="56.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@logo_esprit.png" />
+                    </image>
+                    <VBox.margin>
+                        <Insets right="-1.0" />
+                    </VBox.margin>
+                </ImageView>
+                <!-- Search Bar -->
+                <TextField promptText="Recherche..." style="-fx-background-color: white; -fx-text-fill: black; -fx-prompt-text-fill: gray;" />
+                <!-- Buttons -->
+                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer Utilisateurs" />
+                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer Formations" />
+
+                <!-- Ajout de l'élément "Gérer Offres" avec ses sous-éléments -->
+                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer Offres">
+                    <HBox>
+                        <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Ajouter Offre" onAction="#ajouterDB" />
+                    </HBox>
+                </Button>
+
+            </children>
+        </VBox>
+
+        <!-- Main content -->
+        <AnchorPane fx:id="mainContent" prefHeight="400.0" prefWidth="486.0" style="-fx-background-color: #f0f0f0;">
+            <children>
+                <Text layoutX="157.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24px; -fx-fill: black;" text="Ajouter offre" wrappingWidth="160.53668212890625" />
+
+                <Label layoutX="83.0" layoutY="90.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Titre Offre" />
+                <TextField fx:id="titreOffre" layoutX="282.0" layoutY="86.0" prefHeight="26.0" prefWidth="150.0" style="-fx-background-color: white; -fx-text-fill: black;">
+               <padding>
+                  <Insets right="1.0" />
+               </padding></TextField>
+
+                <Label layoutX="83.0" layoutY="127.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Description" />
+                <TextField fx:id="descriptionOffre" layoutX="282.0" layoutY="124.0" style="-fx-background-color: white; -fx-text-fill: black;" />
+
+                <Label layoutX="83.0" layoutY="169.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Niveau Etude" />
+                <ChoiceBox fx:id="niveauEtude" layoutX="281.0" layoutY="166.0" prefWidth="150.0" />
+
+                <Label layoutX="82.0" layoutY="209.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Durée contrat" />
+                <TextField fx:id="dureeContrat" layoutX="281.0" layoutY="206.0" style="-fx-background-color: white; -fx-text-fill: black;" promptText="Entrez la durée du contrat" />
+
+                <Label layoutX="82.0" layoutY="251.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Date publication" />
+                <TextField fx:id="datePublication" layoutX="281.0" layoutY="248.0" style="-fx-background-color: white; -fx-text-fill: black;" text="04/06/2024" />
+
+                <Label layoutX="83.0" layoutY="284.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Nom entreprise" />
+                <TextField fx:id="nomEntreprise" layoutX="281.0" layoutY="281.0" style="-fx-background-color: white; -fx-text-fill: black;" />
+
+                <Label layoutX="82.0" layoutY="320.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Date Limite" />
+                <TextField fx:id="dateLimiteOffre" layoutX="281.0" layoutY="317.0" style="-fx-background-color: white; -fx-text-fill: black;" text="18/06/2024" />
+
+                <Button layoutX="210.0" layoutY="360.0" mnemonicParsing="false" onAction="#ajouterDB" style="-fx-background-color: #E22D0C; -fx-text-fill: white;" text="Ajouter" />
+            </children>
+        </AnchorPane>
+    </children>
+</HBox>

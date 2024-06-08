@@ -3,7 +3,7 @@ import java.sql.*;
 public class DataSource {
     private  String url="jdbc:mysql://localhost:3306/pi_dev_db";
     private  String login="root";
-    private  String pwd="";
+    private  String pwd="root";
     private static DataSource data;
 
     private Connection con;
