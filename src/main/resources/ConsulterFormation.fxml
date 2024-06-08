@@ -96,7 +96,7 @@
                               <Insets left="40.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="lbNuméro" text="saisir numéro">
+                        <Label fx:id="lbNuméro" text="021325">
                            <VBox.margin>
                               <Insets left="200.0" top="-17.0" />
                            </VBox.margin>
@@ -106,7 +106,7 @@
                               <Insets left="40.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="LbTitre" text="saisir titre">
+                        <Label fx:id="LbTitre" text="Python">
                            <VBox.margin>
                               <Insets left="200.0" top="-18.0" />
                            </VBox.margin>
@@ -116,7 +116,7 @@
                               <Insets left="40.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="LbDescr" text="Label">
+                        <Label fx:id="LbDescr" text="Apprendre à coder">
                            <VBox.margin>
                               <Insets left="200.0" top="-18.0" />
                            </VBox.margin>
@@ -126,7 +126,7 @@
                               <Insets left="40.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="LbIdEns" text="saisir id">
+                        <Label fx:id="LbIdEns" text="233AFT3257">
                            <VBox.margin>
                               <Insets left="200.0" top="-18.0" />
                            </VBox.margin>

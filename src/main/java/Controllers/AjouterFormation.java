@@ -4,14 +4,16 @@ import Entities.Formation;
 import Services.FormationService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import java.sql.SQLException;
 
 public class AjouterFormation {
-    FormationService formationService = new FormationService() ;
+    FormationService formationService = new FormationService();
+    ObservableList<Formation> formationList = FXCollections.observableArrayList();
+
     @FXML
     private ComboBox<String> btNiveau;
 
@@ -24,6 +26,7 @@ public class AjouterFormation {
     @FXML
     private TextField tfTitre;
 
+    // Méthode pour ajouter une formation
     @FXML
     void AjouterFormation(ActionEvent event) {
         try {
@@ -37,17 +40,24 @@ public class AjouterFormation {
             formation.setIdEnseignant(idEnseignant);
 
             boolean success = formationService.add(formation);
-            if(success) {
-                System.out.println("added ");
-
+            if (success) {
+                System.out.println("Formation ajoutée avec succès");
+                clearFields(); // Vider les champs après ajout
+            } else {
+                System.out.println("Échec de l'ajout de la formation");
             }
-            else {
-                System.out.println("Not added");
-            }
-        }   catch (Exception e ) {
-            System.out.println(e);
+        } catch (NumberFormatException e) {
+            System.out.println("Erreur de format de numéro: " + e);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Erreur SQL: " + e);
         }
     }
 
-
+    // Méthode pour vider les champs
+    private void clearFields() {
+        tfTitre.clear();
+        tfDescription.clear();
+        tfIdEnseingant.clear();
+    }
 }

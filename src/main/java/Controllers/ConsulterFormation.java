@@ -47,7 +47,7 @@ public class ConsulterFormation implements Initializable {
                 LbDescr.setText(formation.getDescription());
                 LbIdEns.setText(String.valueOf(formation.getIdEnseignant()));
                 lbNuméro.setText(String.valueOf(formation.getId()));
-                // Ajoutez d'autres initialisations si nécessaire
+
             } else {
                 System.out.println("Formation not found for ID: " + idFormation);
             }
