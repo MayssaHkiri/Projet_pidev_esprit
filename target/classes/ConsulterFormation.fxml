@@ -96,7 +96,7 @@
                               <Insets left="40.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="lbNuméro" text="Label">
+                        <Label fx:id="lbNuméro" text="saisir numéro">
                            <VBox.margin>
                               <Insets left="200.0" top="-17.0" />
                            </VBox.margin>
@@ -106,7 +106,7 @@
                               <Insets left="40.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="LbTitre" text="Label">
+                        <Label fx:id="LbTitre" text="saisir titre">
                            <VBox.margin>
                               <Insets left="200.0" top="-18.0" />
                            </VBox.margin>
@@ -126,7 +126,7 @@
                               <Insets left="40.0" top="10.0" />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="LbIdEns" text="Label">
+                        <Label fx:id="LbIdEns" text="saisir id">
                            <VBox.margin>
                               <Insets left="200.0" top="-18.0" />
                            </VBox.margin>
@@ -147,3 +147,4 @@
       </AnchorPane>
    </children>
 </AnchorPane>
+
