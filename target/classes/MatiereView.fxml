@@ -4,8 +4,11 @@
 <?import javafx.geometry.Insets?>
 
 <VBox spacing="20" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.MatiereViewController">
+    <Label style="-fx-font-size: 18px;" text="Gestion des Matieres" />
+
     <children>
         <VBox alignment="CENTER">
+
             <TableView fx:id="tableView">
                 <columns>
                     <TableColumn fx:id="nomColumn" text="Nom" prefWidth="150" />
