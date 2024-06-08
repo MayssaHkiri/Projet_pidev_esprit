@@ -116,6 +116,7 @@ public class FormationService implements Iservice<Formation> {
             try (ResultSet res = pst.executeQuery()) {
                 if (res.next()) {
                     return new Formation(
+                            res.getInt("id"),
                             res.getString("titre"),
                             res.getString("descrip"),
                             res.getInt("idEnseignant")

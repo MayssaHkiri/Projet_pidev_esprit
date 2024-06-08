@@ -5,8 +5,16 @@ public class Formation {
     private String titre;
     private String description;
     private int idEnseignant;
+   public Formation () {
 
-    // Constructeurs, getters et setters
+   }
+    public Formation(int id, String titre, String description, int idEnseignant) {
+        this.id = id;
+        this.titre = titre;
+        this.description = description;
+        this.idEnseignant = idEnseignant;
+    }
+
     public Formation( String titre, String description, int idEnseignant) {
         this.id = id;
         this.titre = titre;

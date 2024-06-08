@@ -42,7 +42,7 @@
                      <children>
                         <ImageView fitHeight="47.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../../../Downloads/Logo_ESPRIT_Ariana-removebg-preview.png" />
+                              <Image url="@Logo_ESPRIT_Ariana-removebg-preview.png" />
                            </image>
                            <HBox.margin>
                               <Insets left="15.0" top="20.0" />
@@ -78,7 +78,7 @@
                            <children>
                               <ImageView fitHeight="131.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../../../../Downloads/image1.png" />
+                                    <Image url="@image1.png" />
                                  </image>
                                  <HBox.margin>
                                     <Insets left="170.0" top="30.0" />
