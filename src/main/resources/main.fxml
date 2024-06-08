@@ -2,17 +2,29 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<SplitPane prefHeight="650.0" prefWidth="650.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="Controllers.MainController">
+<SplitPane dividerPositions="0.3334361505243676" prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainController">
     <items>
-        <VBox styleClass="sidebar">
-            <Button onAction="#loadGestionCoursPage" styleClass="sidebar-button" text="Gestion des cours" />
-            <Button onAction="#loadGestionMatieresPage" styleClass="sidebar-button" text="Gestion des matières" />
-            <Button onAction="#loadGestionFormationPage" styleClass="sidebar-button" text="Gestion de la formation" />
+        <!-- Side Bar -->
+        <VBox alignment="CENTER" prefHeight="649.0" prefWidth="221.0" style="-fx-background-color: #C4C4C4;" VBox.vgrow="ALWAYS">
+         <ImageView fitHeight="56.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@logoEsprit1.jpg" />
+            </image>
+         </ImageView>
+            <TextField alignment="TOP_CENTER" prefHeight="14.0" prefWidth="214.0" promptText="Recherche..." style="-fx-background-color: white; -fx-text-fill: black; -fx-pref-width: 180; -fx-padding: 5; -fx-margin: 10 0;" />
+            <Button onAction="#loadGestionCoursPage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion des cours" />
+            <Button onAction="#loadGestionMatieresPage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion des matières" />
+            <Button onAction="#loadGestionFormationPage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion de la formation" />
+         <ImageView fitHeight="167.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
         </VBox>
 
+        <!-- Main Content -->
         <StackPane fx:id="contentPane" prefHeight="5425.0" prefWidth="558.0" VBox.vgrow="ALWAYS" />
     </items>
 </SplitPane>

@@ -54,8 +54,8 @@ public class CoursViewController {
 
         titreColumn.setCellValueFactory(new PropertyValueFactory<>("titre"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        enseignantIdColumn.setCellValueFactory(new PropertyValueFactory<>("enseignantId"));
-        chapitreIdColumn.setCellValueFactory(new PropertyValueFactory<>("idChapitre"));
+       // enseignantIdColumn.setCellValueFactory(new PropertyValueFactory<>("enseignantId"));
+        //chapitreIdColumn.setCellValueFactory(new PropertyValueFactory<>("idChapitre"));
 
         tableView.setItems(coursList);
 
@@ -68,25 +68,26 @@ public class CoursViewController {
 
     @FXML
     private void handleAdd() {
-        String titre = titreField.getText();
-        String description = descriptionField.getText();
-        int enseignantId = Integer.parseInt(enseignantIdField.getText());
-        int chapitreId = Integer.parseInt(chapitreIdField.getText());
-        Blob pdfBlob = null;
+    String titre = titreField.getText();
+    String description = descriptionField.getText();
+    // int enseignantId = Integer.parseInt(enseignantIdField.getText()); // Commenté
+    // int chapitreId = Integer.parseInt(chapitreIdField.getText()); // Commenté
+    Blob pdfBlob = null;
 
-        if (pdfFile != null) {
-            try (FileInputStream fis = new FileInputStream(pdfFile)) {
-                pdfBlob = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
-            } catch (IOException | SQLException e) {
-                e.printStackTrace();
-            }
+    if (pdfFile != null) {
+        try (FileInputStream fis = new FileInputStream(pdfFile)) {
+            pdfBlob = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
         }
+    }
 
-        Cours newCours = new Cours(titre, description, enseignantId, chapitreId, pdfBlob);
+    Cours cours = new Cours(titre, description, pdfBlob);
+    ServiceCours serviceCours = new ServiceCours();
 
         try {
-            serviceCours.ajouter(newCours);
-            coursList.add(newCours);
+            serviceCours.ajouter(cours);
+            coursList.add(cours);
             titreField.clear();
             descriptionField.clear();
             enseignantIdField.clear();

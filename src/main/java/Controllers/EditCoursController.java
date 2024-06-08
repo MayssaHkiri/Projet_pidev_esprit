@@ -36,7 +36,7 @@ public class EditCoursController {
 
         titreField.setText(cours.getTitre());
         descriptionField.setText(cours.getDescription());
-        enseignantIdField.setText(String.valueOf(cours.getEnseignantId()));
+        /*enseignantIdField.setText(String.valueOf(cours.getEnseignantId()));*/
         // Set the PDF file path
        // pdfFileField.setText(cours.getPdfFile().getPath());
     }
@@ -59,7 +59,7 @@ public class EditCoursController {
     private void handleSave() {
         cours.setTitre(titreField.getText());
         cours.setDescription(descriptionField.getText());
-        cours.setEnseignantId(Integer.parseInt(enseignantIdField.getText()));
+        /*cours.setEnseignantId(Integer.parseInt(enseignantIdField.getText()));*/
         // Set the PDF file path
       //  cours.setPdfFile(new File(pdfFileField.getText()));
 

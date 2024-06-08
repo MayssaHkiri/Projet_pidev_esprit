@@ -22,32 +22,24 @@ public class ServiceCours implements IService<Cours> {
 
     @Override
     public void ajouter(Cours cours) throws SQLException {
-        String req = "INSERT INTO support (titre, description, enseignantId, idChapitre, pdfFile) VALUES    ( '" +
-                cours.getTitre() + "', '" + cours.getDescription() + "', '" + cours.getEnseignantId() + "', '" + cours.getIdChapitre() + "', '" + cours.getPdfFile() + "');";
-
-
+        String req = "INSERT INTO support (titre, description, enseignantId, idChapitre, pdfFile) VALUES ('" +
+                cours.getTitre() + "', '" + cours.getDescription() + "', 1, 1, '" + cours.getPdfFile() + "');";
         ste.executeUpdate(req);
     }
 
     @Override
-     public void supprimer(Cours cours) throws SQLException {
-            String req = "DELETE FROM `Cours` WHERE `CoursId` = " + cours.getId();
-            ste.executeUpdate(req);
-            ste.close(); // Close the Statement
-            con1.close(); // Close the Connection
-        }
-
+    public void supprimer(Cours cours) throws SQLException {
+        String req = "DELETE FROM support WHERE id = " + cours.getId() + ";";
+        ste.executeUpdate(req);
+    }
 
     @Override
     public void update(Cours cours) throws SQLException {
-        System.out.println(cours+"++++++++++++");
-            String req = "UPDATE `Cours` SET `titre` = '" + cours.getTitre() + "', `description` = '" + cours.getDescription()  + "', `enseignantId` = '" + cours.getEnseignantId()  + "', '" + cours.getPdfFile() + "' WHERE `id` = " + cours.getId(); // Assuming id is the primary key of your Cours table
-            ste.executeUpdate(req);
-            ste.close(); // Close the Statement
-            con1.close(); // Close the Connection
-
-
-
+        String req = "UPDATE support SET titre = '" + cours.getTitre() +
+                "', description = '" + cours.getDescription() +
+                "', enseignantId = 1, idChapitre = 1, pdfFile = '" + cours.getPdfFile() +
+                "' WHERE id = " + cours.getId() + ";";
+        ste.executeUpdate(req);
     }
 
     @Override
@@ -55,21 +47,23 @@ public class ServiceCours implements IService<Cours> {
         return null;
     }
 
+    @Override
     public List<Cours> readAll() throws SQLException {
         List<Cours> cours = new ArrayList<>();
         String sql = "SELECT * FROM support";
-        try (PreparedStatement ps = con1.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String titre = rs.getString("titre");
-                String description = rs.getString("description");
-                int enseignantId = rs.getInt("enseignantId");
-                int idChapitre = rs.getInt("idChapitre");
-                Blob pdfFile = rs.getBlob("pdfFile");
-                cours.add(new Cours(titre, description, enseignantId, idChapitre, pdfFile));
-            }
+
+        ResultSet rs = ste.executeQuery(sql);
+
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String titre = rs.getString("titre");
+            String description = rs.getString("description");
+            int enseignantId = 1; // Initialiser à 1
+            int idChapitre = 1;   // Initialiser à 1
+            Blob pdfFile = rs.getBlob("pdfFile");
+            cours.add(new Cours( titre, description, enseignantId, idChapitre, pdfFile));
         }
+
         return cours;
     }
 }
