@@ -7,20 +7,11 @@ public class Formation {
     private int idEnseignant;
 
     // Constructeurs, getters et setters
-    public Formation(int id, String titre, String description, int idEnseignant) {
+    public Formation( String titre, String description, int idEnseignant) {
         this.id = id;
         this.titre = titre;
         this.description = description;
         this.idEnseignant = idEnseignant;
-    }
-
-    // Constructeur supplémentaire si nécessaire
-    public Formation(int id, String titre, String description) {
-        this.id = id;
-        this.titre = titre;
-        this.description = description;
-        // L'ID de l'enseignant n'est pas initialisé dans ce constructeur
-        // Si nécessaire, tu peux ajouter une logique pour l'initialiser
     }
 
     public int getId() {
@@ -53,5 +44,16 @@ public class Formation {
 
     public void setIdEnseignant(int idEnseignant) {
         this.idEnseignant = idEnseignant;
+
+    }
+
+    @Override
+    public String toString() {
+        return "Formation{" +
+                "id=" + id +
+                ", titre='" + titre + '\'' +
+                ", description='" + description + '\'' +
+                ", idEnseignant=" + idEnseignant +
+                '}';
     }
 }
