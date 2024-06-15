@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -68,8 +69,10 @@ public class MatiereViewController {
             nomField.clear();
             coeffField.clear();
             modeEvalField.clear();
+            showSuccessDialog("Succès", "Ajout réussi", "La matière a été ajoutée avec succès.");
         } catch (SQLException e) {
             e.printStackTrace();
+            showErrorDialog("Erreur", "Impossible d'ajouter la matière", e.getMessage());
         }
     }
 
@@ -82,9 +85,10 @@ public class MatiereViewController {
                 try {
                     serviceMatiere.update(selectedMatiere);
                     tableView.refresh();
-
+                    showSuccessDialog("Succès", "Modification réussie", "La matière a été modifiée avec succès.");
                 } catch (SQLException e) {
                     e.printStackTrace();
+                    showErrorDialog("Erreur", "Impossible de modifier la matière", e.getMessage());
                 }
             }
         }
@@ -97,10 +101,30 @@ public class MatiereViewController {
             try {
                 serviceMatiere.supprimer(selectedMatiere);
                 matiereList.remove(selectedMatiere);
+                showSuccessDialog("Succès", "Suppression réussie", "La matière a été supprimée avec succès.");
             } catch (SQLException e) {
                 e.printStackTrace();
+                showErrorDialog("Erreur", "Impossible de supprimer la matière", "Cette matière est référencée par un ou plusieurs chapitres.");
             }
+        } else {
+            showErrorDialog("Aucune sélection", "Aucune matière sélectionnée", "Veuillez sélectionner une matière dans la table.");
         }
+    }
+
+    private void showSuccessDialog(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private void showErrorDialog(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private boolean showEditDialog(Matiere matiere) {

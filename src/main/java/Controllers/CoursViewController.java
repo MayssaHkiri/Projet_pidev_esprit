@@ -8,6 +8,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -54,8 +56,8 @@ public class CoursViewController {
 
         titreColumn.setCellValueFactory(new PropertyValueFactory<>("titre"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-       // enseignantIdColumn.setCellValueFactory(new PropertyValueFactory<>("enseignantId"));
-        //chapitreIdColumn.setCellValueFactory(new PropertyValueFactory<>("idChapitre"));
+        // enseignantIdColumn.setCellValueFactory(new PropertyValueFactory<>("enseignantId"));
+        // chapitreIdColumn.setCellValueFactory(new PropertyValueFactory<>("idChapitre"));
 
         tableView.setItems(coursList);
 
@@ -68,31 +70,37 @@ public class CoursViewController {
 
     @FXML
     private void handleAdd() {
-    String titre = titreField.getText();
-    String description = descriptionField.getText();
-    // int enseignantId = Integer.parseInt(enseignantIdField.getText()); // Commenté
-    // int chapitreId = Integer.parseInt(chapitreIdField.getText()); // Commenté
-    Blob pdfBlob = null;
+        String titre = titreField.getText();
+        String description = descriptionField.getText();
+        // int enseignantId = Integer.parseInt(enseignantIdField.getText()); // Commenté
+        // int chapitreId = Integer.parseInt(chapitreIdField.getText()); // Commenté
+        Blob pdfBlob = null;
 
-    if (pdfFile != null) {
-        try (FileInputStream fis = new FileInputStream(pdfFile)) {
-            pdfBlob = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
-        } catch (IOException | SQLException e) {
-            e.printStackTrace();
+        if (pdfFile != null) {
+            try (FileInputStream fis = new FileInputStream(pdfFile)) {
+                pdfBlob = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
         }
-    }
 
-    Cours cours = new Cours(titre, description, pdfBlob);
-    ServiceCours serviceCours = new ServiceCours();
+        Cours cours = new Cours(titre, description, pdfBlob);
 
         try {
             serviceCours.ajouter(cours);
             coursList.add(cours);
             titreField.clear();
             descriptionField.clear();
-            enseignantIdField.clear();
-            chapitreIdField.clear();
+            //enseignantIdField.clear();
+            //chapitreIdField.clear();
             pdfFile = null;
+
+            // Show success alert
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Ajout réussi");
+            alert.setHeaderText(null);
+            alert.setContentText("Le cours a été ajouté avec succès !");
+            alert.showAndWait();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -107,6 +115,13 @@ public class CoursViewController {
                 try {
                     serviceCours.update(selectedCours);
                     tableView.refresh();
+
+                    // Show success alert
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Modification réussie");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Le cours a été modifié avec succès !");
+                    alert.showAndWait();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -121,6 +136,13 @@ public class CoursViewController {
             try {
                 serviceCours.supprimer(selectedCours);
                 coursList.remove(selectedCours);
+
+                // Show success alert
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Suppression réussie");
+                alert.setHeaderText(null);
+                alert.setContentText("Le cours a été supprimé avec succès !");
+                alert.showAndWait();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
