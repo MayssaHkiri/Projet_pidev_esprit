@@ -5,6 +5,8 @@ import Services.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
@@ -16,7 +18,7 @@ public class AccountCreation implements Initializable {
 
     @FXML
     private ChoiceBox<String> myChoiceBox;
-    private String[] roles = {"enseignant","etudiant"};
+    private String[] roles = {"enseignant", "etudiant"};
 
     @FXML
     private TextField tfEmail;
@@ -26,7 +28,8 @@ public class AccountCreation implements Initializable {
 
     @FXML
     private TextField tfPrenom;
-     UserService userService = new  UserService() ;
+    UserService userService = new UserService();
+
     @FXML
     void AddNewUser(ActionEvent event) {
         String chosenRole = myChoiceBox.getValue();
@@ -44,11 +47,17 @@ public class AccountCreation implements Initializable {
             boolean isAdded = userService.add(newUser);
             if (isAdded) {
                 System.out.println("Utilisateur ajouté avec succès");
+                // Afficher une alerte de succès
+                showAlert(AlertType.INFORMATION, "Succès", "Utilisateur ajouté", "L'utilisateur a été ajouté avec succès.");
+                // Vider les champs après ajout réussi
+                clearFields();
             } else {
                 System.out.println("Échec de l'ajout de l'utilisateur");
+                showAlert(AlertType.ERROR, "Erreur", "Échec de l'ajout", "Impossible d'ajouter l'utilisateur.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            showAlert(AlertType.ERROR, "Erreur", "Exception SQL", e.getMessage());
         }
     }
 
@@ -57,11 +66,23 @@ public class AccountCreation implements Initializable {
         myChoiceBox.getItems().addAll(roles);
         myChoiceBox.setOnAction(this::getRole);
     }
+
     public void getRole(ActionEvent event) {
-
-        String chosenRole  = myChoiceBox.getValue();
-
+        String chosenRole = myChoiceBox.getValue();
     }
 
+    private void clearFields() {
+        tfEmail.clear();
+        tfName.clear();
+        tfPrenom.clear();
+        myChoiceBox.setValue(null); // Réinitialiser la ChoiceBox
+    }
 
+    private void showAlert(AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

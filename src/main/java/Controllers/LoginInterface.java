@@ -32,7 +32,7 @@ public class LoginInterface {
             User authenticatedUser = userService.authenticate(email, password);
             if (authenticatedUser != null) {
                 // Si l'authentification réussit, naviguez vers UsersInterface.fxml
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/UsersInterface.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AccountCreation.fxml"));
                 Parent root = loader.load();
                 emailField.getScene().setRoot(root);
             } else {
