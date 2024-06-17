@@ -127,7 +127,24 @@ public class UsersManagement {
                 alert.showAndWait();
         }
 
+        @FXML
+        private void handleAdd(ActionEvent event) throws IOException {
+                // Récupérer la scène actuelle à partir de n'importe quel nœud de la scène
+                Scene scene = tableView.getScene();
 
-    }
+                // Récupérer la fenêtre principale (Stage) à partir de la scène
+                Stage stage = (Stage) scene.getWindow();
+
+                // Charger le fichier FXML pour la création de compte
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AccountCreation.fxml"));
+                Parent root = loader.load();
+                Scene newScene = new Scene(root);
+
+                // Remplacer la scène actuelle par la nouvelle scène
+                stage.setScene(newScene);
+                stage.setTitle("Création de compte");
+                stage.show();
+        }
+}
 
 
