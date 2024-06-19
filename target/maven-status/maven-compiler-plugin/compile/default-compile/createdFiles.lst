@@ -3,3 +3,4 @@ StartApplication\Main.class
 Utils\DataSource.class
 StartApplication\MainFX.class
 Services\Iservice.class
+Controllers\InscrireFormation.class

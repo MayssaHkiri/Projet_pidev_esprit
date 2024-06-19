@@ -16,13 +16,14 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterFormation.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/InscrireFormation.fxml"));
 
-        Parent root = null ;
+        Parent root;
         root = loader.load();
         Scene scene = new Scene(root);
         stage.setTitle("Welcome page");
         stage.setScene(scene);
         stage.show();
+
     }
 }

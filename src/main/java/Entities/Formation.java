@@ -22,6 +22,9 @@ public class Formation {
         this.idEnseignant = idEnseignant;
     }
 
+    public Formation(int id, int idEnseignant) {
+    }
+
     public int getId() {
         return id;
     }
@@ -64,4 +67,9 @@ public class Formation {
                 ", idEnseignant=" + idEnseignant +
                 '}';
     }
+    public String gettitre() {
+        return titre;
+    }
+
+
 }
