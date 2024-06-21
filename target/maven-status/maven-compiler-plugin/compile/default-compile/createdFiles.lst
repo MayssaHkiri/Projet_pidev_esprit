@@ -1,6 +1,14 @@
+myapp\FormationController.class
+Services\FormationService.class
 Controllers\AjouterFormation.class
+Entities\Formation.class
+Services\InscriptionService.class
+Entities\Inscription.class
+Entities\Utilisateurs.class
 StartApplication\Main.class
 Utils\DataSource.class
-StartApplication\MainFX.class
 Services\Iservice.class
+Controllers\ConsulterFormation.class
+Services\UtilisateursService.class
+StartApplication\MainFX.class
 Controllers\InscrireFormation.class

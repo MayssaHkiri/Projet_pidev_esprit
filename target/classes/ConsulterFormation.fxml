@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ConsulterFormation">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ConsulterFormation">
     <children>
         <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="380.0" prefWidth="580.0">
             <children>
@@ -37,9 +37,7 @@
                                         </HBox.margin>
                                     </TextField>
                                     <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-
-                                        </image>
+                                        <!-- You can remove this entire ImageView block -->
                                     </ImageView>
                                 </HBox>
                                 <MenuButton mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Niveaux">
@@ -70,12 +68,7 @@
                         <HBox prefHeight="83.0" prefWidth="570.0" style="-fx-background-color: C4C4C4;" BorderPane.alignment="CENTER">
                             <children>
                                 <ImageView fitHeight="47.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@Logo_ESPRIT_Ariana-removebg-preview.png" />
-                                    </image>
-                                    <HBox.margin>
-                                        <Insets left="10.0" top="20.0" />
-                                    </HBox.margin>
+                                    <!-- You can remove this entire ImageView block -->
                                 </ImageView>
                             </children>
                         </HBox>

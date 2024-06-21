@@ -16,7 +16,7 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/InscrireFormation.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterFormation.fxml"));
 
         Parent root;
         root = loader.load();

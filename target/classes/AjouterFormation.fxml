@@ -86,7 +86,7 @@
                                         </ImageView>
                                     </children>
                                 </HBox>
-                                <Label text="Ajouter une formation  :">
+                                <Label text="Ajouter une formation :">
                                     <VBox.margin>
                                         <Insets left="40.0" />
                                     </VBox.margin>
@@ -116,12 +116,12 @@
                                         <Insets left="40.0" top="10.0" />
                                     </VBox.margin>
                                 </Label>
-                                <TextField fx:id="tfIdEnseingant">
+                                <TextField fx:id="tfIdEnseignant">
                                     <VBox.margin>
                                         <Insets left="200.0" top="-18.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <Button mnemonicParsing="false" onAction="#AjouterFormation" style="-fx-background-color: E22D0C;" text="Ajouter" textFill="#f5efef">
+                                <Button mnemonicParsing="false" onAction="#handleAjouterFormation" style="-fx-background-color: E22D0C;" text="Ajouter" textFill="#f5efef">
                                     <VBox.margin>
                                         <Insets left="210.0" top="20.0" />
                                     </VBox.margin>

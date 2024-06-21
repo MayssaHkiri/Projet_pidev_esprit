@@ -1,7 +1,6 @@
 package Controllers;
 
 import Entities.Formation;
-import Services.FormationService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -9,10 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.sql.SQLException;
-
 public class AjouterFormation {
-    FormationService formationService = new FormationService();
     ObservableList<Formation> formationList = FXCollections.observableArrayList();
 
     @FXML
@@ -29,7 +25,7 @@ public class AjouterFormation {
 
     // Méthode pour ajouter une formation
     @FXML
-    void handleAjouterFormation(ActionEvent event) throws SQLException {
+    void handleAjouterFormation(ActionEvent event) {
         String titre = tfTitre.getText();
         String description = tfDescription.getText();
         int idEnseignant = Integer.parseInt(tfIdEnseignant.getText());
@@ -41,13 +37,10 @@ public class AjouterFormation {
         formation.setIdEnseignant(idEnseignant);
         // Assurez-vous que le niveau est correctement défini dans l'objet Formation si nécessaire
 
-        boolean success = formationService.add(formation);
-        if (success) {
-            System.out.println("Formation ajoutée avec succès");
-            clearFields(); // Vider les champs après ajout
-        } else {
-            System.out.println("Échec de l'ajout de la formation");
-        }
+        // Simulation de l'ajout de la formation à une liste locale
+        formationList.add(formation);
+        System.out.println("Formation ajoutée avec succès (simulation)");
+        clearFields(); // Vider les champs après ajout
     }
 
     // Méthode pour vider les champs
@@ -55,5 +48,6 @@ public class AjouterFormation {
         tfTitre.clear();
         tfDescription.clear();
         tfIdEnseignant.clear();
+        btNiveau.setValue(null); // Clear the ComboBox selection
     }
 }
