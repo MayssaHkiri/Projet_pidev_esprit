@@ -13,12 +13,14 @@ public class ReponseService implements ServiceInterface<Reponse> {
 
     @Override
     public void ajouter(Reponse reponse) throws SQLException {
-        String req = "INSERT INTO reponse (idQuestion, correct, Contenu) VALUES (?, ?, ?)";
-        PreparedStatement ps = con.prepareStatement(req);
-        ps.setInt(1, reponse.getQuestion().getId());
-        ps.setBoolean(2, reponse.isCorrect());
-        ps.setString(3, reponse.getContenu());
-        ps.executeUpdate();
+        String req = "INSERT INTO reponse (questionId, correct, choixPossibleId) VALUES (?, ?, ?)";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, reponse.getChoixPossible().getQuestion().getId());
+            ps.setBoolean(2, reponse.isCorrect());
+            ps.setInt(3, reponse.getChoixPossible().getId());
+            ps.executeUpdate();
+        }
     }
 
     @Override
@@ -31,12 +33,10 @@ public class ReponseService implements ServiceInterface<Reponse> {
 
     @Override
     public void update(Reponse reponse) throws SQLException {
-        String req = "UPDATE reponse SET idQuestion = ?, correct = ?, Contenu = ? WHERE id = ?";
+        String req = "UPDATE reponse SET idQuestion = ?, correct = ? WHERE id = ?";
         PreparedStatement ps = con.prepareStatement(req);
-        ps.setInt(1, reponse.getQuestion().getId());
         ps.setBoolean(2, reponse.isCorrect());
-        ps.setString(3, reponse.getContenu());
-        ps.setInt(4, reponse.getId());
+        ps.setInt(3, reponse.getId());
         ps.executeUpdate();
     }
 
@@ -47,7 +47,7 @@ public class ReponseService implements ServiceInterface<Reponse> {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            return new Reponse(rs.getInt("id"), null, rs.getBoolean("correct"), rs.getString("Contenu"));
+            return new Reponse(rs.getInt("id"), null, rs.getBoolean("correct"));
         }
         return null;
     }
@@ -59,7 +59,7 @@ public class ReponseService implements ServiceInterface<Reponse> {
         PreparedStatement ps = con.prepareStatement(req);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            list.add(new Reponse(rs.getInt("id"), null, rs.getBoolean("correct"), rs.getString("Contenu")));
+            list.add(new Reponse(rs.getInt("id"), null, rs.getBoolean("correct")));
         }
         return list;
     }

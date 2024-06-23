@@ -4,15 +4,21 @@ import java.util.List;
 
 public class Question {
     private int id;
-    private Quiz quiz; // Many-to-one relationship with Quiz
+    private Quiz quiz;
     private String enonce;
-    private List<Reponse> reponses; // One-to-many relationship with Reponse
+    private List<ChoixPossible> choixPossibles;
 
-    public Question(int id, Quiz quiz, String enonce, List<Reponse> reponses) {
+    public Question(int id, Quiz quiz, String enonce, List<ChoixPossible> choixPossibles) {
         this.id = id;
         this.quiz = quiz;
         this.enonce = enonce;
-        this.reponses = reponses;
+        this.choixPossibles = choixPossibles;
+    }
+
+    public Question(int id, Quiz quiz, String enonce) {
+        this.id = id;
+        this.quiz = quiz;
+        this.enonce = enonce;
     }
 
     public int getId() {
@@ -38,12 +44,10 @@ public class Question {
     public void setEnonce(String enonce) {
         this.enonce = enonce;
     }
-
-    public List<Reponse> getReponses() {
-        return reponses;
+    public List<ChoixPossible> getChoixPossibles() {
+        return choixPossibles;
     }
-
-    public void setReponses(List<Reponse> reponses) {
-        this.reponses = reponses;
+    public void setChoixPossibles(List<ChoixPossible> choixPossibles) {
+        this.choixPossibles = choixPossibles;
     }
 }

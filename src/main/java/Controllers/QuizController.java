@@ -1,91 +1,248 @@
 package Controllers;
 
-import Entities.Question;
-import Entities.Quiz;
-import Entities.QuizAttempt;
-import Entities.Reponse;
-import Services.QuestionService;
-import Services.QuizAttemptService;
-import Services.QuizService;
-import Services.ReponseService;
+import Entities.*;
+import Services.*;
+import Utils.DataSource;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-public class QuizController {
+public class QuizController implements Initializable {
+    private final MatiereService matiereService = new MatiereService();
     private final QuizService quizService = new QuizService();
     private final QuestionService questionService = new QuestionService();
     private final ReponseService reponseService = new ReponseService();
-    private final QuizAttemptService quizAttemptService = new QuizAttemptService();
+    private final ChoixPossibleService choixPossibleService = new ChoixPossibleService();
+    @FXML
+    private ComboBox<String> matiereComboBox;
+    @FXML
+    private TextField titreField;
+    @FXML
+    private TextArea descriptionArea;
+    @FXML
+    private TextArea enonceTextArea;
+    @FXML
+    private Label messageLabel;
+    private Connection con;
+    private int questionId;
+    private int quizId;
 
-    public void createQuiz(Quiz quiz, List<Question> questions, List<List<Reponse>> reponses) {
-        try {
-            quizService.ajouter(quiz);
-            for (int i = 0; i < questions.size(); i++) {
-                Question question = questions.get(i);
-                question.setQuiz(quiz);
-                questionService.ajouter(question);
-                for (Reponse reponse : reponses.get(i)) {
-                    reponse.setQuestion(question);
-                    reponseService.ajouter(reponse);
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error while creating quiz");
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        matiereComboBox.setItems(getMatieres());
+        con = DataSource.getInstance().getCon();
+    }
+
+    private void checkConnection() throws SQLException {
+        if (con == null || con.isClosed()) {
+            con = DataSource.getInstance().getCon();
         }
     }
 
-    public void answerQuiz(int etudiantId, Quiz quiz, List<Reponse> reponses) {
-        try {
-            List<Integer> questionIds = new ArrayList<>();
-            List<Integer> reponseIds = new ArrayList<>();
-            int score = 0;
 
-            for (Question question : quiz.getQuestions()) {
-                questionIds.add(question.getId());
-                for (Reponse userResponse : reponses) {
-                    if (userResponse.getQuestion().getId() == question.getId()) {
-                        reponseIds.add(userResponse.getId());
-                        if (checkResponseAndAddScore(quiz, userResponse)) {
-                            score++;
-                        }
+    public void createNewQuiz(ActionEvent event) {
+        try {
+            String titre = titreField.getText();
+            String description = descriptionArea.getText();
+            String matiereName = matiereComboBox.getValue();
+            String enonce = enonceTextArea.getText();
+
+            if (!titre.isEmpty() && !description.isEmpty() && matiereName != null && !enonce.isEmpty()) {
+                Matiere matiere = matiereService.getMatiereByName(matiereName);
+                System.out.println(matiere);
+                if (matiere == null) {
+                    System.out.println("Selected matiere not found");
+                    return;
+                }
+
+                Quiz quiz = new Quiz(0, titre, description, new Date());
+                quiz.setMatiere(matiere);
+
+                int quizId = quizService.ajouter(quiz);
+                this.setQuizId(quizId);
+                Question question = new Question(0, quiz, enonce);
+                int questionId = questionService.ajouter(question, quizId);
+                setQuestionId(questionId);
+                handleAjouterChoixPossible(event);
+
+                messageLabel.setText("Question crée, ajouter maintenant les choix possibles.");
+
+                titreField.clear();
+                descriptionArea.clear();
+                matiereComboBox.getSelectionModel().clearSelection();
+                enonceTextArea.clear();
+            } else {
+                Question question = new Question(0, quizService.findById(this.quizId), enonce);
+                int questionId = questionService.ajouter(question, quizId);
+                setQuestionId(questionId);
+                handleAjouterChoixPossible(event);
+
+                messageLabel.setText("Question ajoutée! Ajouter maintenant les choix possibles.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while saving question: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+        }
+    }
+
+
+    public ObservableList<String> getMatieres() {
+        ObservableList<String> matieres = FXCollections.observableArrayList();
+
+        List<Matiere> fetchedData = matiereService.getAllMatieres();
+
+        for (Matiere matiere : fetchedData) {
+            matieres.add(matiere.getNom());
+        }
+
+        return matieres;
+    }
+
+    @FXML
+    public void handleAjouterChoixPossible(ActionEvent event) {
+        int questionId = getQuestionId();
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Ajouter choix possible");
+
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        TextField textField1 = new TextField();
+        textField1.setPromptText("Input 1");
+        TextField textField2 = new TextField();
+        textField2.setPromptText("Input 2");
+
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(textField1, textField2);
+
+        Button ajouterChoixButton = new Button("Ajouter choix");
+        ajouterChoixButton.setOnAction(e -> {
+            TextField newTextField = new TextField();
+            newTextField.setPromptText("New Input");
+            vbox.getChildren().add(newTextField);
+        });
+        vbox.getChildren().add(ajouterChoixButton);
+
+        ScrollPane scrollPane = new ScrollPane(vbox);
+        scrollPane.setFitToWidth(true);
+
+        dialog.getDialogPane().setContent(scrollPane);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        result.ifPresent(buttonType -> {
+            for (Node node : vbox.getChildren()) {
+                if (node instanceof TextField textField) {
+                    String text = textField.getText();
+                    try {
+                        ChoixPossible choixPossible = new ChoixPossible(0, questionService.findById(questionId), text);
+                        choixPossibleService.ajouter(choixPossible);
+                        System.out.println("Saved: " + text);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             }
-
-            QuizAttempt quizAttempt = new QuizAttempt(0, etudiantId, quiz.getId(), questionIds, reponseIds, score, new Date());
-            quizAttemptService.ajouter(quizAttempt);
-        } catch (SQLException e) {
-            System.out.println("Error while answering quiz");
-        }
+            messageLabel.setText("Les choix sont bien enregistrés, ajouter maintenant les réponses.");
+        });
     }
 
-    public boolean checkResponseAndAddScore(Quiz quiz, Reponse reponse) {
-        for (Question question : quiz.getQuestions()) {
-            for (Reponse correctReponse : question.getReponses()) {
-                if (correctReponse.getId() == reponse.getId() && correctReponse.isCorrect()) {
-                    return true;
+    @FXML
+    public void handleAjouterReponses(ActionEvent event) throws SQLException {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Ajouter réponses");
+
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        VBox vbox = new VBox();
+
+        Map<CheckBox, ChoixPossible> map = new HashMap<>();
+
+        for (ChoixPossible choixPossible : questionService.findAllChoixPossible(questionService.findById(this.getQuestionId()))) {
+            CheckBox checkBox = new CheckBox();
+            Label label = new Label(choixPossible.getDescription());
+            vbox.getChildren().addAll(checkBox, label);
+
+            map.put(checkBox, choixPossible);
+        }
+
+        dialog.getDialogPane().setContent(vbox);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        result.ifPresent(buttonType -> {
+            if (buttonType == saveButtonType) {
+                for (Node node : vbox.getChildren()) {
+                    if (node instanceof CheckBox checkBox && checkBox.isSelected()) {
+
+                        ChoixPossible choixPossible = map.get(checkBox);
+
+                        Reponse reponse = new Reponse(0, choixPossible, true);
+                        try {
+                            reponseService.ajouter(reponse);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else if (node instanceof CheckBox checkBox && !checkBox.isSelected()){
+                        ChoixPossible choixPossible = map.get(checkBox);
+
+                        Reponse reponse = new Reponse(0, choixPossible, false);
+                        try {
+                            reponseService.ajouter(reponse);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                        messageLabel.setText("Réponses Ajoutées!");
+                    }
                 }
             }
-        }
-        return false;
+        });
     }
 
-    public void updateQuiz(Quiz quiz) {
-        try {
-            quizService.update(quiz);
-        } catch (SQLException e) {
-            System.out.println("Error while updating quiz");
-        }
+    public int getQuestionId() {
+        return questionId;
     }
 
-    public void deleteQuiz(Quiz quiz) {
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
+    }
+    public int getQuizId() {
+        return quizId;
+    }
+
+    public void setQuizId(int quizId) {
+        this.quizId = quizId;
+    }
+
+    public void handleConsulterQuiz(ActionEvent event) {
         try {
-            quizService.supprimer(quiz);
-        } catch (SQLException e) {
-            System.out.println("Error while deleting quiz");
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gestionQuiz.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error while loading gestionQuiz.fxml: " + e.getMessage());
         }
     }
 }

@@ -1,6 +1,7 @@
 package Services;
 
 import Contracts.ServiceInterface;
+import Entities.ChoixPossible;
 import Entities.Question;
 import Utils.DataSource;
 
@@ -8,19 +9,28 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionService implements ServiceInterface<Question> {
+public class QuestionService {
     private final Connection con = DataSource.getInstance().getCon();
 
-    @Override
-    public void ajouter(Question question) throws SQLException {
-        String req = "INSERT INTO question (idQuiz, enonce) VALUES (?, ?)";
-        PreparedStatement ps = con.prepareStatement(req);
-        ps.setInt(1, question.getQuiz().getId());
-        ps.setString(2, question.getEnonce());
-        ps.executeUpdate();
+    
+    public int ajouter(Question question, int quizId) throws SQLException {
+        String req = "INSERT INTO question (quizId, enonce) VALUES (?, ?)";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setObject(1, quizId);
+            ps.setString(2, question.getEnonce());
+            ps.executeUpdate();
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Creating quiz failed, no ID obtained.");
+                }
+            }
+        }
     }
 
-    @Override
+
     public void supprimer(Question question) throws SQLException {
         String req = "DELETE FROM question WHERE id = ?";
         PreparedStatement ps = con.prepareStatement(req);
@@ -28,7 +38,14 @@ public class QuestionService implements ServiceInterface<Question> {
         ps.executeUpdate();
     }
 
-    @Override
+    public void deleteByQuizId(int quizId) throws SQLException {
+        String req = "DELETE FROM question WHERE quizId = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, quizId);
+            ps.executeUpdate();
+        }
+    }
     public void update(Question question) throws SQLException {
         String req = "UPDATE question SET idQuiz = ?, enonce = ? WHERE id = ?";
         PreparedStatement ps = con.prepareStatement(req);
@@ -38,19 +55,34 @@ public class QuestionService implements ServiceInterface<Question> {
         ps.executeUpdate();
     }
 
-    @Override
+
     public Question findById(int id) throws SQLException {
         String req = "SELECT * FROM question WHERE id = ?";
-        PreparedStatement ps = con.prepareStatement(req);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return new Question(rs.getInt("id"), null, rs.getString("enonce"), null);
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Question(rs.getInt("id"), null, rs.getString("enonce"), null);
+            }
+            return null;
         }
-        return null;
+    }
+    public List<ChoixPossible> findAllChoixPossible(Question question) throws SQLException {
+        List<ChoixPossible> list = new ArrayList<>();
+        String req = "SELECT * FROM choixpossible WHERE questionId = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, question.getId());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ChoixPossible(rs.getInt("id"), question, rs.getString("description")));
+            }
+        }
+        return list;
     }
 
-    @Override
+    
     public List<Question> readAll() throws SQLException {
         List<Question> list = new ArrayList<>();
         String req = "SELECT * FROM question";
@@ -61,4 +93,5 @@ public class QuestionService implements ServiceInterface<Question> {
         }
         return list;
     }
+
 }

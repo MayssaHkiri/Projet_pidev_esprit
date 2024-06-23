@@ -1,0 +1,113 @@
+package Controllers;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.control.TableCell;
+import javafx.geometry.Pos;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
+import Services.QuizService;
+import Entities.Quiz;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+public class HomeQuizController {
+    @FXML
+    private TableView<Quiz> quizTable;
+    @FXML
+    private TableColumn<Quiz, String> titre;
+    @FXML
+    private TableColumn<Quiz, String> description;
+    @FXML
+    private TableColumn<Quiz, Void> actions;
+    @FXML
+    private Button btnCreerQuiz;
+
+    private QuizService quizService;
+
+    public HomeQuizController() {
+        quizService = new QuizService();
+    }
+
+    @FXML
+    public void initialize() {
+        findAll();
+        actions.setCellFactory(param -> new TableCell<>() {
+            private final Button btnAfficher = new Button("Afficher");
+            private final Button btnModifier = new Button("Modifier");
+            private final Button btnSupprimer = new Button("Supprimer");
+            private final HBox pane = new HBox(btnAfficher, btnModifier, btnSupprimer);
+            {
+                btnCreerQuiz.setOnAction(event -> handleCreerQuiz());
+
+                pane.setAlignment(Pos.CENTER); // Center the buttons
+                btnAfficher.setOnAction(event -> {
+                    Quiz quiz = getTableView().getItems().get(getIndex());
+                    // Handle "Afficher" button click here
+                });
+
+                btnModifier.setOnAction(event -> {
+                    Quiz quiz = getTableView().getItems().get(getIndex());
+                    // Handle "Modifier" button click here
+                });
+
+                btnSupprimer.setOnAction(event -> {
+                    Quiz quiz = getTableView().getItems().get(getIndex());
+                    try {
+                        quizService.supprimer(quiz);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    findAll();
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(pane);
+                }
+            }
+        });
+    }
+
+    public void findAll() {
+        try {
+            ObservableList<Quiz> quizzes = FXCollections.observableArrayList(quizService.readAll());
+            quizTable.setItems(quizzes);
+            titre.setCellValueFactory(cellData -> cellData.getValue().titreProperty());
+            description.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+        } catch (SQLException e) {
+            System.out.println("Error while displaying all quizzes: " + e.getMessage());
+        }
+    }
+    @FXML
+    public void handleCreerQuiz() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajoutQuiz.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) btnCreerQuiz.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Error while loading ajoutQuiz.fxml: " + e.getMessage());
+        }
+    }
+
+    public void handleAjouterChoixPossible(ActionEvent actionEvent) {
+    }
+}
