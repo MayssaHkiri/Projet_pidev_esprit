@@ -21,12 +21,15 @@ public class FormationService {
 
     public List<Formation> getAllFormations() throws SQLException {
         List<Formation> formations = new ArrayList<>();
-        String req = "SELECT id, idEnseignant FROM formation";
+        String req = "SELECT id, titre, description, imageUrl, idEnseignant FROM formation";
 
         try (ResultSet res = ste.executeQuery(req)) {
             while (res.next()) {
                 Formation formation = new Formation(
                         res.getInt("id"),
+                        res.getString("titre"),
+                        res.getString("description"),
+                        res.getString("imageUrl"),
                         res.getInt("idEnseignant")
                 );
                 formations.add(formation);
@@ -39,13 +42,16 @@ public class FormationService {
     }
 
     public Formation getFormationById(int idFormation) throws SQLException {
-        String req = "SELECT id, idEnseignant FROM formation WHERE id = ?";
+        String req = "SELECT id, titre, description, imageUrl, idEnseignant FROM formation WHERE id = ?";
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setInt(1, idFormation);
             try (ResultSet res = pst.executeQuery()) {
                 if (res.next()) {
                     return new Formation(
                             res.getInt("id"),
+                            res.getString("titre"),
+                            res.getString("description"),
+                            res.getString("imageUrl"),
                             res.getInt("idEnseignant")
                     );
                 }
@@ -57,6 +63,7 @@ public class FormationService {
     }
 
     public boolean add(Formation formation) {
-        return false;
+        // Implement your logic to add a new formation to the database
+        return false; // Placeholder return statement
     }
 }

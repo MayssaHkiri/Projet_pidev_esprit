@@ -14,173 +14,210 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ConsulterFormation">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="Controllers.ConsulterFormation">
     <children>
-        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="380.0" prefWidth="580.0">
+        <AnchorPane>
             <children>
-                <BorderPane layoutX="5.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="570.0">
-                    <left>
-                        <VBox prefHeight="350.0" prefWidth="150.0" style="-fx-background-color: C4C4C4;" BorderPane.alignment="CENTER">
-                            <children>
-                                <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" style="-fx-background-color: E22D0C;" text="Accueil" textFill="#f2eded">
-                                    <VBox.margin>
-                                        <Insets left="13.0" top="10.0" />
-                                    </VBox.margin>
-                                </Button>
-                                <HBox alignment="CENTER" spacing="10.0">
-                                    <TextField prefHeight="32.0" prefWidth="82.0" promptText="Rechercher" style="-fx-background-color: f5f5f5;">
-                                        <VBox.margin>
-                                            <Insets left="10.0" top="10.0" />
-                                        </VBox.margin>
-                                        <HBox.margin>
-                                            <Insets left="-15.0" top="10.0" />
-                                        </HBox.margin>
-                                    </TextField>
-                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                        <!-- You can remove this entire ImageView block -->
-                                    </ImageView>
-                                </HBox>
-                                <MenuButton mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Niveaux">
-                                    <VBox.margin>
-                                        <Insets left="10.0" top="10.0" />
-                                    </VBox.margin>
-                                    <items>
-                                        <MenuItem text="Niveau 1" />
-                                        <MenuItem text="Niveau 2" />
-                                        <MenuItem text="Niveau 3" />
-                                        <MenuItem text="Niveau 4" />
-                                    </items>
-                                </MenuButton>
-                                <MenuButton mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Languages">
-                                    <VBox.margin>
-                                        <Insets left="10.0" top="10.0" />
-                                    </VBox.margin>
-                                    <items>
-                                        <MenuItem text="PHP" />
-                                        <MenuItem text="Python" />
-                                        <MenuItem text="Java" />
-                                    </items>
-                                </MenuButton>
-                            </children>
-                        </VBox>
-                    </left>
+                <BorderPane>
                     <top>
-                        <HBox prefHeight="83.0" prefWidth="570.0" style="-fx-background-color: C4C4C4;" BorderPane.alignment="CENTER">
+                        <HBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #f4f4f4; -fx-padding: 10px;">
                             <children>
-                                <ImageView fitHeight="47.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
-                                    <!-- You can remove this entire ImageView block -->
-                                </ImageView>
+                                <Button onAction="#handleAccueil" text="Accueil" />
+                                <MenuButton fx:id="niveauxMenuButton" text="Niveaux">
+                                    <items>
+                                        <MenuItem onAction="#handleNiveau1" text="Niveau 1" />
+                                        <MenuItem onAction="#handleNiveau2" text="Niveau 2" />
+                                        <MenuItem onAction="#handleNiveau3" text="Niveau 3" />
+                                        <MenuItem onAction="#handleNiveau4" text="Niveau 4" />
+                                    </items>
+                                </MenuButton>
+                                <MenuButton fx:id="languagesMenuButton" text="Languages">
+                                    <items>
+                                        <MenuItem onAction="#handlePython" text="Python" />
+                                        <MenuItem onAction="#handleJava" text="Java" />
+                                        <MenuItem onAction="#handleSQL" text="SQL" />
+                                    </items>
+                                </MenuButton>
+                                <TextField fx:id="searchField" promptText="Recherche..." />
+                                <Button onAction="#handleSearch" text="Rechercher" />
                             </children>
                         </HBox>
                     </top>
                     <center>
-                        <VBox prefHeight="220.0" prefWidth="500.0" BorderPane.alignment="CENTER">
-                            <children>
-                                <!-- First row -->
-                                <HBox alignment="CENTER" spacing="20">
-                                    <!-- Formation 1 -->
-                                    <StackPane alignment="CENTER" onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit">
-                                        <Label style="-fx-background-color: rgba(0, 0, 0, 0.7); -fx-text-fill: white; -fx-font-size: 24px; -fx-padding: 10px;" text="Formation 1" visible="false" StackPane.alignment="CENTER">
-                                            <StackPane.margin>
-                                                <Insets top="20.0" />
-                                            </StackPane.margin>
-                                        </Label>
-                                        <ImageView fitHeight="92.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                        <VBox spacing="20.0">
+                            <HBox spacing="10.0">
+                                <!-- Formation 1 -->
+                                <StackPane onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit" style="-fx-border-color: black; -fx-border-width: 2; -fx-padding: 5;">
+                                    <VBox alignment="CENTER_LEFT" spacing="5">
+                                        <ImageView fx:id="imageFormation1" fitHeight="62.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@image1.png" />
                                             </image>
-                                            <StackPane.margin>
-                                                <Insets top="30.0" />
-                                            </StackPane.margin>
+                                 <VBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </VBox.margin>
                                         </ImageView>
-                                        <HBox.margin>
-                                            <Insets top="-10.0" />
-                                        </HBox.margin>
-                                    </StackPane>
+                                        <Label text="Titre : Formation 1">
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets top="-17.0" />
+                                 </VBox.margin></Label>
+                                        <Label text="Description : Description de la formation 1">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></Label>
+                                        <Label text="ID Enseignant : 123">
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding></Label>
+                              <padding>
+                                 <Insets bottom="10.0" />
+                              </padding>
+                                    </VBox>
+                                </StackPane>
 
-                                    <!-- Formation 2 -->
-                                    <StackPane alignment="CENTER" onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit">
-                                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                <!-- Formation 2 -->
+                                <StackPane onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit" style="-fx-border-color: black; -fx-border-width: 2; -fx-padding: 5;">
+                                    <VBox alignment="CENTER_LEFT" spacing="5">
+                                        <ImageView fx:id="imageFormation2" fitHeight="92.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@image2.png" />
                                             </image>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" />
+                                 </VBox.margin>
                                         </ImageView>
-                                        <Label style="-fx-background-color: rgba(0, 0, 0, 0.7); -fx-text-fill: white; -fx-font-size: 24px; -fx-padding: 10px;" text="Formation 2" visible="false" StackPane.alignment="CENTER">
-                                            <StackPane.margin>
-                                                <Insets top="20.0" />
-                                            </StackPane.margin>
-                                        </Label>
-                                    </StackPane>
+                                        <Label text="Titre : Formation 2" />
+                                        <Label text="Description : Description de la formation 2">
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding></Label>
+                                        <Label text="ID Enseignant : 456">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets right="10.0" top="10.0" />
+                                 </padding></Label>
+                                    </VBox>
+                                </StackPane>
 
-                                    <!-- Formation 3 -->
-                                    <StackPane alignment="CENTER" onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit">
-                                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                <!-- Formation 3 -->
+                                <StackPane onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit" style="-fx-border-color: black; -fx-border-width: 2; -fx-padding: 5;">
+                                    <VBox alignment="CENTER_LEFT" spacing="5">
+                                        <ImageView fx:id="imageFormation3" fitHeight="92.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@image3.png" />
                                             </image>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
                                         </ImageView>
-                                        <Label style="-fx-background-color: rgba(0, 0, 0, 0.7); -fx-text-fill: white; -fx-font-size: 24px; -fx-padding: 10px;" text="Formation 3" visible="false" StackPane.alignment="CENTER">
-                                            <StackPane.margin>
-                                                <Insets top="20.0" />
-                                            </StackPane.margin>
-                                        </Label>
-                                    </StackPane>
-                                </HBox>
-
-                                <!-- Second row -->
-                                <HBox alignment="CENTER" spacing="20">
-                                    <!-- Formation 4 -->
-                                    <StackPane alignment="CENTER" onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit">
-                                        <Label style="-fx-background-color: rgba(0, 0, 0, 0.7); -fx-text-fill: white; -fx-font-size: 24px; -fx-padding: 10px;" text="Formation 4" visible="false" StackPane.alignment="CENTER">
-                                            <StackPane.margin>
-                                                <Insets top="20.0" />
-                                            </StackPane.margin>
-                                        </Label>
-                                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                        <Label text="Titre : Formation 3">
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin></Label>
+                                        <Label text="Description : Description de la formation 3">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></Label>
+                                        <Label text="ID Enseignant : 789">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding></Label>
+                                    </VBox>
+                                </StackPane>
+                            </HBox>
+                            <HBox spacing="10.0">
+                                <!-- Formation 4 -->
+                                <StackPane onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit" style="-fx-border-color: black; -fx-border-width: 2; -fx-padding: 5;">
+                                    <VBox alignment="CENTER_LEFT" spacing="5">
+                                        <ImageView fx:id="imageFormation4" fitHeight="92.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@image4.png" />
                                             </image>
-                                            <StackPane.margin>
-                                                <Insets top="20.0" />
-                                            </StackPane.margin>
+                                 <VBox.margin>
+                                    <Insets left="10.0" />
+                                 </VBox.margin>
                                         </ImageView>
-                                    </StackPane>
+                                        <Label text="Titre : Formation 4">
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding></Label>
+                                        <Label text="Description : Description de la formation 4">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></Label>
+                                        <Label text="ID Enseignant : 101">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding></Label>
+                                    </VBox>
+                                </StackPane>
 
-                                    <!-- Formation 5 -->
-                                    <StackPane alignment="CENTER" onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit">
-                                        <ImageView fitHeight="82.0" fitWidth="66.0" pickOnBounds="true" preserveRatio="true">
+                                <!-- Formation 5 -->
+                                <StackPane onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit" style="-fx-border-color: black; -fx-border-width: 2; -fx-padding: 5;">
+                                    <VBox alignment="CENTER_LEFT" spacing="5">
+                                        <ImageView fx:id="imageFormation5" fitHeight="66.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@image5.png" />
                                             </image>
-                                            <StackPane.margin>
-                                                <Insets top="20.0" />
-                                            </StackPane.margin>
+                                 <VBox.margin>
+                                    <Insets left="10.0" top="5.0" />
+                                 </VBox.margin>
                                         </ImageView>
-                                        <Label style="-fx-background-color: rgba(0, 0, 0, 0.7); -fx-text-fill: white; -fx-font-size: 24px; -fx-padding: 10px;" text="Formation 5" visible="false" StackPane.alignment="CENTER">
-                                            <StackPane.margin>
-                                                <Insets top="20.0" />
-                                            </StackPane.margin>
-                                        </Label>
-                                        <HBox.margin>
-                                            <Insets />
-                                        </HBox.margin>
-                                    </StackPane>
+                                        <Label text="Titre : Formation 5">
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding></Label>
+                                        <Label text="Description : Description de la formation 5">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></Label>
+                                        <Label text="ID Enseignant : 202">
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding></Label>
+                                    </VBox>
+                                </StackPane>
 
-                                    <!-- Formation 6 -->
-                                    <StackPane alignment="CENTER" onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit">
-                                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+                                <!-- Formation 6 -->
+                                <StackPane onMouseEntered="#handleMouseEnter" onMouseExited="#handleMouseExit" style="-fx-border-color: black; -fx-border-width: 2; -fx-padding: 5;">
+                                    <VBox alignment="CENTER_LEFT" spacing="5">
+                                        <ImageView fx:id="imageFormation6" fitHeight="69.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@image6.png" />
                                             </image>
+                                 <VBox.margin>
+                                    <Insets left="10.0" top="-10.0" />
+                                 </VBox.margin>
                                         </ImageView>
-                                        <Label style="-fx-background-color: rgba(0, 0, 0, 0.7); -fx-text-fill: white; -fx-font-size: 24px; -fx-padding: 10px;" text="Formation 6" visible="false" StackPane.alignment="CENTER">
-                                            <StackPane.margin>
-                                                <Insets top="20.0" />
-                                            </StackPane.margin>
-                                        </Label>
-                                    </StackPane>
-                                </HBox>
-                            </children>
+                                        <Label text="Titre : Formation 6">
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding></Label>
+                                        <Label text="Description : Description de la formation 6">
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin></Label>
+                                        <Label text="ID Enseignant : 303">
+                                 <padding>
+                                    <Insets top="10.0" />
+                                 </padding></Label>
+                                    </VBox>
+                                </StackPane>
+                            </HBox>
                         </VBox>
                     </center>
                 </BorderPane>

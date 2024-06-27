@@ -4,25 +4,24 @@ public class Formation {
     private int id;
     private String titre;
     private String description;
+    private String imageUrl;
     private int idEnseignant;
-   public Formation () {
 
-   }
-    public Formation(int id, String titre, String description, int idEnseignant) {
+    public Formation() {}
+
+    public Formation(int id, String titre, String description, String imageUrl, int idEnseignant) {
         this.id = id;
         this.titre = titre;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.idEnseignant = idEnseignant;
     }
 
-    public Formation( String titre, String description, int idEnseignant) {
-        this.id = id;
+    public Formation(String titre, String description, String imageUrl, int idEnseignant) {
         this.titre = titre;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.idEnseignant = idEnseignant;
-    }
-
-    public Formation(int id, int idEnseignant) {
     }
 
     public int getId() {
@@ -49,13 +48,20 @@ public class Formation {
         this.description = description;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public int getIdEnseignant() {
         return idEnseignant;
     }
 
     public void setIdEnseignant(int idEnseignant) {
         this.idEnseignant = idEnseignant;
-
     }
 
     @Override
@@ -64,12 +70,8 @@ public class Formation {
                 "id=" + id +
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", idEnseignant=" + idEnseignant +
                 '}';
     }
-    public String gettitre() {
-        return titre;
-    }
-
-
 }
