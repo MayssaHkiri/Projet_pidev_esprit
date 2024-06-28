@@ -198,4 +198,38 @@ public class UserService implements Iservice<User> {
         }
         return users;
     }
+    public boolean resetPassword(int userId, String oldPassword, String newPassword) throws SQLException {
+        // Vérifier si l'ancien mot de passe est correct
+        String query = "SELECT pwd FROM user WHERE id = ?";
+        try (PreparedStatement preparedStatement = cnx.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String storedPassword = resultSet.getString("pwd");
+                    if (!oldPassword.equals(storedPassword)) {
+                        // L'ancien mot de passe n'est pas correct
+                        return false;
+                    }
+                } else {
+                    // L'utilisateur n'existe pas
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        // Mettre à jour le mot de passe de l'utilisateur
+        String updateQuery = "UPDATE user SET pwd = ? WHERE id = ?";
+        try (PreparedStatement preparedStatement = cnx.prepareStatement(updateQuery)) {
+            preparedStatement.setString(1, newPassword);
+            preparedStatement.setInt(2, userId);
+            int updatedRows = preparedStatement.executeUpdate();
+            return updatedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

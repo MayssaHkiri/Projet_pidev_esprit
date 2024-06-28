@@ -18,6 +18,7 @@ public class Main {
        //testerUpdate(new User(2, "benAti" , "nour" , "nour.benati@esprit.tn"));
         testerAuthentification("feriel.zoghlemi@esprit.tn" , "l3v20kox") ;
         testerSearch("fer");
+        testerResetPassword(1, "ancienMotDePasse", "nouveauMotDePasse");
 
     }
     public static void testerCreationCompte(User user) {
@@ -104,5 +105,16 @@ public class Main {
             System.out.println(e);
         }
     }
-
+    public static void testerResetPassword(int userId, String oldPassword, String newPassword) {
+        try {
+            boolean isReset = us.resetPassword(userId, oldPassword, newPassword);
+            if (isReset) {
+                System.out.println("Mot de passe réinitialisé avec succès !");
+            } else {
+                System.out.println("Échec de la réinitialisation du mot de passe.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
