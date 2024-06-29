@@ -20,6 +20,7 @@ public class Cours {
     }
 
     public Cours(String titre, String description,int enseignantId, int idChapitre,Blob pdfFile) {
+
         this.titre = titre;
         this.description = description;
         this.enseignantId = enseignantId;
@@ -85,7 +86,7 @@ public class Cours {
     @Override
     public String toString() {
         return "Cours{" +
-                "coursId=" + id +
+                "id=" + id +
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
                 ", enseignantId=" + enseignantId +

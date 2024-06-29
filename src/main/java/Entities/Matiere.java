@@ -53,12 +53,8 @@ public class Matiere {
 
     @Override
     public String toString() {
-        return "Matiere{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", coeff=" + coeff +
-                ", ModeEval='" + ModeEval + '\'' +
-                '}';
+        return nom;
+
     }
 }
 

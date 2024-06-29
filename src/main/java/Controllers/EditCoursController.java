@@ -1,12 +1,18 @@
 package Controllers;
 
 import Entities.Cours;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 public class EditCoursController {
 
@@ -22,6 +28,8 @@ public class EditCoursController {
     private Stage dialogStage;
     private Cours cours;
     private boolean okClicked = false;
+    private File pdfFile;
+
 
     @FXML
     private void initialize() {
@@ -38,22 +46,38 @@ public class EditCoursController {
         descriptionField.setText(cours.getDescription());
         /*enseignantIdField.setText(String.valueOf(cours.getEnseignantId()));*/
         // Set the PDF file path
-       // pdfFileField.setText(cours.getPdfFile().getPath());
+        // pdfFileField.setText(cours.getPdfFile().getPath());
     }
 
-    public boolean isOkClicked() {
-        return okClicked;
+    public Cours isOkClicked() {
+        return cours;
     }
 
     @FXML
-    private void handleChooseFile() {
+    private void handleChooseFile(ActionEvent actionEvent) {
+        Blob pdfBlob = null;
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choisir un Fichier PDF");
-        File selectedFile = fileChooser.showOpenDialog(dialogStage);
-        if (selectedFile != null) {
-            pdfFileField.setText(selectedFile.getAbsolutePath());
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
+        pdfFile = fileChooser.showOpenDialog(null);
+        if (pdfFile != null) {
+            try (FileInputStream fis = new FileInputStream(pdfFile)) {
+                pdfBlob = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
+                cours.setPdfFile(pdfBlob);
+
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
         }
+        if (pdfFile != null) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Fichier sélectionné");
+            alert.setHeaderText(null);
+            alert.setContentText("Le fichier PDF " + pdfFile.getName() + " a été sélectionné avec succès !");
+            alert.showAndWait();
+        }
+
     }
+
 
     @FXML
     private void handleSave() {
@@ -61,7 +85,7 @@ public class EditCoursController {
         cours.setDescription(descriptionField.getText());
         /*cours.setEnseignantId(Integer.parseInt(enseignantIdField.getText()));*/
         // Set the PDF file path
-      //  cours.setPdfFile(new File(pdfFileField.getText()));
+        //  cours.setPdfFile(new File(pdfFileField.getText()));
 
         okClicked = true;
         dialogStage.close();

@@ -61,7 +61,7 @@ public class ServiceCours implements IService<Cours> {
             int enseignantId = 1; // Initialiser à 1
             int idChapitre = 1;   // Initialiser à 1
             Blob pdfFile = rs.getBlob("pdfFile");
-            cours.add(new Cours( titre, description, enseignantId, idChapitre, pdfFile));
+            cours.add(new Cours(id ,titre, description, enseignantId, idChapitre, pdfFile));
         }
 
         return cours;
