@@ -46,6 +46,26 @@ public class UsersManagement {
         private ObservableList<User> usersList;
 
         @FXML
+        private void handleSearch(ActionEvent event) {
+                String searchTerm = searchField.getText();
+                if (searchTerm != null && !searchTerm.isEmpty()) {
+                        try {
+                                List<User> searchResults = userService.search(searchTerm);
+                                usersList.setAll(searchResults);
+                        } catch (SQLException e) {
+                                showAlert("Erreur", "Erreur de recherche", e.getMessage());
+                        }
+                } else {
+                        try {
+                                loadUsersFromDatabase();
+                        } catch (SQLException e) {
+                                showAlert("Erreur", "Erreur de chargement des utilisateurs", e.getMessage());
+                        }
+                }
+        }
+
+
+        @FXML
         public void initialize() throws SQLException {
                 usersList = FXCollections.observableArrayList();
                 loadUsersFromDatabase();
@@ -144,6 +164,16 @@ public class UsersManagement {
                 stage.setScene(newScene);
                 stage.setTitle("Création de compte");
                 stage.show();
+        }
+
+        @FXML
+        private void handleRefresh(ActionEvent event) {
+                try {
+                        loadUsersFromDatabase();
+                        tableView.setItems(usersList); // Réinitialiser les items du tableau
+                } catch (SQLException e) {
+                        showAlert("Erreur", "Erreur de chargement des utilisateurs", e.getMessage());
+                }
         }
 }
 

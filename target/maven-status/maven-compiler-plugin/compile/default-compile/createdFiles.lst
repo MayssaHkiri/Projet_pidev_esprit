@@ -1,9 +1,12 @@
-Controllers\AccountCreation.class
-Controllers\UsersInterface.class
+Controllers\UsersManagement.class
 Entities\User.class
 StartApplication\Main.class
 Utils\DataSource.class
-Services\Iservice.class
 StartApplication\MainFX.class
-Services\UserService.class
+Controllers\AccountEdit.class
 Controllers\LoginInterface.class
+Controllers\AccountCreation.class
+Controllers\AdminSidebarController.class
+Controllers\UsersInterface.class
+Services\Iservice.class
+Services\UserService.class

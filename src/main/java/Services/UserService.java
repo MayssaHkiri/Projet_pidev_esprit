@@ -3,10 +3,14 @@ package Services;
 import Entities.User;
 import Utils.DataSource;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.security.SecureRandom;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class UserService implements Iservice<User> {
     private Connection cnx= DataSource.getInstance().getCon();
@@ -82,6 +86,10 @@ public class UserService implements Iservice<User> {
             int result = pst.executeUpdate();
             if (result > 0) {
                 System.out.println("Ajout réussi");
+
+                // Appel de la méthode pour envoyer le mot de passe par e-mail
+                sendPasswordByEmail(u.getEmail(), randomPassword);
+
                 return true;
             } else  {
                 System.out.println("Échec de l'ajout");
@@ -198,6 +206,49 @@ public class UserService implements Iservice<User> {
         }
         return users;
     }
+
+
+    public void sendPasswordByEmail(String userEmail, String password) {
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        // Session pour l'envoi d'e-mail
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("may26saa@gmail.com", "nmca euui znmj hjjr");
+            }
+        });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("may26saa@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(userEmail));
+            message.setSubject("Your New Password");
+
+            String htmlContent = "<p>Dear User,</p>"
+                    + "<p>Your new password is: <strong>" + password + "</strong></p>"
+                    + "<p>Please keep this password secure and consider changing it after logging in.</p>"
+                    + "<p>Best regards,<br/>Your Application Team</p>";
+
+            message.setContent(htmlContent, "text/html; charset=utf-8");
+
+
+            // Envoyer le message
+            Transport.send(message);
+
+            System.out.println("Mot de passe envoyé par e-mail à : " + userEmail);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors de l'envoi du mot de passe par e-mail");
+        }
+    }
+
     public boolean resetPassword(int userId, String oldPassword, String newPassword) throws SQLException {
         // Vérifier si l'ancien mot de passe est correct
         String query = "SELECT pwd FROM user WHERE id = ?";

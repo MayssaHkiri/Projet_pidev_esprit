@@ -8,91 +8,72 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AccountCreation">
-   <children>
-      <VBox prefHeight="457.0" prefWidth="181.0" style="-fx-background-color: F8C6C4;">
-         <children>
-            <ImageView fitHeight="126.0" fitWidth="147.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@Logo.png" />
-               </image>
-            </ImageView>
-            <Button mnemonicParsing="false" text="Gestion Utilisateur">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" text="Gestion Formation">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Button>
-            <Button mnemonicParsing="false" text="Gestion offres de stage">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Button>
-         </children>
-      </VBox>
-      <VBox layoutX="232.0" layoutY="39.0" prefHeight="321.0" prefWidth="282.0" style="-fx-background-color: rgba(0,0,0,0.5);">
-         <children>
-            <ImageView fitHeight="56.0" fitWidth="62.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@IconUtilisateur.png" />
-               </image>
-               <VBox.margin>
-                  <Insets left="120.0" right="10.0" top="15.0" />
-               </VBox.margin>
-            </ImageView>
-            <Label text="Nom : " textFill="WHITE">
-               <font>
-                  <Font name="Bell MT Bold" size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="10.0" top="20.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="tfName" prefHeight="25.0" prefWidth="134.0">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </TextField>
-            <Label text="Prenom : " textFill="WHITE">
-               <font>
-                  <Font name="Bell MT Bold" size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="tfPrenom" />
-            <Label text="Email : " textFill="WHITE">
-               <font>
-                  <Font name="Bell MT Bold" size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
-               </VBox.margin>
-            </Label>
-            <TextField fx:id="tfEmail" />
-            <Label text="Role :" textFill="WHITE">
-               <font>
-                  <Font name="Bell MT Bold" size="14.0" />
-               </font>
-               <VBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
-               </VBox.margin>
-            </Label>
-            <ChoiceBox fx:id="myChoiceBox" prefWidth="150.0" />
-            <Button mnemonicParsing="false" onAction="#AddNewUser" text="Ajouter">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="110.0" right="20.0" top="20.0" />
-               </VBox.margin>
-            </Button>
-         </children>
-      </VBox>
-   </children>
+    <children>
+
+        <!-- Sidebar -->
+        <fx:include fx:id="Adminsidebar" source="AdminSideBar.fxml" />
+
+        <!-- Main content -->
+        <VBox layoutX="190.0" layoutY="20.0" prefHeight="360.0" prefWidth="390.0" spacing="15" style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20;">
+            <children>
+                <HBox alignment="CENTER">
+                    <ImageView fitHeight="56.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@IconUtilisateur.png" />
+                        </image>
+                    </ImageView>
+                    <Label text="Ajouter Utilisateur" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                        <HBox.margin>
+                            <Insets left="10.0" />
+                        </HBox.margin>
+                    </Label>
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label text="Nom:" textFill="WHITE" alignment="CENTER_RIGHT" prefWidth="80.0">
+                        <font>
+                            <Font name="Bell MT Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="tfName" prefHeight="25.0" prefWidth="200.0" />
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label text="Prénom:" textFill="WHITE" alignment="CENTER_RIGHT" prefWidth="80.0">
+                        <font>
+                            <Font name="Bell MT Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="tfPrenom" prefHeight="25.0" prefWidth="200.0" />
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label text="Email:" textFill="WHITE" alignment="CENTER_RIGHT" prefWidth="80.0">
+                        <font>
+                            <Font name="Bell MT Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="tfEmail" prefHeight="25.0" prefWidth="200.0" />
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label text="Rôle:" textFill="WHITE" alignment="CENTER_RIGHT" prefWidth="80.0">
+                        <font>
+                            <Font name="Bell MT Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <ChoiceBox fx:id="myChoiceBox" prefWidth="200.0" />
+                </HBox>
+                <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#AddNewUser" text="Ajouter" style="-fx-background-color: #FF6347; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" />
+            </children>
+        </VBox>
+    </children>
 </AnchorPane>

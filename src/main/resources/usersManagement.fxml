@@ -15,23 +15,7 @@
 <HBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.UsersManagement">
     <children>
         <!-- Sidebar -->
-        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="180.0" spacing="15" style="-fx-background-color: #F4F4F4;">
-            <children>
-                <!-- Space for Logo -->
-                <ImageView fitHeight="56.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@logo_esprit.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets bottom="20.0" top="-165.0" />
-                    </VBox.margin>
-                </ImageView>
-                <!-- Buttons -->
-                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: #B0B0B0; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;" text="Gérer Utilisateurs" />
-                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: #B0B0B0; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;" text="Gérer Formations" />
-                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: #B0B0B0; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;" text="Gérer Offres de Stage" />
-            </children>
-        </VBox>
+        <fx:include fx:id="Adminsidebar" source="AdminSideBar.fxml" />
 
         <!-- Main content -->
         <AnchorPane prefHeight="400.0" prefWidth="550.0" style="-fx-background-color: #f0f0f0;">
@@ -43,7 +27,8 @@
                     <HBox alignment="CENTER" spacing="10">
                         <TextField fx:id="searchField" promptText="Rechercher..." style="-fx-background-color: white; -fx-text-fill: black; -fx-prompt-text-fill: gray;" />
 
-                        <Button fx:id="searchButton" style="-fx-background-color: #C4C4C4; -fx-text-fill: black;" text="Rechercher" />
+                        <Button fx:id="searchButton" onAction="#handleSearch" style="-fx-background-color: #C4C4C4; -fx-text-fill: black;" text="Rechercher" />
+                        <Button fx:id="refreshButton" onAction="#handleRefresh" style="-fx-background-color: #C4C4C4; -fx-text-fill: black;" text="Actualiser" />
                     </HBox>
 
                     <TableView fx:id="tableView" prefHeight="304.0" prefWidth="600.0">
