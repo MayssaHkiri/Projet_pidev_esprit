@@ -14,6 +14,10 @@ public class Matiere {
         this.quizzes = quizzes;
     }
 
+    public Matiere(String matiereName) {
+        this.nom = matiereName;
+    }
+
     public int getId() {
         return id;
     }
@@ -29,11 +33,17 @@ public class Matiere {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
     public List<Quiz> getQuizzes() {
         return quizzes;
     }
 
     public void setQuizzes(List<Quiz> quizzes) {
         this.quizzes = quizzes;
+    }
+
+    @Override
+    public String toString() {
+        return nom;
     }
 }

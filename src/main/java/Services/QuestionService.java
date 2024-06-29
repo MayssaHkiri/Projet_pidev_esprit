@@ -3,6 +3,7 @@ package Services;
 import Contracts.ServiceInterface;
 import Entities.ChoixPossible;
 import Entities.Question;
+import Entities.Quiz;
 import Utils.DataSource;
 
 import java.sql.*;
@@ -92,6 +93,28 @@ public class QuestionService {
             list.add(new Question(rs.getInt("id"), null, rs.getString("enonce"), null));
         }
         return list;
+    }
+    public List<Question> findAllByQuizId(int quizId) throws SQLException {
+        List<Question> list = new ArrayList<>();
+        String req = "SELECT * FROM question WHERE quizId = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, quizId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Question(rs.getInt("id"), null, rs.getString("enonce"), null));
+            }
+        }
+        return list;
+    }
+    public void updateEnonce(Question questionToModify, String newTitre) throws SQLException {
+        String req = "UPDATE question SET enonce = ? WHERE id = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setString(1, newTitre);
+            ps.setInt(2, questionToModify.getId());
+            ps.executeUpdate();
+        }
     }
 
 }

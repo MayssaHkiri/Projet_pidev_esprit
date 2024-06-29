@@ -1,6 +1,7 @@
 package Services;
 
 import Contracts.ServiceInterface;
+import Entities.ChoixPossible;
 import Entities.Reponse;
 import Utils.DataSource;
 
@@ -60,6 +61,36 @@ public class ReponseService implements ServiceInterface<Reponse> {
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             list.add(new Reponse(rs.getInt("id"), null, rs.getBoolean("correct")));
+        }
+        return list;
+    }
+
+    public boolean isCorrect(int choixPossibleId) throws SQLException {
+        String req = "SELECT correct FROM reponse WHERE choixPossibleId = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, choixPossibleId);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()) {
+                System.out.println("No row with choixPossibleId: " + choixPossibleId);
+                return false;
+            }
+            boolean correct = rs.getBoolean("correct");
+            System.out.println("correct for choixPossibleId " + choixPossibleId + ": " + correct);
+            return correct;
+        }
+    }
+
+    public List<Reponse> findAllByQuestionId(int questionId) throws SQLException {
+        List<Reponse> list = new ArrayList<>();
+        String req = "SELECT reponse.*, choixpossible.description FROM reponse JOIN choixpossible ON reponse.choixPossibleId = choixpossible.id WHERE reponse.questionId = ?";
+        try (PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, questionId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ChoixPossible choixPossible = new ChoixPossible(rs.getInt("choixPossibleId"), null, rs.getString("description"));
+                list.add(new Reponse(rs.getInt("id"), choixPossible, rs.getBoolean("correct")));
+            }
         }
         return list;
     }

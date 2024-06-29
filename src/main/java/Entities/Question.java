@@ -50,4 +50,8 @@ public class Question {
     public void setChoixPossibles(List<ChoixPossible> choixPossibles) {
         this.choixPossibles = choixPossibles;
     }
+    @Override
+    public String toString() {
+        return enonce;
+    }
 }

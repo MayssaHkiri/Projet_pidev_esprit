@@ -26,7 +26,7 @@ public class HomeQuizController {
     @FXML
     private TableColumn<Quiz, String> titre;
     @FXML
-    private TableColumn<Quiz, String> description;
+    private TableColumn<Quiz, String> matiere;
     @FXML
     private TableColumn<Quiz, Void> actions;
     @FXML
@@ -52,12 +52,40 @@ public class HomeQuizController {
                 pane.setAlignment(Pos.CENTER); // Center the buttons
                 btnAfficher.setOnAction(event -> {
                     Quiz quiz = getTableView().getItems().get(getIndex());
-                    // Handle "Afficher" button click here
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/affichageQuiz.fxml"));
+                        Parent root = loader.load();
+
+                        // Get the controller of the new interface and pass the selected Quiz
+                        AfficherQuizController controller = loader.getController();
+                        controller.displayQuiz(quiz);
+
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root));
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
 
                 btnModifier.setOnAction(event -> {
                     Quiz quiz = getTableView().getItems().get(getIndex());
-                    // Handle "Modifier" button click here
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierQuiz.fxml"));
+                        Parent root = loader.load();
+
+                        ModifierQuizController controller = loader.getController();
+                        controller.setQuiz(quiz);
+
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(root));
+                        stage.show();
+
+                        // Add a close request handler to refresh the table view
+                        stage.setOnCloseRequest(e -> findAll());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 });
 
                 btnSupprimer.setOnAction(event -> {
@@ -89,7 +117,7 @@ public class HomeQuizController {
             ObservableList<Quiz> quizzes = FXCollections.observableArrayList(quizService.readAll());
             quizTable.setItems(quizzes);
             titre.setCellValueFactory(cellData -> cellData.getValue().titreProperty());
-            description.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
+            matiere.setCellValueFactory(cellData -> cellData.getValue().matiereProperty());
         } catch (SQLException e) {
             System.out.println("Error while displaying all quizzes: " + e.getMessage());
         }

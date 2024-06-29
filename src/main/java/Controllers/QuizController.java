@@ -71,7 +71,7 @@ public class QuizController implements Initializable {
                     return;
                 }
 
-                Quiz quiz = new Quiz(0, titre, description, new Date());
+                Quiz quiz = new Quiz(0, description, titre, new Date());
                 quiz.setMatiere(matiere);
 
                 int quizId = quizService.ajouter(quiz);

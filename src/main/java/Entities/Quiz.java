@@ -30,14 +30,6 @@ public class Quiz {
         this.questions = questions;
     }
 
-    public Quiz(int id, String titre, String description, Matiere matiere, Date dateCreation) {
-        this.id = id;
-        this.titre = new SimpleStringProperty(titre);
-        this.description = new SimpleStringProperty(description);
-        this.matiere = matiere;
-        this.dateCreation = dateCreation;
-    }
-
     public Quiz(int i, String titre, String description, Date date) {
         this.id = i;
         this.titre = new SimpleStringProperty(titre);
@@ -98,5 +90,12 @@ public class Quiz {
 
     public void setMatiere(Matiere matiere) {
         this.matiere = matiere;
+    }
+
+    public StringProperty matiereProperty() {
+        return new SimpleStringProperty(matiere.getNom());
+    }
+    public String getMatiereName() {
+        return this.matiere.getNom();
     }
 }

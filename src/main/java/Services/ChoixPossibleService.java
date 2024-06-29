@@ -30,4 +30,14 @@ public class ChoixPossibleService {
             }
         }
     }
+
+    public void updateDescription(ChoixPossible choixToModify) throws SQLException {
+        String req = "UPDATE choixpossible SET description = ? WHERE id = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setString(1, choixToModify.getDescription());
+            ps.setInt(2, choixToModify.getId());
+            ps.executeUpdate();
+        }
+    }
 }

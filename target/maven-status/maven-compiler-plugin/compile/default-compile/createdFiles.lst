@@ -7,6 +7,7 @@ Controllers\HomeQuizController.class
 Services\ReponseService.class
 Services\MatiereService.class
 Contracts\ServiceInterface.class
+Controllers\ModifierQuizController.class
 Entities\Quiz.class
 Entities\Reponse.class
 Controllers\QuizController.class

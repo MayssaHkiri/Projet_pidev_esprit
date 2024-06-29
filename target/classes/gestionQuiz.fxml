@@ -91,7 +91,7 @@
                                <TableView fx:id="quizTable" editable="true" prefHeight="493.0" prefWidth="643.0">
                                    <columns>
                                        <TableColumn fx:id="titre" prefWidth="118.00004827976227" text="Titre" />
-                                       <TableColumn fx:id="description" prefWidth="197.33329010009766" text="Description" />
+                                       <TableColumn fx:id="matiere" prefWidth="100.0" text="Matiere" />
                                        <TableColumn fx:id="actions" prefWidth="325.3333435058594" text="Actions" />
                                    </columns>
                                    <columnResizePolicy>

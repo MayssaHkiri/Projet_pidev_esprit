@@ -1,5 +1,6 @@
 package Services;
 
+import Entities.Matiere;
 import Entities.Quiz;
 import Utils.DataSource;
 
@@ -100,16 +101,49 @@ public class QuizService {
 
     public List<Quiz> readAll() throws SQLException {
         List<Quiz> list = new ArrayList<>();
-        String req = "SELECT * FROM quiz";
+        String req = "SELECT quiz.*, matiere.nom AS matiereName FROM quiz JOIN matiere ON quiz.matiereId = matiere.id";
         try (Connection con = DataSource.getInstance().getCon();
              PreparedStatement ps = con.prepareStatement(req)) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                list.add(new Quiz(rs.getInt("id"), rs.getString("description"), rs.getString("titre"), rs.getDate("dateCreation"), null));
+                Matiere matiere = new Matiere(rs.getString("matiereName"));
+                Quiz quiz = new Quiz(rs.getInt("id"), rs.getString("titre"), rs.getString("description"), rs.getDate("dateCreation"));
+                quiz.setMatiere(matiere);
+                list.add(quiz);
             }
 
             return list;
+        }
+    }
+
+    public void updateTitre(Quiz quiz, String newTitre) throws SQLException {
+        String req = "UPDATE quiz SET titre = ? WHERE id = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setString(1, newTitre);
+            ps.setInt(2, quiz.getId());
+            ps.executeUpdate();
+        }
+    }
+
+    public void updateDescription(Quiz quiz, String newDescription) throws SQLException {
+        String req = "UPDATE quiz SET description = ? WHERE id = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setString(1, newDescription);
+            ps.setInt(2, quiz.getId());
+            ps.executeUpdate();
+        }
+    }
+
+    public void updateMatiere(Quiz quiz, Matiere newMatiere) throws SQLException {
+        String req = "UPDATE quiz SET matiereId = ? WHERE id = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, newMatiere.getId());
+            ps.setInt(2, quiz.getId());
+            ps.executeUpdate();
         }
     }
 }
