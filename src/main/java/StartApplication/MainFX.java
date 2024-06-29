@@ -14,8 +14,10 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) {
-        //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
-        FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/ConsulterOffre.fxml"));
+       //FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/ConsulterOffre.fxml"));
+       FXMLLoader fxmlLoader2 = new FXMLLoader(getClass().getResource("/etudiantVoir.fxml"));
+
+
 
         try {
 /*
@@ -28,6 +30,7 @@ public class MainFX extends Application {
 
            Parent root2 = fxmlLoader2.load();
             Scene scene2 = new Scene(root2);
+
             stage.setScene(scene2);
             stage.setTitle("Consulter Offre");
             stage.show();

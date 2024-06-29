@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox stylesheets="@style.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="Controllers.ConsulterOffre">
+    <children>
+        <!-- En-tête de navigation -->
+        <HBox prefHeight="0.0" prefWidth="770.0" spacing="20" styleClass="nav-header">
+            <children>
+                <!-- Logo -->
+                <ImageView fx:id="logo" fitHeight="57.0" fitWidth="143.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@logo_esprit.png" />
+                    </image>
+                </ImageView>
+
+                <!-- Liens de navigation -->
+                <Hyperlink text="Formations">
+               <font>
+                  <Font size="25.0" />
+               </font></Hyperlink>
+                <Hyperlink text="Cours">
+               <font>
+                  <Font size="25.0" />
+               </font></Hyperlink>
+                <Hyperlink text="Offres de stages">
+               <font>
+                  <Font size="25.0" />
+               </font></Hyperlink>
+            </children>
+        </HBox>
+
+        <!-- Contenu principal -->
+        <VBox fx:id="container" VBox.vgrow="ALWAYS" />
+    </children>
+</HBox>
