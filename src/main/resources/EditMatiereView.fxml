@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.EditMatiereController">
+    <Label text="Modifier Matiere"/>
+
+    <HBox spacing="10">
+        <Label text="Nom:"/>
+        <TextField fx:id="nomField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Coefficient:"/>
+        <TextField fx:id="coeffField"/>
+    </HBox>
+    <HBox spacing="10">
+        <Label text="Mode d'Évaluation:"/>
+        <TextField fx:id="modeEvalField"/>
+    </HBox>
+
+    <HBox spacing="10">
+        <Button text="Enregistrer" onAction="#handleSave"/>
+        <Button text="Annuler" onAction="#handleCancel"/>
+    </HBox>
+</VBox>
