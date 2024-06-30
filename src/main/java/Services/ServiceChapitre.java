@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-public class ServiceChapitre implements IService<Chapitre>{
+public class ServiceChapitre implements IserviceCours<Chapitre>{
     private Connection con1 = DataSource.getInstance().getCon();
     private Statement ste;
     @Override

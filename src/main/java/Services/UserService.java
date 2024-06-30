@@ -14,7 +14,7 @@ import java.util.Properties;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class UserService implements Iservice<User> {
+public class UserService implements IService<User> {
     private Connection cnx= DataSource.getInstance().getCon();
     private Statement ste;
 

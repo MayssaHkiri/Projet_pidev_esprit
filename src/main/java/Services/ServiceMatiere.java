@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 
-public class ServiceMatiere implements IService<Matiere>{
+public class ServiceMatiere implements IserviceCours<Matiere>{
 
 
     private Connection conn = DataSource.getInstance().getCon();
