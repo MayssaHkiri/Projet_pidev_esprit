@@ -197,6 +197,7 @@ public class QuizController implements Initializable {
                         ChoixPossible choixPossible = map.get(checkBox);
 
                         Reponse reponse = new Reponse(0, choixPossible, true);
+
                         try {
                             reponseService.ajouter(reponse);
                         } catch (SQLException e) {

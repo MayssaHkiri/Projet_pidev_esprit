@@ -5,11 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.TableCell;
 import javafx.geometry.Pos;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
@@ -19,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class HomeQuizController {
     @FXML
@@ -46,6 +44,7 @@ public class HomeQuizController {
             private final Button btnModifier = new Button("Modifier");
             private final Button btnSupprimer = new Button("Supprimer");
             private final HBox pane = new HBox(btnAfficher, btnModifier, btnSupprimer);
+
             {
                 btnCreerQuiz.setOnAction(event -> handleCreerQuiz());
 
@@ -90,15 +89,23 @@ public class HomeQuizController {
 
                 btnSupprimer.setOnAction(event -> {
                     Quiz quiz = getTableView().getItems().get(getIndex());
-                    try {
-                        quizService.supprimer(quiz);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
+
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation");
+                    alert.setHeaderText("Supprimer le Quiz");
+                    alert.setContentText("Êtes-vous sûr de vouloir supprimer ce quiz ?");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                        try {
+                            quizService.supprimer(quiz);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                        findAll();
                     }
-                    findAll();
                 });
             }
-
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);

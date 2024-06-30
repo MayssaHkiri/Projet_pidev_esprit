@@ -1,6 +1,7 @@
 package Services;
 
 import Entities.ChoixPossible;
+import Entities.Reponse;
 import Utils.DataSource;
 
 import java.sql.Connection;
@@ -13,7 +14,6 @@ public class ChoixPossibleService {
     private final Connection con = DataSource.getInstance().getCon();
 
     public int ajouter(ChoixPossible choixPossible) throws SQLException {
-        System.out.println(choixPossible.getQuestion().getId());
         String req = "INSERT INTO choixpossible (questionId, description) VALUES (?, ?)";
         try (Connection con = DataSource.getInstance().getCon();
              PreparedStatement ps = con.prepareStatement(req, Statement.RETURN_GENERATED_KEYS)) {
@@ -40,4 +40,5 @@ public class ChoixPossibleService {
             ps.executeUpdate();
         }
     }
+
 }

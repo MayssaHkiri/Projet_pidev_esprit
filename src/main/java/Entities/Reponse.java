@@ -11,6 +11,11 @@ public class Reponse {
         this.correct = correct;
     }
 
+    public Reponse(int id, boolean correct) {
+        this.id = id;
+        this.correct = correct;
+    }
+
     public int getId() {
         return id;
     }

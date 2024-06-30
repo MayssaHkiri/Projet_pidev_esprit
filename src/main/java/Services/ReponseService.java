@@ -1,6 +1,5 @@
 package Services;
 
-import Contracts.ServiceInterface;
 import Entities.ChoixPossible;
 import Entities.Reponse;
 import Utils.DataSource;
@@ -9,10 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReponseService implements ServiceInterface<Reponse> {
+public class ReponseService{
     private final Connection con = DataSource.getInstance().getCon();
 
-    @Override
     public void ajouter(Reponse reponse) throws SQLException {
         String req = "INSERT INTO reponse (questionId, correct, choixPossibleId) VALUES (?, ?, ?)";
         try (Connection con = DataSource.getInstance().getCon();
@@ -24,7 +22,6 @@ public class ReponseService implements ServiceInterface<Reponse> {
         }
     }
 
-    @Override
     public void supprimer(Reponse reponse) throws SQLException {
         String req = "DELETE FROM reponse WHERE id = ?";
         PreparedStatement ps = con.prepareStatement(req);
@@ -32,16 +29,16 @@ public class ReponseService implements ServiceInterface<Reponse> {
         ps.executeUpdate();
     }
 
-    @Override
     public void update(Reponse reponse) throws SQLException {
         String req = "UPDATE reponse SET idQuestion = ?, correct = ? WHERE id = ?";
-        PreparedStatement ps = con.prepareStatement(req);
-        ps.setBoolean(2, reponse.isCorrect());
-        ps.setInt(3, reponse.getId());
-        ps.executeUpdate();
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setBoolean(2, reponse.isCorrect());
+            ps.setInt(3, reponse.getId());
+            ps.executeUpdate();
+        }
     }
 
-    @Override
     public Reponse findById(int id) throws SQLException {
         String req = "SELECT * FROM reponse WHERE id = ?";
         PreparedStatement ps = con.prepareStatement(req);
@@ -53,7 +50,6 @@ public class ReponseService implements ServiceInterface<Reponse> {
         return null;
     }
 
-    @Override
     public List<Reponse> readAll() throws SQLException {
         List<Reponse> list = new ArrayList<>();
         String req = "SELECT * FROM reponse";
@@ -93,5 +89,19 @@ public class ReponseService implements ServiceInterface<Reponse> {
             }
         }
         return list;
+    }
+
+    public Reponse findByChoixPossibleIdAndQuestionId(int choixPossibleId, int questionId) throws SQLException {
+        String req = "SELECT * FROM reponse WHERE choixPossibleId = ? AND questionId = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, choixPossibleId);
+            ps.setInt(2, questionId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Reponse(rs.getInt("id"), rs.getBoolean("correct"));
+            }
+            return null;
+        }
     }
 }

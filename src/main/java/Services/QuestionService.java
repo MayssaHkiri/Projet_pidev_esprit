@@ -1,9 +1,7 @@
 package Services;
 
-import Contracts.ServiceInterface;
 import Entities.ChoixPossible;
 import Entities.Question;
-import Entities.Quiz;
 import Utils.DataSource;
 
 import java.sql.*;

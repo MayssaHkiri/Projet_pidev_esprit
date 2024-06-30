@@ -1,13 +1,7 @@
 package Controllers;
 
-import Entities.ChoixPossible;
-import Entities.Matiere;
-import Entities.Question;
-import Entities.Quiz;
-import Services.ChoixPossibleService;
-import Services.MatiereService;
-import Services.QuestionService;
-import Services.QuizService;
+import Entities.*;
+import Services.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,12 +10,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ModifierQuizController {
 
@@ -35,17 +29,24 @@ public class ModifierQuizController {
     private Button changerMatiere;
     @FXML
     private Button modifierQuestions;
+    @FXML
+    private Label messageLabel;
 
     private QuizService quizService;
     private MatiereService matiereService;
     private QuestionService questionService;
+    private ChoixPossible choixPossible;
+    private ReponseService reponseService;
     private Quiz quiz;
+    private int questionId;
     private ChoixPossibleService choixPossibleService;
 
     public ModifierQuizController() {
         quizService = new QuizService();
         matiereService = new MatiereService();
         questionService = new QuestionService();
+        reponseService = new ReponseService();
+        choixPossibleService = new ChoixPossibleService();
     }
 
     @FXML
@@ -198,7 +199,6 @@ public class ModifierQuizController {
     }
 
     public void handleModifierEnonce(List<Question> questionList) {
-        // Select a question to modify
         Question questionToModify = selectQuestion(questionList);
         if (questionToModify == null) {
             return;
@@ -224,8 +224,8 @@ public class ModifierQuizController {
         Optional<String> result = modifierEnonceDialog.showAndWait();
 
         result.ifPresent(newEnonce -> {
-            // Here you can update the enoncé of the question
             questionToModify.setEnonce(newEnonce);
+            messageLabel.setText("Enoncé modifié !.");
             try {
                 questionService.updateEnonce(questionToModify, newEnonce);
             } catch (SQLException e) {
@@ -235,7 +235,6 @@ public class ModifierQuizController {
     }
 
     public void handleChangerChoixPossible(List<Question> questionList) throws SQLException {
-        // Select a question to modify
         Question questionToModify = selectQuestion(questionList);
         if (questionToModify == null) {
             return;
@@ -246,38 +245,46 @@ public class ModifierQuizController {
             return;
         }
 
-        Dialog<String> changerChoixPossibleDialog = new Dialog<>();
+        Reponse reponse = reponseService.findByChoixPossibleIdAndQuestionId(choixToModify.getId(), questionToModify.getId());
+        choixToModify.setReponse(reponse);
+
+        Dialog<ChoixPossible> changerChoixPossibleDialog = new Dialog<>();
         changerChoixPossibleDialog.setTitle("Changer les Choix Possible");
 
         TextArea textArea = new TextArea();
         textArea.setText(choixToModify.getDescription());
-        changerChoixPossibleDialog.getDialogPane().setContent(textArea);
+
+        VBox dialogContent = new VBox(textArea);
+        changerChoixPossibleDialog.getDialogPane().setContent(dialogContent);
 
         ButtonType innerChangerChoixPossibleButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         changerChoixPossibleDialog.getDialogPane().getButtonTypes().add(innerChangerChoixPossibleButtonType);
 
         changerChoixPossibleDialog.setResultConverter(bt -> {
             if (bt == innerChangerChoixPossibleButtonType) {
-                return textArea.getText();
+                choixToModify.setDescription(textArea.getText());
+                return choixToModify;
             }
             return null;
         });
 
-        Optional<String> result = changerChoixPossibleDialog.showAndWait();
+        Optional<ChoixPossible> result = changerChoixPossibleDialog.showAndWait();
 
         result.ifPresent(newChoixPossible -> {
-            // Here you can update the choix possible of the question
-            choixToModify.setDescription(newChoixPossible);
             try {
-                this.choixPossibleService.updateDescription(choixToModify);
+                this.choixPossibleService.updateDescription(newChoixPossible);
+                messageLabel.setText("Choix Possibles modifiés!");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         });
     }
+
     private ChoixPossible selectChoixPossible(Question question) throws SQLException {
         Dialog<ChoixPossible> dialog = new Dialog<>();
         dialog.setTitle("Select a ChoixPossible");
+
+        dialog.getDialogPane().setMinWidth(300);
 
         ComboBox<ChoixPossible> comboBox = new ComboBox<>();
         comboBox.setItems(FXCollections.observableArrayList(this.questionService.findAllChoixPossible(question)));
@@ -296,9 +303,11 @@ public class ModifierQuizController {
         Optional<ChoixPossible> result = dialog.showAndWait();
         return result.orElse(null);
     }
+
     private Question selectQuestion(List<Question> questionList) {
         Dialog<Question> dialog = new Dialog<>();
         dialog.setTitle("Select a Question");
+        dialog.getDialogPane().setMinWidth(300);
 
         ComboBox<Question> comboBox = new ComboBox<>();
         comboBox.setItems(FXCollections.observableArrayList(questionList));
@@ -342,5 +351,195 @@ public class ModifierQuizController {
         } catch (IOException e) {
             System.out.println("Error while loading gestionQuiz.fxml: " + e.getMessage());
         }
+    }
+
+    public void handleAjouterQuestion(ActionEvent event) {
+        try {
+            Dialog<ButtonType> enonceDialog = new Dialog<>();
+            enonceDialog.setTitle("Enter Enoncé");
+
+            ButtonType nextButtonType = new ButtonType("Suivant", ButtonBar.ButtonData.OK_DONE);
+            enonceDialog.getDialogPane().getButtonTypes().addAll(nextButtonType, ButtonType.CANCEL);
+
+            TextField enonceTextField = new TextField();
+            enonceTextField.setPromptText("Enoncé");
+            enonceDialog.getDialogPane().setContent(enonceTextField);
+
+            Optional<ButtonType> enonceResult = enonceDialog.showAndWait();
+            if (enonceResult.isPresent() && enonceResult.get() == nextButtonType) {
+                String enonce = enonceTextField.getText();
+
+                Question question = new Question(0, quizService.findById(this.quiz.getId()), enonce);
+                int questionId = questionService.ajouter(question, this.quiz.getId());
+                setQuestionId(questionId);
+
+                handleAjouterChoixPossible(event);
+
+                handleAjouterReponses(event);
+
+                messageLabel.setText("Question ajoutée!");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while saving question: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Unexpected error: " + e.getMessage());
+        }
+    }
+    @FXML
+    public void handleAjouterChoixPossible(ActionEvent event) {
+        int questionId = getQuestionId();
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Ajouter choix possible");
+
+        ButtonType saveButtonType = new ButtonType("Sauvegarder", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        TextField textField1 = new TextField();
+        textField1.setPromptText("Input 1");
+        TextField textField2 = new TextField();
+        textField2.setPromptText("Input 2");
+
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(textField1, textField2);
+
+        Button ajouterChoixButton = new Button("Ajouter choix");
+        ajouterChoixButton.setOnAction(e -> {
+            TextField newTextField = new TextField();
+            newTextField.setPromptText("New Input");
+            vbox.getChildren().add(newTextField);
+        });
+        vbox.getChildren().add(ajouterChoixButton);
+
+        ScrollPane scrollPane = new ScrollPane(vbox);
+        scrollPane.setFitToWidth(true);
+
+        dialog.getDialogPane().setContent(scrollPane);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        result.ifPresent(buttonType -> {
+            for (Node node : vbox.getChildren()) {
+                if (node instanceof TextField textField) {
+                    String text = textField.getText();
+                    try {
+                        ChoixPossible choixPossible = new ChoixPossible(0, questionService.findById(questionId), text);
+                        choixPossibleService.ajouter(choixPossible);
+                        System.out.println("Saved: " + text);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+    }
+
+    @FXML
+    public void handleAjouterReponses(ActionEvent event) throws SQLException {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("Ajouter réponses");
+
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        VBox vbox = new VBox();
+
+        Map<CheckBox, ChoixPossible> map = new HashMap<>();
+
+        for (ChoixPossible choixPossible : questionService.findAllChoixPossible(questionService.findById(this.getQuestionId()))) {
+            CheckBox checkBox = new CheckBox();
+            Label label = new Label(choixPossible.getDescription());
+            vbox.getChildren().addAll(checkBox, label);
+
+            map.put(checkBox, choixPossible);
+        }
+
+        dialog.getDialogPane().setContent(vbox);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        result.ifPresent(buttonType -> {
+            if (buttonType == saveButtonType) {
+                for (Node node : vbox.getChildren()) {
+                    if (node instanceof CheckBox checkBox && checkBox.isSelected()) {
+
+                        ChoixPossible choixPossible = map.get(checkBox);
+
+                        Reponse reponse = new Reponse(0, choixPossible, true);
+
+                        try {
+                            reponseService.ajouter(reponse);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else if (node instanceof CheckBox checkBox && !checkBox.isSelected()){
+                        ChoixPossible choixPossible = map.get(checkBox);
+
+                        Reponse reponse = new Reponse(0, choixPossible, false);
+                        try {
+                            reponseService.ajouter(reponse);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                        messageLabel.setText("Réponses Ajoutées!");
+                    }
+                }
+            }
+        });
+    }
+
+    @FXML
+    public void handleSupprimerQuestion() throws SQLException {
+        Dialog<Question> dialog = new Dialog<>();
+        dialog.setTitle("Supprimer une Question");
+        dialog.setHeaderText("Sélectionnez une question à supprimer");
+
+        ButtonType supprimerButtonType = new ButtonType("Supprimer", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(supprimerButtonType, ButtonType.CANCEL);
+
+        ListView<Question> listView = new ListView<>();
+        listView.setCellFactory(param -> new ListCell<Question>() {
+            @Override
+            protected void updateItem(Question item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null || item.getEnonce() == null) {
+                    setText(null);
+                } else {
+                    setText(item.getEnonce());
+                }
+            }
+        });
+        ArrayList<Question> questions = new ArrayList<>(quizService.findAllQuestionsByQuizId(this.quiz.getId()));
+        listView.setItems(FXCollections.observableArrayList(questions));
+        dialog.getDialogPane().setContent(listView);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == supprimerButtonType) {
+                return listView.getSelectionModel().getSelectedItem();
+            }
+            return null;
+        });
+
+        Optional<Question> result = dialog.showAndWait();
+
+        result.ifPresent(question -> {
+            try {
+                quizService.deleteChoixPossibleByQuestionId(question.getId());
+
+                // Then, delete the question
+                quizService.deleteQuestionByQuizId(this.quiz.getId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public int getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
     }
 }

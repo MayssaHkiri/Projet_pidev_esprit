@@ -6,10 +6,10 @@ Controllers\HomeQuizController$1.class
 Controllers\HomeQuizController.class
 Services\ReponseService.class
 Services\MatiereService.class
-Contracts\ServiceInterface.class
 Controllers\ModifierQuizController.class
 Entities\Quiz.class
 Entities\Reponse.class
 Controllers\QuizController.class
 Services\QuizAttemptService.class
 Entities\QuizAttempt.class
+Controllers\ModifierQuizController$1.class

@@ -1,6 +1,8 @@
 package Services;
 
+import Entities.ChoixPossible;
 import Entities.Matiere;
+import Entities.Question;
 import Entities.Quiz;
 import Utils.DataSource;
 
@@ -71,7 +73,46 @@ public class QuizService {
             }
         }
     }
+    public void deleteReponseByChoixPossibleId(int choixPossibleId) throws SQLException {
+        String req = "DELETE FROM reponse WHERE choixPossibleId = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, choixPossibleId);
+            ps.executeUpdate();
+        }
+    }
 
+    public void deleteChoixPossibleByQuestionId(int questionId) throws SQLException {
+        // First, delete the dependent rows in the reponse table
+        List<ChoixPossible> choixPossibles = findAllChoixPossibleByQuestionId(questionId);
+        for (ChoixPossible choixPossible : choixPossibles) {
+            deleteReponseByChoixPossibleId(choixPossible.getId());
+        }
+
+        // Then, delete the choixpossible
+        String req = "DELETE FROM choixpossible WHERE questionId = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, questionId);
+            ps.executeUpdate();
+        }
+    }
+
+    public void deleteQuestionByQuizId(int quizId) throws SQLException {
+        // First, delete the dependent rows in the choixpossible table
+        List<Question> questions = findAllQuestionsByQuizId(quizId);
+        for (Question question : questions) {
+            deleteChoixPossibleByQuestionId(question.getId());
+        }
+
+        // Then, delete the question
+        String req = "DELETE FROM question WHERE quizId = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, quizId);
+            ps.executeUpdate();
+        }
+    }
 
     public void update(Quiz quiz) throws SQLException {
         String req = "UPDATE quiz SET description = ?, titre = ?, dateCreation = ? WHERE id = ?";
@@ -145,5 +186,31 @@ public class QuizService {
             ps.setInt(2, quiz.getId());
             ps.executeUpdate();
         }
+    }
+    public List<Question> findAllQuestionsByQuizId(int quizId) throws SQLException {
+        List<Question> list = new ArrayList<>();
+        String req = "SELECT * FROM question WHERE quizId = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, quizId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Question(rs.getInt("id"), null, rs.getString("enonce"), null));
+            }
+        }
+        return list;
+    }
+    public List<ChoixPossible> findAllChoixPossibleByQuestionId(int questionId) throws SQLException {
+        List<ChoixPossible> list = new ArrayList<>();
+        String req = "SELECT * FROM choixpossible WHERE questionId = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setInt(1, questionId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ChoixPossible(rs.getInt("id"), null, rs.getString("description")));
+            }
+        }
+        return list;
     }
 }
