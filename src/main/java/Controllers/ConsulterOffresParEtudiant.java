@@ -135,7 +135,26 @@ public class ConsulterOffresParEtudiant {
     public void handleSearch(ActionEvent actionEvent) {
         // Implémentez la logique de recherche ici
         String searchTerm = searchField.getText().toLowerCase().trim();
+        if(!(searchTerm.isEmpty())) {
+           /* List<Offre> filtered = offresList.stream()
+                    .filter(offre -> offre.getEntreprise().toLowerCase().contains(searchTerm))
+                    .collect(Collectors.toList());
+                    */
 
+            //filteredOffresList.setAll(filtered);
+            //filteredOffresList = FXCollections.observableList(filtered);
+            System.out.println(filteredOffresList);
+            /*pagination.setPageCount(filtered.size());
+            pagination.setPageFactory(this::createPage);
+            */
+
+            /*
+            filteredOffresList.setAll(filtered);
+            System.out.println(filteredOffresList);
+            */
+
+        }
+        /*
         if (searchTerm.isEmpty()) {
             // Si le champ de recherche est vide, afficher toutes les offres
             filteredOffresList.setAll(offresList);
@@ -146,13 +165,17 @@ public class ConsulterOffresParEtudiant {
                     .collect(Collectors.toList());
             filteredOffresList.setAll(filtered);
         }
+        */
+
 
         // Mettre à jour la pagination en fonction des résultats filtrés
-        int itemsPerPage = 3;
+       /* int itemsPerPage = 3;
         int pageCount = (int) Math.ceil((double) filteredOffresList.size() / itemsPerPage);
         pagination.setPageCount(pageCount);
         pagination.setCurrentPageIndex(0); // Retour à la première page après la recherche
         pagination.setPageFactory(this::createPage);
+        */
+
     }
     }
 

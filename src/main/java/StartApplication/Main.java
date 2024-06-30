@@ -43,7 +43,7 @@ public class Main {
             e.printStackTrace();
         }*/
 
-        //delete all rows
+        //delete all rows00
         /*try{
             serviceOffre.supprimerAll();
         }catch (Exception e) {
