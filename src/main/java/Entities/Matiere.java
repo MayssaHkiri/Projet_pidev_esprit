@@ -1,10 +1,22 @@
 package Entities;
 
+import java.util.List;
+
 public class Matiere {
     private int id;
     private String nom;
     private int coeff;
     private String ModeEval;
+
+
+    public Matiere(int id, String nom) {
+        this.id = id;
+        this.nom = nom;
+    }
+
+    public Matiere(String matiereName) {
+        this.nom = matiereName;
+    }
 
     public int getId() {
         return id;
@@ -50,6 +62,7 @@ public class Matiere {
         this.coeff = coeff;
         ModeEval = modeEval;
     }
+
 
     @Override
     public String toString() {

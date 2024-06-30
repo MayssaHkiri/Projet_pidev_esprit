@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherQuizController">
+  <children>
+    <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <items>
+        <AnchorPane style="-fx-background-color: #A9A9A9;">
+          <children>
+                  <AnchorPane layoutX="-1.0" prefHeight="129.0" prefWidth="223.0">
+                     <children>
+                        <ImageView fitHeight="129.0" fitWidth="223.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@espritlogo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+            <Label alignment="CENTER" layoutX="15.0" layoutY="142.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Module: QUIZ" textAlignment="CENTER" textFill="#1f1b1b" wrapText="false">
+              <font>
+                <Font name="Consolas" size="18.0" fx:id="x1" />
+              </font>
+            </Label>
+                  <ButtonBar layoutX="-1.0" layoutY="276.0" prefHeight="40.0" prefWidth="235.0">
+                     <buttons>
+                         <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="234.0" style="-fx-background-color: d40707;" text="Consulter les quiz" onAction="#handleConsulterQuiz" />
+                     </buttons>
+                  </ButtonBar>
+                <Button layoutX="8.0" layoutY="179.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="226.0" style="-fx-background-color: d40707;" text="Accueil" />
+                  <Button layoutX="8.0" layoutY="230.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="226.0" style="-fx-background-color: red;" text="Créer un quiz" />
+          </children>
+        </AnchorPane>
+        <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
+               <content>
+                  <AnchorPane prefHeight="564.0" prefWidth="657.0">
+                     <children>
+                        <Button layoutX="57.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Quiz">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Button>
+                         <AnchorPane id="parentContainer" fx:id="parentContainer" layoutX="1.0" layoutY="73.0" prefHeight="497.0" prefWidth="649.0" style="-fx-background-position: center center; -fx-background-size: contain;">
+                             <children>
+                                 <VBox fx:id="vboxContainer" />
+                                 <Label alignment="CENTER" layoutX="57.0" layoutY="84.0" prefHeight="22.0" prefWidth="101.0" text="Description :">
+                                 <font>
+                                    <Font name="Constantia Bold Italic" size="15.0" />
+                                 </font>
+                              </Label>
+                              <Label alignment="CENTER" layoutX="57.0" layoutY="128.0" prefHeight="33.0" prefWidth="80.0" text="Matiere :">
+                                 <font>
+                                    <Font name="Constantia Bold Italic" size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextArea id="descriptionLabel" fx:id="descriptionLabel" layoutX="207.0" layoutY="67.0" prefHeight="56.0" prefWidth="397.0">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </TextArea>
+                              <TextArea id="matiereLabel" fx:id="matiereLabel" layoutX="207.0" layoutY="129.0" prefHeight="31.0" prefWidth="193.0" />
+                              <Label alignment="CENTER" layoutX="57.0" layoutY="178.0" prefHeight="33.0" prefWidth="101.0" text="DateCreation">
+                                 <font>
+                                    <Font name="Constantia Bold Italic" size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextArea id="dateCreationLabel" fx:id="dateCreationLabel" layoutX="207.0" layoutY="175.0" prefHeight="40.0" prefWidth="226.0" />
+                              <Label alignment="CENTER" layoutX="149.0" layoutY="293.0" prefHeight="33.0" prefWidth="352.0" text="Questions/Réponses">
+                                 <font>
+                                    <Font name="Constantia Bold Italic" size="28.0" />
+                                 </font>
+                              </Label>
+
+                              <Separator layoutX="1.0" layoutY="246.0" prefHeight="5.0" prefWidth="647.0" />
+                              <Label id="titre" fx:id="titreLabel" alignment="CENTER" layoutX="178.0" layoutY="14.0" prefHeight="47.0" prefWidth="293.0">
+                                 <font>
+                                    <Font name="Constantia Bold Italic" size="29.0" />
+                                 </font>
+                              </Label>
+                                 <Button id="afficherQuestions" layoutX="260.0" layoutY="361.0" mnemonicParsing="false" onAction="#showQuestionsDialog" text="Afficher les questions" />                              <Button id="ModifierQuiz" layoutX="260.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="Modifier le quiz" />                           </children>
+                        </AnchorPane>
+                        <Button layoutX="157.0" layoutY="17.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="79.0" style="-fx-background-color: d40707;" text="Cours">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="484.0" layoutY="14.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="119.0" style="-fx-background-color: grey;" text="Deconnexion">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Separator layoutX="-1.0" layoutY="67.0" prefHeight="5.0" prefWidth="647.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+        </ScrollPane>
+      </items>
+    </SplitPane>
+    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+      <children>
+        <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
+          <font>
+            <Font size="11.0" fx:id="x3" />
+          </font>
+          <textFill>
+            <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
+          </textFill>
+        </Label>
+        <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
+        <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
+      </children>
+      <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+      </padding>
+    </HBox>
+  </children>
+</VBox>
