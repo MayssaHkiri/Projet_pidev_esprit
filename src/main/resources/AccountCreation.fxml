@@ -19,7 +19,7 @@
         <fx:include fx:id="Adminsidebar" source="AdminSideBar.fxml" />
 
         <!-- Main content -->
-        <VBox layoutX="190.0" layoutY="20.0" prefHeight="360.0" prefWidth="390.0" spacing="15" style="-fx-background-color: rgba(0,0,0,0.5); -fx-padding: 20;">
+        <VBox layoutX="190.0" layoutY="20.0" prefHeight="360.0" prefWidth="390.0" spacing="15" style="-fx-background-color: #C4C4C4; -fx-padding: 20;">
             <children>
                 <HBox alignment="CENTER">
                     <ImageView fitHeight="56.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
@@ -27,7 +27,7 @@
                             <Image url="@IconUtilisateur.png" />
                         </image>
                     </ImageView>
-                    <Label text="Ajouter Utilisateur" textFill="WHITE">
+                    <Label text="Ajouter Utilisateur" textFill="#030000">
                         <font>
                             <Font name="System Bold" size="18.0" />
                         </font>
@@ -38,7 +38,7 @@
                 </HBox>
 
                 <HBox spacing="10">
-                    <Label text="Nom:" textFill="WHITE" alignment="CENTER_RIGHT" prefWidth="80.0">
+                    <Label alignment="CENTER_RIGHT" prefWidth="80.0" text="Nom:" textFill="BLACK">
                         <font>
                             <Font name="Bell MT Bold" size="14.0" />
                         </font>
@@ -47,7 +47,7 @@
                 </HBox>
 
                 <HBox spacing="10">
-                    <Label text="Prénom:" textFill="WHITE" alignment="CENTER_RIGHT" prefWidth="80.0">
+                    <Label alignment="CENTER_RIGHT" prefWidth="80.0" text="Prénom:" textFill="BLACK">
                         <font>
                             <Font name="Bell MT Bold" size="14.0" />
                         </font>
@@ -56,7 +56,7 @@
                 </HBox>
 
                 <HBox spacing="10">
-                    <Label text="Email:" textFill="WHITE" alignment="CENTER_RIGHT" prefWidth="80.0">
+                    <Label alignment="CENTER_RIGHT" prefWidth="80.0" text="Email:" textFill="BLACK">
                         <font>
                             <Font name="Bell MT Bold" size="14.0" />
                         </font>
@@ -65,14 +65,18 @@
                 </HBox>
 
                 <HBox spacing="10">
-                    <Label text="Rôle:" textFill="WHITE" alignment="CENTER_RIGHT" prefWidth="80.0">
+                    <Label alignment="CENTER_RIGHT" prefWidth="80.0" text="Rôle:" textFill="BLACK">
                         <font>
                             <Font name="Bell MT Bold" size="14.0" />
                         </font>
                     </Label>
                     <ChoiceBox fx:id="myChoiceBox" prefWidth="200.0" />
                 </HBox>
-                <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#AddNewUser" text="Ajouter" style="-fx-background-color: #FF6347; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" />
+
+                <!-- Centering the button within an HBox -->
+                <HBox alignment="CENTER">
+                    <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#AddNewUser" style="-fx-background-color: #FF6347; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="Ajouter" />
+                </HBox>
             </children>
         </VBox>
     </children>

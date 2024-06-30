@@ -11,6 +11,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UserService implements Iservice<User> {
     private Connection cnx= DataSource.getInstance().getCon();
@@ -139,6 +141,26 @@ public class UserService implements Iservice<User> {
 
         return er != 0;
     }
+
+    @Override
+    public User getUserById(int id) throws SQLException {
+        String query = "SELECT * FROM user WHERE id = ?";
+        try (PreparedStatement preparedStatement = cnx.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    User user = new User();
+                    user.setId(resultSet.getInt("id"));
+                    user.setNom(resultSet.getString("nom"));
+                    user.setPrenom(resultSet.getString("prenom"));
+                    user.setEmail(resultSet.getString("email"));
+                    return user;
+                }
+            }
+        }
+        return null;
+    }
+
     public boolean emailExists(String email) throws SQLException   {
         String query = "SELECT COUNT(*) FROM user WHERE email = ?";
         try (PreparedStatement preparedStatement = cnx.prepareStatement(query)) {
@@ -249,9 +271,12 @@ public class UserService implements Iservice<User> {
         }
     }
 
+
     public boolean resetPassword(int userId, String oldPassword, String newPassword) throws SQLException {
-        // Vérifier si l'ancien mot de passe est correct
-        String query = "SELECT pwd FROM user WHERE id = ?";
+        String userEmail = null;
+
+        // Vérifier si l'ancien mot de passe est correct et récupérer l'email de l'utilisateur
+        String query = "SELECT pwd, email FROM user WHERE id = ?";
         try (PreparedStatement preparedStatement = cnx.prepareStatement(query)) {
             preparedStatement.setInt(1, userId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -261,6 +286,7 @@ public class UserService implements Iservice<User> {
                         // L'ancien mot de passe n'est pas correct
                         return false;
                     }
+                    userEmail = resultSet.getString("email");
                 } else {
                     // L'utilisateur n'existe pas
                     return false;
@@ -277,10 +303,54 @@ public class UserService implements Iservice<User> {
             preparedStatement.setString(1, newPassword);
             preparedStatement.setInt(2, userId);
             int updatedRows = preparedStatement.executeUpdate();
-            return updatedRows > 0;
+            if (updatedRows > 0 && userEmail != null) {
+                // Envoyer l'email après avoir mis à jour le mot de passe
+                sendPasswordChangedEmail(userEmail);
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+        }
+        return false;
+    }
+
+    private void sendPasswordChangedEmail(String userEmail) {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        // Session pour l'envoi d'e-mail
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("may26saa@gmail.com", "nmca euui znmj hjjr");
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("may26saa@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(userEmail));
+            message.setSubject("Votre mot de passe a été changé");
+
+            String currentDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
+            String htmlContent = "<p>Bonjour,</p>"
+                    + "<p>Votre mot de passe a été changé avec succès le " + currentDate + ".</p>"
+                    + "<p>Si vous n'êtes pas à l'origine de ce changement, veuillez contacter notre support immédiatement.</p>"
+                    + "<p>Cordialement,<br/>L'équipe de votre application</p>";
+
+            message.setContent(htmlContent, "text/html; charset=utf-8");
+
+            // Envoyer le message
+            Transport.send(message);
+
+            System.out.println("Notification de changement de mot de passe envoyée à : " + userEmail);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            System.out.println("Erreur lors de l'envoi de la notification de changement de mot de passe");
         }
     }
+
 }

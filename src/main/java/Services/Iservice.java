@@ -9,5 +9,6 @@ public interface Iservice<T> {
     boolean add(T t) throws SQLException;
     boolean delete(int id) throws SQLException;
     boolean update(T t) throws SQLException;
+    T getUserById (int id ) throws SQLException ;
 
 }
