@@ -21,7 +21,7 @@ public class InscrireFormation {
 
     private int id; // ID de la formation à laquelle l'étudiant s'inscrit
 
-    public static void showStage() {
+    public static void showStage(int id) {
     }
 
     public void setId(int id) {

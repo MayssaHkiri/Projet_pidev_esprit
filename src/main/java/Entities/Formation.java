@@ -1,28 +1,39 @@
 package Entities;
 
+import java.sql.Blob;
+import java.sql.SQLException;
+import javax.sql.rowset.serial.SerialBlob;
+import java.util.Date; // Import Date class for dateFormation
+
 public class Formation {
     private int id;
     private String titre;
     private String description;
-    private String imageUrl;
-    private int idEnseignant;
+    private Blob imageFormation; // Changer le type pour String
+    private Date dateFormation; // New attribute
 
-    public Formation() {}
+    public Formation() {
+    }
 
-    public Formation(int id, String titre, String description, String imageUrl, int idEnseignant) {
+    public Formation(int id, String titre, String description, Blob imageFormation, Date dateFormation) {
         this.id = id;
         this.titre = titre;
         this.description = description;
-        this.imageUrl = imageUrl;
-        this.idEnseignant = idEnseignant;
+        this.imageFormation = imageFormation;
+        this.dateFormation = dateFormation;
     }
 
-    public Formation(String titre, String description, String imageUrl, int idEnseignant) {
-        this.titre = titre;
-        this.description = description;
-        this.imageUrl = imageUrl;
-        this.idEnseignant = idEnseignant;
+    // Getters and setters for dateFormation
+
+    public Date getDateFormation() {
+        return dateFormation;
     }
+
+    public void setDateFormation(Date dateFormation) {
+        this.dateFormation = dateFormation;
+    }
+
+    // Getters and setters for other attributes
 
     public int getId() {
         return id;
@@ -48,20 +59,12 @@ public class Formation {
         this.description = description;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public void setImageFormation(Blob imageFormation) {
+        this.imageFormation = imageFormation;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public int getIdEnseignant() {
-        return idEnseignant;
-    }
-
-    public void setIdEnseignant(int idEnseignant) {
-        this.idEnseignant = idEnseignant;
+    public Blob getImageFormation() {
+        return imageFormation;
     }
 
     @Override
@@ -70,8 +73,8 @@ public class Formation {
                 "id=" + id +
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", idEnseignant=" + idEnseignant +
+                ", imageFormation=" + imageFormation +
+                ", dateFormation=" + dateFormation + // Include dateFormation in the toString method
                 '}';
     }
 }

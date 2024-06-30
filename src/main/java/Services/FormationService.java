@@ -9,61 +9,139 @@ import java.util.List;
 
 public class FormationService {
     private Connection cnx = DataSource.getInstance().getCon();
-    private Statement ste;
 
     public FormationService() {
-        try {
-            ste = cnx.createStatement();
-        } catch (SQLException e) {
-            System.out.println(e);
+        // Initialisation de la connexion
+    }
+
+    public boolean addFormation(Formation formation) throws SQLException {
+        String req = "INSERT INTO formation (titre, description, imageFormation,idEnseignant, dateFormation) VALUES (?, ?, ?,1, ?)";
+
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setString(1, formation.getTitre());
+            pst.setString(2, formation.getDescription());
+            pst.setBlob(3, formation.getImageFormation());
+            pst.setDate(4, new java.sql.Date(formation.getDateFormation().getTime())); // Convert Date to java.sql.Date
+
+            int result = pst.executeUpdate();
+            return result > 0;
         }
+    }
+
+    public boolean SupprimerFormation(int id) throws SQLException {
+        String req = "DELETE FROM formation WHERE id = ?";
+
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, id);
+
+            int result = pst.executeUpdate();
+            return result > 0;
+        }
+    }
+
+    public Formation getFormationById(int id) throws SQLException {
+        String req = "SELECT * FROM formation WHERE id = ?";
+
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, id);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return new Formation(
+                            rs.getInt("id"),
+                            rs.getString("titre"),
+                            rs.getString("description"),
+                            rs.getBlob("imageFormation"),
+                            rs.getDate("dateFormation") // Retrieve dateFormation
+                    );
+                }
+            }
+        }
+
+        return null;
     }
 
     public List<Formation> getAllFormations() throws SQLException {
         List<Formation> formations = new ArrayList<>();
-        String req = "SELECT id, titre, description, imageUrl, idEnseignant FROM formation";
+        String req = "SELECT * FROM formation";
 
-        try (ResultSet res = ste.executeQuery(req)) {
-            while (res.next()) {
+        try (Statement stmt = cnx.createStatement();
+             ResultSet rs = stmt.executeQuery(req)) {
+
+            while (rs.next()) {
                 Formation formation = new Formation(
-                        res.getInt("id"),
-                        res.getString("titre"),
-                        res.getString("description"),
-                        res.getString("imageUrl"),
-                        res.getInt("idEnseignant")
+                        rs.getInt("id"),
+                        rs.getString("titre"),
+                        rs.getString("description"),
+                        rs.getBlob("imageFormation"),
+                        rs.getDate("dateFormation") // Retrieve dateFormation
                 );
+
                 formations.add(formation);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
         return formations;
     }
 
-    public Formation getFormationById(int idFormation) throws SQLException {
-        String req = "SELECT id, titre, description, imageUrl, idEnseignant FROM formation WHERE id = ?";
+    public List<Formation> searchFormations(String searchTerm) throws SQLException {
+        List<Formation> formations = new ArrayList<>();
+        String req = "SELECT * FROM formation WHERE titre LIKE ?";
+
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
-            pst.setInt(1, idFormation);
-            try (ResultSet res = pst.executeQuery()) {
-                if (res.next()) {
+            pst.setString(1, "%" + searchTerm + "%");
+
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    Formation formation = new Formation(
+                            rs.getInt("id"),
+                            rs.getString("titre"),
+                            rs.getString("description"),
+                            rs.getBlob("imageFormation"),
+                            rs.getDate("dateFormation") // Retrieve dateFormation
+                    );
+                    formations.add(formation);
+                }
+            }
+        }
+
+        return formations;
+    }
+
+    public Formation getFormationByTitre(String titre) throws SQLException {
+        String req = "SELECT * FROM formation WHERE titre = ?";
+
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setString(1, titre);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
                     return new Formation(
-                            res.getInt("id"),
-                            res.getString("titre"),
-                            res.getString("description"),
-                            res.getString("imageUrl"),
-                            res.getInt("idEnseignant")
+                            rs.getInt("id"),
+                            rs.getString("titre"),
+                            rs.getString("description"),
+                            rs.getBlob("imageFormation"),
+                            rs.getDate("dateFormation") // Retrieve dateFormation
                     );
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+
         return null;
     }
 
-    public boolean add(Formation formation) {
-        // Implement your logic to add a new formation to the database
-        return false; // Placeholder return statement
+    public boolean ModifierFormation(Formation formation) throws SQLException {
+        String req = "UPDATE formation SET titre = ?, description = ?, imageFormation = ?, dateFormation = ? WHERE id = ?";
+
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setString(1, formation.getTitre());
+            pst.setString(2, formation.getDescription());
+            pst.setBlob(3, formation.getImageFormation());
+            pst.setDate(4, new java.sql.Date(formation.getDateFormation().getTime())); // Convert Date to java.sql.Date
+            pst.setInt(5, formation.getId());
+
+            int result = pst.executeUpdate();
+            return result > 0;
+        }
     }
 }

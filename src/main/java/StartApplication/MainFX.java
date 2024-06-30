@@ -6,8 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class MainFX extends Application {
 
     public static void main(String[] args) {
@@ -15,15 +13,17 @@ public class MainFX extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ConsulterFormation.fxml"));
+    public void start(Stage stage) throws Exception {
+        // Charger le fichier FXML principal
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/AjouterFormation.fxml"));
+        Parent root = fxmlLoader.load();
 
-        Parent root;
-        root = loader.load();
+        // Configurer la scène
         Scene scene = new Scene(root);
-        stage.setTitle("Welcome page");
-        stage.setScene(scene);
-        stage.show();
 
+        // Configurer la fenêtre principale (Stage)
+        stage.setScene(scene);
+        stage.setTitle("Ajouter Formations");
+        stage.show();
     }
 }

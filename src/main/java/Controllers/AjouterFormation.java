@@ -1,15 +1,29 @@
 package Controllers;
 
 import Entities.Formation;
+import Services.FormationService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import javax.sql.rowset.serial.SerialBlob;
 
 public class AjouterFormation {
     ObservableList<Formation> formationList = FXCollections.observableArrayList();
+    private FormationService formationService = new FormationService();
 
     @FXML
     private ComboBox<String> btNiveau;
@@ -18,36 +32,76 @@ public class AjouterFormation {
     private TextField tfDescription;
 
     @FXML
-    private TextField tfIdEnseignant;
-
-    @FXML
     private TextField tfTitre;
 
-    // Méthode pour ajouter une formation
+    @FXML
+    private ImageView imageView;
+
+    @FXML
+    private DatePicker datePicker; // Ajout du DatePicker pour choisir la dateFormation
+
+    private Blob selectedImageBlob;
+
+    @FXML
+    void handleSelectImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try (FileInputStream fis = new FileInputStream(selectedFile);
+                 ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+                byte[] buffer = new byte[1024];
+                int readNum;
+                while ((readNum = fis.read(buffer)) != -1) {
+                    bos.write(buffer, 0, readNum);
+                }
+                byte[] imageBytes = bos.toByteArray();
+                selectedImageBlob = new SerialBlob(imageBytes);
+
+                // Afficher l'image dans l'ImageView
+                Image image = new Image(selectedFile.toURI().toString());
+                imageView.setImage(image);
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @FXML
     void handleAjouterFormation(ActionEvent event) {
         String titre = tfTitre.getText();
         String description = tfDescription.getText();
-        int idEnseignant = Integer.parseInt(tfIdEnseignant.getText());
         String niveau = btNiveau.getValue(); // Récupérer le niveau sélectionné dans la ComboBox
+        java.util.Date dateFormation = java.sql.Date.valueOf(datePicker.getValue()); // Récupérer la date sélectionnée
 
         Formation formation = new Formation();
         formation.setTitre(titre);
         formation.setDescription(description);
-        formation.setIdEnseignant(idEnseignant);
-        // Assurez-vous que le niveau est correctement défini dans l'objet Formation si nécessaire
+        formation.setImageFormation(selectedImageBlob); // Ajouter l'image en tant que Blob à la formation
+        formation.setDateFormation(dateFormation); // Ajouter la dateFormation à la formation
 
-        // Simulation de l'ajout de la formation à une liste locale
-        formationList.add(formation);
-        System.out.println("Formation ajoutée avec succès (simulation)");
-        clearFields(); // Vider les champs après ajout
+        try {
+            boolean added = formationService.addFormation(formation); // Appel à la méthode du service pour ajouter la formation
+            if (added) {
+                System.out.println("Formation ajoutée avec succès");
+                formationList.add(formation); // Ajouter à la liste locale (simulation)
+                clearFields(); // Vider les champs après ajout
+            } else {
+                System.err.println("Erreur lors de l'ajout de la formation");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    // Méthode pour vider les champs
     private void clearFields() {
         tfTitre.clear();
         tfDescription.clear();
-        tfIdEnseignant.clear();
         btNiveau.setValue(null); // Clear the ComboBox selection
+        imageView.setImage(null); // Clear the ImageView
+        selectedImageBlob = null; // Reset the selected image blob
+        datePicker.setValue(null); // Clear the DatePicker selection
     }
 }

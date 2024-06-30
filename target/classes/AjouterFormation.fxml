@@ -20,17 +20,23 @@
                     <left>
                         <HBox prefHeight="361.0" prefWidth="121.0" BorderPane.alignment="CENTER">
                             <children>
-                                <HBox prefHeight="361.0" prefWidth="133.0" style="-fx-background-color: C4C4C4;">
+                                <HBox prefHeight="361.0" prefWidth="133.0" style="-fx-background-color: #C4C4C4;">
                                     <children>
-                                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" style="-fx-background-color: E22D0C;" text="Accueil" textFill="#f2eded">
+                                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" style="-fx-background-color: #E22D0C; -fx-text-fill: white; -fx-font-weight: bold;" text="Accueil">
                                             <HBox.margin>
                                                 <Insets left="15.0" top="30.0" />
                                             </HBox.margin>
+                                            <padding>
+                                                <Insets top="5.0" right="10.0" bottom="5.0" left="10.0" />
+                                            </padding>
                                         </Button>
-                                        <TextField prefHeight="32.0" prefWidth="82.0" scaleZ="10.0" style="-fx-background-color: f5f5f5;" text="Rechercher" translateX="-20.0">
+                                        <TextField prefHeight="32.0" prefWidth="82.0" style="-fx-background-color: #f5f5f5;" promptText="Rechercher">
                                             <HBox.margin>
-                                                <Insets left="-60.0" top="75.0" />
+                                                <Insets left="10.0" top="75.0" />
                                             </HBox.margin>
+                                            <padding>
+                                                <Insets left="5.0" />
+                                            </padding>
                                         </TextField>
                                     </children>
                                 </HBox>
@@ -38,7 +44,7 @@
                         </HBox>
                     </left>
                     <top>
-                        <HBox prefHeight="83.0" prefWidth="645.0" style="-fx-background-color: C4C4C4;" BorderPane.alignment="CENTER">
+                        <HBox prefHeight="83.0" prefWidth="645.0" style="-fx-background-color: #C4C4C4;" BorderPane.alignment="CENTER">
                             <children>
                                 <ImageView fitHeight="47.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -76,55 +82,48 @@
                             <children>
                                 <HBox prefHeight="100.0" prefWidth="200.0">
                                     <children>
-                                        <ImageView fitHeight="131.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@image1.png" />
-                                            </image>
+                                        <ImageView fx:id="imageView" fitHeight="131.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
                                             <HBox.margin>
                                                 <Insets left="170.0" top="30.0" />
                                             </HBox.margin>
                                         </ImageView>
+                                        <Button mnemonicParsing="false" onAction="#handleSelectImage" style="-fx-background-color: #E22D0C; -fx-text-fill: white; -fx-font-weight: bold;" text="Sélectionner Image">
+                                            <HBox.margin>
+                                                <Insets left="15.0" top="30.0" />
+                                            </HBox.margin>
+                                            <padding>
+                                                <Insets top="5.0" right="10.0" bottom="5.0" left="10.0" />
+                                            </padding>
+                                        </Button>
                                     </children>
                                 </HBox>
-                                <Label text="Ajouter une formation :">
-                                    <VBox.margin>
-                                        <Insets left="40.0" />
-                                    </VBox.margin>
-                                </Label>
-                                <Label text="Titre">
+                                <Label text="Titre" style="-fx-font-weight: bold;">
                                     <VBox.margin>
                                         <Insets left="40.0" top="10.0" />
                                     </VBox.margin>
                                 </Label>
                                 <TextField fx:id="tfTitre" prefHeight="26.0" prefWidth="275.0">
                                     <VBox.margin>
-                                        <Insets left="200.0" top="-18.0" />
+                                        <Insets left="40.0" top="5.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <Label text="Description :">
+                                <Label text="Description" style="-fx-font-weight: bold;">
                                     <VBox.margin>
                                         <Insets left="40.0" top="10.0" />
                                     </VBox.margin>
                                 </Label>
-                                <TextField fx:id="tfDescription">
+                                <TextField fx:id="tfDescription" prefHeight="26.0" prefWidth="275.0">
                                     <VBox.margin>
-                                        <Insets left="200.0" top="-18.0" />
+                                        <Insets left="40.0" top="5.0" />
                                     </VBox.margin>
                                 </TextField>
-                                <Label text="Id Enseignant: ">
+                                <Button fx:id="btAjouter" mnemonicParsing="false" onAction="#handleAjouterFormation" prefHeight="33.0" prefWidth="149.0" style="-fx-background-color: #E22D0C; -fx-text-fill: white; -fx-font-weight: bold;" text="Ajouter Formation">
                                     <VBox.margin>
-                                        <Insets left="40.0" top="10.0" />
+                                        <Insets left="195.0" top="10.0" />
                                     </VBox.margin>
-                                </Label>
-                                <TextField fx:id="tfIdEnseignant">
-                                    <VBox.margin>
-                                        <Insets left="200.0" top="-18.0" />
-                                    </VBox.margin>
-                                </TextField>
-                                <Button mnemonicParsing="false" onAction="#handleAjouterFormation" style="-fx-background-color: E22D0C;" text="Ajouter" textFill="#f5efef">
-                                    <VBox.margin>
-                                        <Insets left="210.0" top="20.0" />
-                                    </VBox.margin>
+                                    <padding>
+                                        <Insets top="5.0" right="10.0" bottom="5.0" left="10.0" />
+                                    </padding>
                                 </Button>
                             </children>
                             <BorderPane.margin>
