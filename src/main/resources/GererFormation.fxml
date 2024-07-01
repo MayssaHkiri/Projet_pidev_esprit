@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.TextField?>
+<HBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GererFormation">
+    <children>
+        <!-- Sidebar -->
+        <VBox fx:id="sidebar" prefHeight="400.0" prefWidth="163.0" style="-fx-background-color: #C4C4C4;">
+            <children>
+                <!-- Space for Logo -->
+                <AnchorPane prefHeight="56.0" prefWidth="250.0">
+                    <children>
+                        <ImageView fx:id="logo" fitHeight="56.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@Logo_ESPRIT_Ariana-removebg-preview.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </AnchorPane>
+
+                <!-- Search Bar -->
+                <HBox alignment="CENTER" prefHeight="40.0" prefWidth="163.0" style="-fx-background-color: #C4C4C4;">
+                    <children>
+                        <TextField prefHeight="25.0" prefWidth="125.0" promptText="Recherche..." style="-fx-background-color: white; -fx-text-fill: black; -fx-prompt-text-fill: gray;" />
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                    </padding>
+                </HBox>
+
+                <!-- Buttons -->
+                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer Utilisateurs" />
+                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer Formations" />
+                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer Offres">
+                    <graphic>
+                        <HBox>
+                            <Button onAction="#handleModifierFormation" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Modifier Formation" />
+                        </HBox>
+                    </graphic>
+                </Button>
+            </children>
+        </VBox>
+
+        <!-- Main Content -->
+        <AnchorPane fx:id="mainContent" prefHeight="400.0" prefWidth="437.0" style="-fx-background-color: #f0f0f0;">
+            <children>
+                <VBox alignment="CENTER" layoutY="11.2" prefHeight="378.0" prefWidth="438.0" spacing="10" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="11.0">
+                    <TableView fx:id="tableView" prefHeight="304.0" prefWidth="600.0">
+                        <columns>
+                            <TableColumn fx:id="titreFormationColumn" prefWidth="150.0" text="Titre de la formation" />
+                            <TableColumn fx:id="descriptionFormationColumn" prefWidth="287.0" text="Description de la formation" />
+                            <TableColumn fx:id="dateFormationColumn" prefWidth="287.0" text="Date de la formation" />
+                        </columns>
+                    </TableView>
+
+                    <HBox alignment="CENTER" spacing="10">
+                        <Button onAction="#handleAjouterFormation" style="-fx-background-color: green; -fx-text-fill: white;" text="Ajouter Formation" />
+                        <Button onAction="#handleModifierFormation" style="-fx-background-color: #e2b40c; -fx-text-fill: white;" text="Modifier Formation" />
+                        <Button onAction="#handleSupprimerFormation" style="-fx-background-color: #E22D0C; -fx-text-fill: white;" text="Supprimer Formation" />
+                    </HBox>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</HBox>

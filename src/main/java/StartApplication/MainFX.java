@@ -8,22 +8,26 @@ import javafx.stage.Stage;
 
 public class MainFX extends Application {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage stage) throws Exception {
-        // Charger le fichier FXML principal
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/AjouterFormation.fxml"));
-        Parent root = fxmlLoader.load();
+        try {
+            // Charger le fichier FXML principal
+            Parent root = FXMLLoader.load(getClass().getResource("/GererFormation.fxml"));
 
-        // Configurer la scène
-        Scene scene = new Scene(root);
+            // Configurer la scène
+            Scene scene = new Scene(root);
 
-        // Configurer la fenêtre principale (Stage)
-        stage.setScene(scene);
-        stage.setTitle("Ajouter Formations");
-        stage.show();
+            // Configurer la fenêtre principale (Stage)
+            stage.setScene(scene);
+            stage.setTitle("Modifier Formation"); // Titre de la fenêtre
+            stage.show();
+        } catch (Exception e) {
+            System.err.println("Erreur lors du chargement de l'interface utilisateur : " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

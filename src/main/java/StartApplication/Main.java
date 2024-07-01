@@ -8,7 +8,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,8 +25,15 @@ public class Main {
             Blob imageBlob1 = createImageBlob("ressources/image1.png");
             Blob imageBlob2 = createImageBlob("ressources/image2.png");
 
-            Formation formation1 = new Formation(1, "Java", "Cours Java avancé", imageBlob1);
-            Formation formation2 = new Formation(2, "Python", "Cours Python débutant", imageBlob2);
+            // Définir les dates de formation
+            LocalDate localDateFormation1 = LocalDate.of(2023, 7, 1);
+            LocalDate localDateFormation2 = LocalDate.of(2023, 8, 1);
+            Date dateFormation1 = Date.valueOf(localDateFormation1);
+            Date dateFormation2 = Date.valueOf(localDateFormation2);
+
+            // Créer des objets Formation
+            Formation formation1 = new Formation(1, "Java", "Cours Java avancé", imageBlob1, dateFormation1);
+            Formation formation2 = new Formation(2, "Python", "Cours Python débutant", imageBlob2, dateFormation2);
 
             // Ajouter une formation
             if (formationService.addFormation(formation1)) {
@@ -34,7 +43,7 @@ public class Main {
             }
 
             // Supprimer une formation par ID
-            if (formationService.deleteFormation(1)) {
+            if (formationService.SupprimerFormation(1)) {
                 System.out.println("Formation Java supprimée avec succès");
             } else {
                 System.out.println("Erreur lors de la suppression de la formation Java");
@@ -53,7 +62,7 @@ public class Main {
 
             // Mettre à jour une formation
             formation2.setDescription("Cours Python intermédiaire");
-            if (formationService.updateFormation(formation2)) {
+            if (formationService.ModifierFormation(formation2)) {
                 System.out.println("Formation Python mise à jour avec succès");
             } else {
                 System.out.println("Erreur lors de la mise à jour de la formation Python");

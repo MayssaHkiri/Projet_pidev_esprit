@@ -1,72 +1,91 @@
 package Controllers;
+
 import Entities.Formation;
 import Services.FormationService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
+import java.io.ByteArrayInputStream;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-
 
 public class ModifierFormation {
 
     @FXML
+    private TextField titreField;
+    @FXML
+    private TextField descriptionField;
+    @FXML
+    private ImageView imageView;
+    @FXML
     private DatePicker dateFormationPicker;
 
     private Formation formation;
-    private FormationService formationService = new FormationService();
-
-    @FXML
-    public void initialize() {
-        // Rien de spécial à initialiser pour le DatePicker dans ce cas
-    }
+    private FormationService formationService;
 
     public void setFormation(Formation formation) {
         this.formation = formation;
 
-        // Pré-remplir le DatePicker avec la dateFormation existante
+        titreField.setText(formation.getTitre());
+        descriptionField.setText(formation.getDescription());
+
+        if (formation.getImageFormation() != null) {
+            try {
+                // Convert Blob to Image
+                byte[] imageBytes = formation.getImageFormation().getBytes(1, (int) formation.getImageFormation().length());
+                Image image = new Image(new ByteArrayInputStream(imageBytes));
+                imageView.setImage(image);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (formation.getDateFormation() != null) {
-            // Convertir java.sql.Date en LocalDate pour l'affichage dans le DatePicker
-            Instant instant = Instant.ofEpochMilli(formation.getDateFormation().getTime());
-            LocalDate localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localDate = formation.getDateFormation().toInstant()
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
             dateFormationPicker.setValue(localDate);
         }
     }
 
+    public void setFormationService(FormationService formationService) {
+        this.formationService = formationService;
+    }
+
     @FXML
-    void modifierFormation(ActionEvent event) {
-        // Récupérer la nouvelle date de formation depuis le DatePicker
+    void modifierFormation() {
+        String newTitre = titreField.getText();
+        String newDescription = descriptionField.getText();
         LocalDate newDate = dateFormationPicker.getValue();
 
-        // Mettre à jour la date de formation dans l'objet formation
         if (formation != null) {
-            // Convertir LocalDate en java.sql.Date pour l'enregistrement en base de données
-            Instant instant = newDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-            java.sql.Date sqlDate = java.sql.Date.from(instant);
+            formation.setTitre(newTitre);
+            formation.setDescription(newDescription);
+            java.sql.Date sqlDate = java.sql.Date.valueOf(newDate);
             formation.setDateFormation(sqlDate);
-        }
 
-        try {
-            // Appeler le service pour mettre à jour la formation dans la base de données
-            if (formation != null) {
-                formationService.modifierFormation(formation);
-                afficherPopup("Succès", "Modification réussie", "La date de formation a été modifiée avec succès.");
+            try {
+                formationService.ModifierFormation(formation);
+                afficherPopup("Succès", "Modification réussie", "La formation a été modifiée avec succès.");
 
-                // Fermer la fenêtre après la modification
                 Stage stage = (Stage) dateFormationPicker.getScene().getWindow();
                 stage.close();
-            } else {
-                afficherPopup("Erreur", "Erreur de modification", "Impossible de trouver la formation à modifier.");
+            } catch (SQLException e) {
+                afficherPopup("Erreur", "Erreur de modification", "Une erreur est survenue lors de la modification de la formation.");
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            afficherPopup("Erreur", "Erreur de modification", "Une erreur est survenue lors de la modification de la date de formation.");
-            e.printStackTrace();
         }
+    }
+
+    @FXML
+    void annulerModification() {
+        Stage stage = (Stage) dateFormationPicker.getScene().getWindow();
+        stage.close();
     }
 
     private void afficherPopup(String title, String header, String content) {
@@ -75,12 +94,5 @@ public class ModifierFormation {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
-    }
-
-    @FXML
-    void annulerModification(ActionEvent event) {
-        // Fermer la fenêtre sans effectuer de modification
-        Stage stage = (Stage) dateFormationPicker.getScene().getWindow();
-        stage.close();
     }
 }

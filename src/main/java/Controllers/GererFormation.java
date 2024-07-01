@@ -25,11 +25,11 @@ public class GererFormation {
     @FXML
     private TableView<Formation> tableView;
     @FXML
-    private TableColumn<Formation, String> nomFormationColumn;
+    private TableColumn<Formation, String> titreFormationColumn;
     @FXML
     private TableColumn<Formation, String> descriptionFormationColumn;
     @FXML
-    private TableColumn<Formation, String> dureeFormationColumn;
+    private TableColumn<Formation, String> dateFormationColumn;
 
     private ObservableList<Formation> formationsList;
     private FormationService serviceFormation = new FormationService();
@@ -46,9 +46,9 @@ public class GererFormation {
     }
 
     private void displayFormations() {
-        nomFormationColumn.setCellValueFactory(new PropertyValueFactory<>("titre"));
+        titreFormationColumn.setCellValueFactory(new PropertyValueFactory<>("titre"));
         descriptionFormationColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        dureeFormationColumn.setCellValueFactory(new PropertyValueFactory<>("duree"));
+        dateFormationColumn.setCellValueFactory(new PropertyValueFactory<>("dateFormation"));
 
         tableView.setItems(formationsList);
     }
@@ -82,7 +82,7 @@ public class GererFormation {
                 Parent root = loader.load();
                 ModifierFormation controller = loader.getController();
                 controller.setFormation(selectedFormation);
-                controller.setFormationservice(serviceFormation);
+                controller.setFormationService(serviceFormation);
 
                 Stage stage = new Stage();
                 Scene scene = new Scene(root);
