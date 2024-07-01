@@ -49,6 +49,8 @@
                             <TableColumn fx:id="datePublicationColumn" text="Date publication" />
                             <TableColumn fx:id="entrepriseColumn" text="Entreprise" />
                             <TableColumn fx:id="dateLimiteColumn" text="Date limite" />
+                            <TableColumn fx:id="emailColumn" text="Email entreprise" />
+
                         </columns>
                     </TableView>
 

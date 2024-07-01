@@ -1,6 +1,7 @@
 package Services;
 
 import Entities.Offre;
+import Entities.User;
 import Utils.DataSource;
 
 import java.sql.*;
@@ -21,7 +22,7 @@ public class ServiceOffre implements IservicesOffres<Offre>{
     }
     @Override
     public void ajouter(Offre offre) throws SQLException {
-        String query = "INSERT INTO `offre` (`titreOffre`, `descriptionOffre`, `niveauEtude`, `dureeContrat`, `datePublication`, `entreprise`, `dateLimite`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO `offre` (`titreOffre`, `descriptionOffre`, `niveauEtude`, `dureeContrat`, `datePublication`, `entreprise`, `dateLimite`, `email`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, offre.getTitreOffre());
@@ -32,6 +33,7 @@ public class ServiceOffre implements IservicesOffres<Offre>{
             pstmt.setString(5, offre.getDatePublication());
             pstmt.setString(6, offre.getEntreprise());
             pstmt.setString(7, offre.getDateLimite());
+            pstmt.setString(8, offre.getEmail());
 
             pstmt.executeUpdate();
         }
@@ -95,9 +97,10 @@ public class ServiceOffre implements IservicesOffres<Offre>{
         String datePublication = rs.getString("datePublication");
         String entreprise = rs.getString("entreprise");
         String dateLimite = rs.getString("dateLimite");
+        String email = rs.getString("email");
 
         // Créez et retournez une instance de Offre avec les données récupérées
-        return new Offre(id, titreOffre, descriptionOffre, niveauEtude, dureeContrat, datePublication, entreprise, dateLimite);
+        return new Offre(id, titreOffre, descriptionOffre, niveauEtude, dureeContrat, datePublication, entreprise, dateLimite, email);
     }
 
 
@@ -121,7 +124,7 @@ public class ServiceOffre implements IservicesOffres<Offre>{
 
     @Override
     public void update(Offre offre) throws SQLException {
-        String query = "UPDATE `offre` SET `titreOffre` = ?, `descriptionOffre` = ?, `niveauEtude` = ?, `dureeContrat` = ?, `datePublication` = ?, `entreprise` = ?, `dateLimite` = ? WHERE `idOffre` = ?";
+        String query = "UPDATE `offre` SET `titreOffre` = ?, `descriptionOffre` = ?, `niveauEtude` = ?, `dureeContrat` = ?, `datePublication` = ?, `entreprise` = ?, `dateLimite` = ?, `email` = ? WHERE `idOffre` = ?";
 
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, offre.getTitreOffre());
@@ -131,7 +134,8 @@ public class ServiceOffre implements IservicesOffres<Offre>{
             pstmt.setString(5, offre.getDatePublication());
             pstmt.setString(6, offre.getEntreprise());
             pstmt.setString(7, offre.getDateLimite());
-            pstmt.setInt(8, offre.getIdOffre());
+            pstmt.setString(8, offre.getEmail());
+            pstmt.setInt(9, offre.getIdOffre());
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -141,4 +145,5 @@ public class ServiceOffre implements IservicesOffres<Offre>{
             }
         }
     }
+
 }

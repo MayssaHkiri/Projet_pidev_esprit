@@ -44,7 +44,7 @@
         </VBox>
 
         <!-- Main content -->
-        <AnchorPane fx:id="mainContent" minHeight="-Infinity" minWidth="-Infinity" prefHeight="419.0" prefWidth="484.0" style="-fx-background-color: #f0f0f0;">
+        <AnchorPane fx:id="mainContent" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="487.0" style="-fx-background-color: #f0f0f0;">
             <children>
                 <Text layoutX="157.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24px; -fx-fill: black;" text="Ajouter offre" wrappingWidth="160.53668212890625" />
 
@@ -70,11 +70,14 @@
                 <Label layoutX="83.0" layoutY="284.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Nom entreprise" />
                 <TextField fx:id="nomEntreprise" layoutX="281.0" layoutY="281.0" style="-fx-background-color: white; -fx-text-fill: black;" />
 
-                <Label layoutX="82.0" layoutY="320.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Date Limite" />
-                <DatePicker fx:id="dateLimiteOffre" layoutX="281.0" layoutY="317.0" style="-fx-background-color: white; -fx-text-fill: black;" />
+                <Label layoutX="82.0" layoutY="327.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Email entreprise" />
+                <TextField fx:id="email" layoutX="282.0" layoutY="323.0" style="-fx-background-color: white; -fx-text-fill: black;" />
 
-                <Button fx:id="validerBtn" layoutX="157.0" layoutY="362.0" mnemonicParsing="false" onAction="#ajouterDB" style="-fx-background-color: green; -fx-text-fill: white;" text="Ajouter" />
-                <Button layoutX="256.0" layoutY="362.0" mnemonicParsing="false" onAction="#handleCancel" style="-fx-background-color: #E22D0C; -fx-text-fill: white;" text="Retour" />
+                <Label layoutX="82.0" layoutY="370.0" prefHeight="18.0" prefWidth="126.0" style="-fx-text-fill: black;" text="Date Limite" />
+                <DatePicker fx:id="dateLimiteOffre" layoutX="281.0" layoutY="366.0" style="-fx-background-color: white; -fx-text-fill: black;" />
+
+                <Button fx:id="validerBtn" layoutX="146.0" layoutY="422.0" mnemonicParsing="false" onAction="#ajouterDB" style="-fx-background-color: green; -fx-text-fill: white;" text="Ajouter" />
+                <Button layoutX="256.0" layoutY="422.0" mnemonicParsing="false" onAction="#handleCancel" style="-fx-background-color: #E22D0C; -fx-text-fill: white;" text="Retour" />
 
             </children>
         </AnchorPane>

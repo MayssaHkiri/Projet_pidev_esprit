@@ -9,8 +9,9 @@ public class Offre {
     private String datePublication;
     private String entreprise;
     private String dateLimite;
+    private String email;
 
-    public Offre(int idOffre, String titreOffre, String descriptionOffre, String niveauEtude, String dureeContrat, String datePublication, String entreprise, String dateLimite) {
+    public Offre(int idOffre, String titreOffre, String descriptionOffre, String niveauEtude, String dureeContrat, String datePublication, String entreprise, String dateLimite, String email) {
         this.idOffre = idOffre;
         this.titreOffre = titreOffre;
         this.descriptionOffre = descriptionOffre;
@@ -19,6 +20,15 @@ public class Offre {
         this.datePublication = datePublication;
         this.entreprise = entreprise;
         this.dateLimite = dateLimite;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getIdOffre() {
@@ -96,6 +106,7 @@ public class Offre {
                 ", datePublication=" + datePublication +
                 ", entreprise='" + entreprise + '\'' +
                 ", dateLimite=" + dateLimite +
+                ", email=" + email +
                 '}';
     }
 

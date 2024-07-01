@@ -4,7 +4,6 @@ import Entities.Offre;
 import Services.ServiceOffre;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -29,6 +28,7 @@ import java.util.stream.Collectors;
 public class ConsulterOffresParEtudiant {
 
     private ObservableList<Offre> offresList;
+    private ObservableList<Offre> filteredOffresList;
     private ServiceOffre serviceOffre = new ServiceOffre();
 
     @FXML
@@ -46,12 +46,19 @@ public class ConsulterOffresParEtudiant {
     @FXML
     public void initialize() throws SQLException {
         offresList = FXCollections.observableArrayList();
+        filteredOffresList = FXCollections.observableArrayList();
         loadOffresFromDatabase();
 
-        // Calculer le nombre de pages nécessaires pour afficher 3 offres par page
-        int itemsPerPage = 3;
-        int pageCount = (int) Math.ceil((double) offresList.size() / itemsPerPage);
+        // Initialiser la liste filtrée avec toutes les offres
+        filteredOffresList.setAll(offresList);
 
+        // Calculer le nombre de pages nécessaires pour afficher 3 offres par page
+        updatePagination();
+    }
+
+    private void updatePagination() {
+        int itemsPerPage = 3;
+        int pageCount = (int) Math.ceil((double) filteredOffresList.size() / itemsPerPage);
         pagination.setPageCount(pageCount);
         pagination.setPageFactory(this::createPage);
     }
@@ -63,7 +70,7 @@ public class ConsulterOffresParEtudiant {
         // Calculer l'index de début et de fin pour la page actuelle
         int itemsPerPage = 3;
         int startIndex = pageIndex * itemsPerPage;
-        int endIndex = Math.min(startIndex + itemsPerPage, offresList.size());
+        int endIndex = Math.min(startIndex + itemsPerPage, filteredOffresList.size());
 
         // Créer une HBox pour chaque ligne d'offres
         HBox hbox = new HBox(50); // Espacement horizontal entre les éléments
@@ -72,7 +79,7 @@ public class ConsulterOffresParEtudiant {
 
         // Parcourir les offres pour cette page
         for (int i = startIndex; i < endIndex; i++) {
-            Offre offre = offresList.get(i);
+            Offre offre = filteredOffresList.get(i);
 
             // Créer une VBox pour chaque offre
             VBox vbox = new VBox(10); // Espacement vertical entre les éléments
@@ -130,29 +137,21 @@ public class ConsulterOffresParEtudiant {
         List<Offre> offres = serviceOffre.findAll();
         offresList.setAll(offres);
     }
-    private ObservableList<Offre> filteredOffresList; // Liste filtrée pour la recherche
 
-    public void handleSearch(ActionEvent actionEvent) {
-        // Implémentez la logique de recherche ici
+    @FXML
+    public void handleSearch() {
         String searchTerm = searchField.getText().toLowerCase().trim();
+        List<Offre> filtered;
 
         if (searchTerm.isEmpty()) {
-            // Si le champ de recherche est vide, afficher toutes les offres
-            filteredOffresList.setAll(offresList);
+            filtered = offresList;
         } else {
-            // Filtrer les offres par nom d'entreprise
-            List<Offre> filtered = offresList.stream()
+            filtered = offresList.stream()
                     .filter(offre -> offre.getEntreprise().toLowerCase().contains(searchTerm))
                     .collect(Collectors.toList());
-            filteredOffresList.setAll(filtered);
         }
 
-        // Mettre à jour la pagination en fonction des résultats filtrés
-        int itemsPerPage = 3;
-        int pageCount = (int) Math.ceil((double) filteredOffresList.size() / itemsPerPage);
-        pagination.setPageCount(pageCount);
-        pagination.setCurrentPageIndex(0); // Retour à la première page après la recherche
-        pagination.setPageFactory(this::createPage);
+        filteredOffresList.setAll(filtered);
+        updatePagination();
     }
-    }
-
+}

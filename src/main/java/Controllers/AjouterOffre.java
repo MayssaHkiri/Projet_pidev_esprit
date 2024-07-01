@@ -50,6 +50,9 @@ public class AjouterOffre {
     private Button validerBtn;
 
     @FXML
+    private TextField email;
+
+    @FXML
     public ImageView imgPrev;
 
     private ServiceOffre serviceOffre = new ServiceOffre();
@@ -72,6 +75,7 @@ public class AjouterOffre {
         dureeContrat.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         datePublication.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         nomEntreprise.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
+        email.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         dateLimiteOffre.valueProperty().addListener((observable, oldValue, newValue) -> checkFields());
     }
 
@@ -83,6 +87,7 @@ public class AjouterOffre {
                 && !dureeContrat.getText().isEmpty()
                 && !datePublication.getText().isEmpty()
                 && !nomEntreprise.getText().isEmpty()
+                && !email.getText().isEmpty()
                 && dateLimiteOffre.getValue() != null;
 
         // Activer le bouton Ajouter si tous les champs sont remplis, sinon le désactiver
@@ -101,7 +106,8 @@ public class AjouterOffre {
                     dureeContrat.getText(),
                     datePublication.getText(),
                     nomEntreprise.getText(),
-                    dateLimiteOffre.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                    dateLimiteOffre.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                    email.getText()
             );
 
             try {
@@ -122,6 +128,7 @@ public class AjouterOffre {
         dureeContrat.clear();
         datePublication.clear();
         nomEntreprise.clear();
+        email.clear();
         dateLimiteOffre.getEditor().clear(); // Efface la date sélectionnée dans le DatePicker
 
         // Désactiver à nouveau le bouton Ajouter après avoir vidé les champs
