@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
 
 public class AjouterOffre {
 
@@ -89,10 +90,25 @@ public class AjouterOffre {
                 && !nomEntreprise.getText().isEmpty()
                 && !email.getText().isEmpty()
                 && dateLimiteOffre.getValue() != null;
+        // Vérifier la validité des champs spécifiques
+        boolean emailValid = validateEmail();
+        boolean dureeValid = validateNumber();
 
         // Activer le bouton Ajouter si tous les champs sont remplis, sinon le désactiver
         validerBtn.setDisable(!fieldsFilled);
-        return fieldsFilled;
+        return fieldsFilled && emailValid && dureeValid;
+    }
+    private boolean validateEmail() {
+        String emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        boolean isValid = Pattern.matches(emailPattern, email.getText());
+        email.setStyle(isValid ? "-fx-background-color: white;" : "-fx-background-color: lightcoral;");
+        return isValid;
+    }
+
+    private boolean validateNumber() {
+        boolean isValid = dureeContrat.getText().matches("\\d*");
+        dureeContrat.setStyle(isValid ? "-fx-background-color: white;" : "-fx-background-color: lightcoral;");
+        return isValid;
     }
 
     @FXML
