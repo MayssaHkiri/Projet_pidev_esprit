@@ -13,6 +13,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -30,6 +31,8 @@ public class GererFormation {
     private TableColumn<Formation, String> descriptionFormationColumn;
     @FXML
     private TableColumn<Formation, String> dateFormationColumn;
+    @FXML
+    private TextField searchField;
 
     private ObservableList<Formation> formationsList;
     private FormationService serviceFormation = new FormationService();
@@ -116,8 +119,27 @@ public class GererFormation {
         }
     }
 
+    @FXML
+    private void handleSearch(ActionEvent event) {
+        String searchTerm = searchField.getText();
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            try {
+                List<Formation> searchResults = serviceFormation.searchFormations(searchTerm);
+                formationsList.setAll(searchResults);
+            } catch (SQLException e) {
+                showAlert("Erreur de recherche", "Une erreur s'est produite lors de la recherche de formations.", e.getMessage());
+            }
+        } else {
+            try {
+                loadFormationsFromDatabase();
+            } catch (SQLException e) {
+                showAlert("Erreur de chargement", "Erreur lors du rechargement des formations depuis la base de données.", e.getMessage());
+            }
+        }
+    }
+
     private void showAlert(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, content, ButtonType.OK);
+        Alert alert = new Alert(Alert.AlertType.ERROR, content, ButtonType.OK);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.showAndWait();

@@ -21,7 +21,7 @@ public class FormationService {
             pst.setString(1, formation.getTitre());
             pst.setString(2, formation.getDescription());
             pst.setBlob(3, formation.getImageFormation());
-            pst.setString(4, formation.getDateFormation()); // Utiliser la chaîne de caractères pour dateFormation
+            pst.setString(4, formation.getDateFormation());
 
             int result = pst.executeUpdate();
             return result > 0;
@@ -52,7 +52,7 @@ public class FormationService {
                             rs.getString("titre"),
                             rs.getString("description"),
                             rs.getBlob("imageFormation"),
-                            rs.getString("dateFormation") // Récupérer dateFormation comme chaîne de caractères
+                            rs.getString("dateFormation")
                     );
                 }
             }
@@ -74,7 +74,7 @@ public class FormationService {
                         rs.getString("titre"),
                         rs.getString("description"),
                         rs.getBlob("imageFormation"),
-                        rs.getString("dateFormation") // Récupérer dateFormation comme chaîne de caractères
+                        rs.getString("dateFormation")
                 );
 
                 formations.add(formation);
@@ -86,10 +86,11 @@ public class FormationService {
 
     public List<Formation> searchFormations(String searchTerm) throws SQLException {
         List<Formation> formations = new ArrayList<>();
-        String req = "SELECT * FROM formation WHERE titre LIKE ?";
+        String req = "SELECT * FROM formation WHERE titre LIKE ? OR description LIKE ?";
 
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setString(1, "%" + searchTerm + "%");
+            pst.setString(2, "%" + searchTerm + "%");
 
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
@@ -98,7 +99,7 @@ public class FormationService {
                             rs.getString("titre"),
                             rs.getString("description"),
                             rs.getBlob("imageFormation"),
-                            rs.getString("dateFormation") // Récupérer dateFormation comme chaîne de caractères
+                            rs.getString("dateFormation")
                     );
                     formations.add(formation);
                 }
@@ -121,7 +122,7 @@ public class FormationService {
                             rs.getString("titre"),
                             rs.getString("description"),
                             rs.getBlob("imageFormation"),
-                            rs.getString("dateFormation") // Récupérer dateFormation comme chaîne de caractères
+                            rs.getString("dateFormation")
                     );
                 }
             }
@@ -137,7 +138,7 @@ public class FormationService {
             pst.setString(1, formation.getTitre());
             pst.setString(2, formation.getDescription());
             pst.setBlob(3, formation.getImageFormation());
-            pst.setString(4, formation.getDateFormation()); // Utiliser la chaîne de caractères pour dateFormation
+            pst.setString(4, formation.getDateFormation());
             pst.setInt(5, formation.getId());
 
             int result = pst.executeUpdate();

@@ -30,7 +30,8 @@
                 <!-- Search Bar -->
                 <HBox alignment="CENTER" prefHeight="40.0" prefWidth="163.0" style="-fx-background-color: #C4C4C4;">
                     <children>
-                        <TextField prefHeight="25.0" prefWidth="125.0" promptText="Recherche..." style="-fx-background-color: white; -fx-text-fill: black; -fx-prompt-text-fill: gray;" />
+                        <TextField fx:id="searchField" prefHeight="25.0" prefWidth="125.0" promptText="Recherche..." style="-fx-background-color: white; -fx-text-fill: black; -fx-prompt-text-fill: gray;" />
+                        <Button onAction="#handleSearch" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Rechercher" />
                     </children>
                     <padding>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
@@ -40,16 +41,7 @@
                 <!-- Buttons -->
                 <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer les utilisateurs" />
                 <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer les offres " />
-                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer Offres">
-                    <graphic>
-                        <HBox>
-                            <Button onAction="#handleModifierFormation" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer les Formations">
-                        <HBox.margin>
-                           <Insets left="-12.0" />
-                        </HBox.margin></Button>
-                        </HBox>
-                    </graphic>
-                </Button>
+                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer les Formations" onAction="#handleModifierFormation" />
             </children>
         </VBox>
 
