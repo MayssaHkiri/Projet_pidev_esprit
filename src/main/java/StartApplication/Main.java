@@ -8,9 +8,9 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {
@@ -28,8 +28,8 @@ public class Main {
             // Définir les dates de formation
             LocalDate localDateFormation1 = LocalDate.of(2023, 7, 1);
             LocalDate localDateFormation2 = LocalDate.of(2023, 8, 1);
-            Date dateFormation1 = Date.valueOf(localDateFormation1);
-            Date dateFormation2 = Date.valueOf(localDateFormation2);
+            String dateFormation1 = localDateFormation1.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            String dateFormation2 = localDateFormation2.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
             // Créer des objets Formation
             Formation formation1 = new Formation(1, "Java", "Cours Java avancé", imageBlob1, dateFormation1);

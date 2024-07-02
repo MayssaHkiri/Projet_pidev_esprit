@@ -15,13 +15,13 @@ public class FormationService {
     }
 
     public boolean addFormation(Formation formation) throws SQLException {
-        String req = "INSERT INTO formation (titre, description, imageFormation,idEnseignant, dateFormation) VALUES (?, ?, ?, 1,?)";
+        String req = "INSERT INTO formation (titre, description, imageFormation, idEnseignant, dateFormation) VALUES (?, ?, ?, 1, ?)";
 
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setString(1, formation.getTitre());
             pst.setString(2, formation.getDescription());
             pst.setBlob(3, formation.getImageFormation());
-            pst.setDate(4, new java.sql.Date(formation.getDateFormation().getTime())); // Convert Date to java.sql.Date
+            pst.setString(4, formation.getDateFormation()); // Utiliser la chaîne de caractères pour dateFormation
 
             int result = pst.executeUpdate();
             return result > 0;
@@ -52,7 +52,7 @@ public class FormationService {
                             rs.getString("titre"),
                             rs.getString("description"),
                             rs.getBlob("imageFormation"),
-                            rs.getDate("dateFormation") // Retrieve dateFormation
+                            rs.getString("dateFormation") // Récupérer dateFormation comme chaîne de caractères
                     );
                 }
             }
@@ -74,7 +74,7 @@ public class FormationService {
                         rs.getString("titre"),
                         rs.getString("description"),
                         rs.getBlob("imageFormation"),
-                        rs.getDate("dateFormation") // Retrieve dateFormation
+                        rs.getString("dateFormation") // Récupérer dateFormation comme chaîne de caractères
                 );
 
                 formations.add(formation);
@@ -98,7 +98,7 @@ public class FormationService {
                             rs.getString("titre"),
                             rs.getString("description"),
                             rs.getBlob("imageFormation"),
-                            rs.getDate("dateFormation") // Retrieve dateFormation
+                            rs.getString("dateFormation") // Récupérer dateFormation comme chaîne de caractères
                     );
                     formations.add(formation);
                 }
@@ -121,7 +121,7 @@ public class FormationService {
                             rs.getString("titre"),
                             rs.getString("description"),
                             rs.getBlob("imageFormation"),
-                            rs.getDate("dateFormation") // Retrieve dateFormation
+                            rs.getString("dateFormation") // Récupérer dateFormation comme chaîne de caractères
                     );
                 }
             }
@@ -137,7 +137,7 @@ public class FormationService {
             pst.setString(1, formation.getTitre());
             pst.setString(2, formation.getDescription());
             pst.setBlob(3, formation.getImageFormation());
-            pst.setDate(4, new java.sql.Date(formation.getDateFormation().getTime())); // Convert Date to java.sql.Date
+            pst.setString(4, formation.getDateFormation()); // Utiliser la chaîne de caractères pour dateFormation
             pst.setInt(5, formation.getId());
 
             int result = pst.executeUpdate();

@@ -3,19 +3,18 @@ package Entities;
 import java.sql.Blob;
 import java.sql.SQLException;
 import javax.sql.rowset.serial.SerialBlob;
-import java.util.Date; // Import Date class for dateFormation
 
 public class Formation {
     private int id;
     private String titre;
     private String description;
     private Blob imageFormation; // Changer le type pour String
-    private Date dateFormation; // New attribute
+    private String dateFormation; // Changer le type pour String
 
     public Formation() {
     }
 
-    public Formation(int id, String titre, String description, Blob imageFormation, Date dateFormation) {
+    public Formation(int id, String titre, String description, Blob imageFormation, String dateFormation) {
         this.id = id;
         this.titre = titre;
         this.description = description;
@@ -25,11 +24,11 @@ public class Formation {
 
     // Getters and setters for dateFormation
 
-    public Date getDateFormation() {
+    public String getDateFormation() {
         return dateFormation;
     }
 
-    public void setDateFormation(Date dateFormation) {
+    public void setDateFormation(String dateFormation) {
         this.dateFormation = dateFormation;
     }
 
@@ -74,7 +73,7 @@ public class Formation {
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
                 ", imageFormation=" + imageFormation +
-                ", dateFormation=" + dateFormation + // Include dateFormation in the toString method
+                ", dateFormation='" + dateFormation + '\'' + // Include dateFormation in the toString method
                 '}';
     }
 }

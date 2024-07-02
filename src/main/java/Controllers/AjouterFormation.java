@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import javax.sql.rowset.serial.SerialBlob;
 
 public class AjouterFormation {
@@ -74,13 +75,13 @@ public class AjouterFormation {
         String titre = tfTitre.getText();
         String description = tfDescription.getText();
         String niveau = btNiveau.getValue(); // Récupérer le niveau sélectionné dans la ComboBox
-        java.util.Date dateFormation = java.sql.Date.valueOf(datePicker.getValue()); // Récupérer la date sélectionnée
+        String dateFormation = datePicker.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")); // Récupérer la date sélectionnée et la formater
 
         Formation formation = new Formation();
         formation.setTitre(titre);
         formation.setDescription(description);
         formation.setImageFormation(selectedImageBlob); // Ajouter l'image en tant que Blob à la formation
-        formation.setDateFormation(dateFormation); // Ajouter la dateFormation à la formation
+        formation.setDateFormation(dateFormation); // Ajouter la dateFormation en String à la formation
 
         try {
             boolean added = formationService.addFormation(formation); // Appel à la méthode du service pour ajouter la formation

@@ -4,14 +4,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.control.TextField?>
-<HBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GererFormation">
+<HBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.GererFormation">
     <children>
         <!-- Sidebar -->
         <VBox fx:id="sidebar" prefHeight="400.0" prefWidth="163.0" style="-fx-background-color: #C4C4C4;">
@@ -38,12 +38,15 @@
                 </HBox>
 
                 <!-- Buttons -->
-                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer Utilisateurs" />
-                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer Formations" />
+                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer les utilisateurs" />
+                <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer les offres " />
                 <Button style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer Offres">
                     <graphic>
                         <HBox>
-                            <Button onAction="#handleModifierFormation" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Modifier Formation" />
+                            <Button onAction="#handleModifierFormation" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Gérer les Formations">
+                        <HBox.margin>
+                           <Insets left="-12.0" />
+                        </HBox.margin></Button>
                         </HBox>
                     </graphic>
                 </Button>
