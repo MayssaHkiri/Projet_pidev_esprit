@@ -38,7 +38,7 @@ public class AjouterFormation {
     private ImageView imageView;
 
     @FXML
-    private DatePicker datePicker; // Ajout du DatePicker pour choisir la dateFormation
+    private TextField tfDateFormation; // Utilisation d'un TextField pour dateFormation
 
     private Blob selectedImageBlob;
 
@@ -74,7 +74,7 @@ public class AjouterFormation {
         String titre = tfTitre.getText();
         String description = tfDescription.getText();
         String niveau = btNiveau.getValue(); // Récupérer le niveau sélectionné dans la ComboBox
-        java.util.Date dateFormation = java.sql.Date.valueOf(datePicker.getValue()); // Récupérer la date sélectionnée
+        String dateFormation = tfDateFormation.getText(); // Récupérer la dateFormation depuis un champ texte
 
         Formation formation = new Formation();
         formation.setTitre(titre);
@@ -102,6 +102,6 @@ public class AjouterFormation {
         btNiveau.setValue(null); // Clear the ComboBox selection
         imageView.setImage(null); // Clear the ImageView
         selectedImageBlob = null; // Reset the selected image blob
-        datePicker.setValue(null); // Clear the DatePicker selection
+        tfDateFormation.clear(); // Clear the dateFormation TextField
     }
 }

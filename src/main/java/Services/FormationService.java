@@ -3,6 +3,9 @@ package Services;
 import Entities.Formation;
 import Utils.DataSource;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,7 @@ public class FormationService {
     }
 
     public boolean addFormation(Formation formation) throws SQLException {
-        String req = "INSERT INTO formation (titre, description, imageFormation,idEnseignant, dateFormation) VALUES (?, ?, ?, 1,?)";
+        String req = "INSERT INTO formation (titre, description, imageFormation, dateFormation) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setString(1, formation.getTitre());
@@ -28,7 +31,7 @@ public class FormationService {
         }
     }
 
-    public boolean SupprimerFormation(int id) throws SQLException {
+    public boolean supprimerFormation(int id) throws SQLException {
         String req = "DELETE FROM formation WHERE id = ?";
 
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
@@ -52,7 +55,7 @@ public class FormationService {
                             rs.getString("titre"),
                             rs.getString("description"),
                             rs.getBlob("imageFormation"),
-                            rs.getDate("dateFormation") // Retrieve dateFormation
+                            rs.getDate("dateFormation")
                     );
                 }
             }
@@ -74,7 +77,7 @@ public class FormationService {
                         rs.getString("titre"),
                         rs.getString("description"),
                         rs.getBlob("imageFormation"),
-                        rs.getDate("dateFormation") // Retrieve dateFormation
+                        rs.getDate("dateFormation")
                 );
 
                 formations.add(formation);
@@ -98,7 +101,7 @@ public class FormationService {
                             rs.getString("titre"),
                             rs.getString("description"),
                             rs.getBlob("imageFormation"),
-                            rs.getDate("dateFormation") // Retrieve dateFormation
+                            rs.getDate("dateFormation")
                     );
                     formations.add(formation);
                 }
@@ -108,29 +111,7 @@ public class FormationService {
         return formations;
     }
 
-    public Formation getFormationByTitre(String titre) throws SQLException {
-        String req = "SELECT * FROM formation WHERE titre = ?";
-
-        try (PreparedStatement pst = cnx.prepareStatement(req)) {
-            pst.setString(1, titre);
-
-            try (ResultSet rs = pst.executeQuery()) {
-                if (rs.next()) {
-                    return new Formation(
-                            rs.getInt("id"),
-                            rs.getString("titre"),
-                            rs.getString("description"),
-                            rs.getBlob("imageFormation"),
-                            rs.getDate("dateFormation") // Retrieve dateFormation
-                    );
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public boolean ModifierFormation(Formation formation) throws SQLException {
+    public boolean modifierFormation(Formation formation) throws SQLException {
         String req = "UPDATE formation SET titre = ?, description = ?, imageFormation = ?, dateFormation = ? WHERE id = ?";
 
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
@@ -143,5 +124,15 @@ public class FormationService {
             int result = pst.executeUpdate();
             return result > 0;
         }
+    }
+
+    private Blob createBlob(InputStream inputStream) throws SQLException, IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            baos.write(buffer, 0, bytesRead);
+        }
+        return new javax.sql.rowset.serial.SerialBlob(baos.toByteArray());
     }
 }
