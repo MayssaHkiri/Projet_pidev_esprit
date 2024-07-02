@@ -1,1 +1,6 @@
 Controllers\ModifierFormation.class
+Entities\Inscription.class
+Entities\Utilisateurs.class
+Services\InscriptionService.class
+Services\Iservice.class
+Controllers\InscrireFormation.class

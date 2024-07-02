@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.ByteArrayInputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class ModifierFormation {
 
@@ -25,9 +25,13 @@ public class ModifierFormation {
     private ImageView imageView;
     @FXML
     private DatePicker dateFormationPicker;
+    @FXML
+    private TextField dateFormationField;
 
     private Formation formation;
     private FormationService formationService;
+
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public void setFormation(Formation formation) {
         this.formation = formation;
@@ -47,8 +51,7 @@ public class ModifierFormation {
         }
 
         if (formation.getDateFormation() != null) {
-            LocalDate localDate = formation.getDateFormation().toInstant()
-                    .atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate localDate = LocalDate.parse(formation.getDateFormation(), DATE_FORMATTER);
             dateFormationPicker.setValue(localDate);
         }
     }
@@ -62,12 +65,12 @@ public class ModifierFormation {
         String newTitre = titreField.getText();
         String newDescription = descriptionField.getText();
         LocalDate newDate = dateFormationPicker.getValue();
+        String newDateString = DATE_FORMATTER.format(newDate);
 
         if (formation != null) {
             formation.setTitre(newTitre);
             formation.setDescription(newDescription);
-            java.sql.Date sqlDate = java.sql.Date.valueOf(newDate);
-            formation.setDateFormation(sqlDate);
+            formation.setDateFormation(newDateString);
 
             try {
                 formationService.ModifierFormation(formation);

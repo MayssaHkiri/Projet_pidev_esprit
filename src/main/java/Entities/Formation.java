@@ -1,13 +1,15 @@
 package Entities;
 
 import java.sql.Blob;
+import java.sql.SQLException;
+import javax.sql.rowset.serial.SerialBlob;
 
 public class Formation {
     private int id;
     private String titre;
     private String description;
-    private Blob imageFormation;
-    private String dateFormation;
+    private Blob imageFormation; // Changer le type pour String
+    private String dateFormation; // Changer le type pour String
 
     public Formation() {
     }
@@ -21,6 +23,7 @@ public class Formation {
     }
 
     // Getters and setters for dateFormation
+
     public String getDateFormation() {
         return dateFormation;
     }
@@ -30,6 +33,7 @@ public class Formation {
     }
 
     // Getters and setters for other attributes
+
     public int getId() {
         return id;
     }
@@ -69,7 +73,7 @@ public class Formation {
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
                 ", imageFormation=" + imageFormation +
-                ", dateFormation='" + dateFormation + '\'' +
+                ", dateFormation='" + dateFormation + '\'' + // Include dateFormation in the toString method
                 '}';
     }
 }

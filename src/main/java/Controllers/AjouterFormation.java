@@ -20,9 +20,10 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import javax.sql.rowset.serial.SerialBlob;
+import java.time.format.DateTimeFormatter;
 
 public class AjouterFormation {
-    ObservableList<Formation> formationList = FXCollections.observableArrayList();
+    private ObservableList<Formation> formationList = FXCollections.observableArrayList();
     private FormationService formationService = new FormationService();
 
     @FXML
@@ -38,7 +39,7 @@ public class AjouterFormation {
     private ImageView imageView;
 
     @FXML
-    private TextField tfDateFormation; // Utilisation d'un TextField pour dateFormation
+    private DatePicker datePicker;
 
     private Blob selectedImageBlob;
 
@@ -73,21 +74,21 @@ public class AjouterFormation {
     void handleAjouterFormation(ActionEvent event) {
         String titre = tfTitre.getText();
         String description = tfDescription.getText();
-        String niveau = btNiveau.getValue(); // Récupérer le niveau sélectionné dans la ComboBox
-        String dateFormation = tfDateFormation.getText(); // Récupérer la dateFormation depuis un champ texte
+        String niveau = btNiveau.getValue();
+        String dateFormation = datePicker.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
         Formation formation = new Formation();
         formation.setTitre(titre);
         formation.setDescription(description);
-        formation.setImageFormation(selectedImageBlob); // Ajouter l'image en tant que Blob à la formation
-        formation.setDateFormation(dateFormation); // Ajouter la dateFormation à la formation
+        formation.setImageFormation(selectedImageBlob);
+        formation.setDateFormation(dateFormation);
 
         try {
-            boolean added = formationService.addFormation(formation); // Appel à la méthode du service pour ajouter la formation
+            boolean added = formationService.addFormation(formation);
             if (added) {
                 System.out.println("Formation ajoutée avec succès");
-                formationList.add(formation); // Ajouter à la liste locale (simulation)
-                clearFields(); // Vider les champs après ajout
+                formationList.add(formation);
+                clearFields();
             } else {
                 System.err.println("Erreur lors de l'ajout de la formation");
             }
@@ -99,9 +100,9 @@ public class AjouterFormation {
     private void clearFields() {
         tfTitre.clear();
         tfDescription.clear();
-        btNiveau.setValue(null); // Clear the ComboBox selection
-        imageView.setImage(null); // Clear the ImageView
-        selectedImageBlob = null; // Reset the selected image blob
-        tfDateFormation.clear(); // Clear the dateFormation TextField
+        btNiveau.setValue(null);
+        imageView.setImage(null);
+        selectedImageBlob = null;
+        datePicker.setValue(null);
     }
 }
