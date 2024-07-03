@@ -1,9 +1,13 @@
 package Controllers;
 
+import Entities.Chapitre;
 import Entities.Cours;
+import Services.ServiceCours;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -77,18 +81,42 @@ public class EditCoursController {
         }
 
     }
-
+    @FXML
+    private ChoiceBox<Chapitre> chapitreChoiceBox;
 
     @FXML
-    private void handleSave() {
+    private void handleSave() throws SQLException {
         cours.setTitre(titreField.getText());
+
         cours.setDescription(descriptionField.getText());
-        /*cours.setEnseignantId(Integer.parseInt(enseignantIdField.getText()));*/
-        // Set the PDF file path
-        //  cours.setPdfFile(new File(pdfFileField.getText()));
+        //Chapitre selectedChapitre = chapitreChoiceBox.getValue();
+        //int id=selectedChapitre.getId();
+
+        if (pdfFile != null) {
+            try (FileInputStream fis = new FileInputStream(pdfFile)) {
+                Blob pdfBlob = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
+                cours.setPdfFile(pdfBlob);
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ServiceCours serviceCours=new ServiceCours();
+        Cours newCours=serviceCours.findbyId(cours.getId());
+        System.out.println("cours="+cours);
+        //cours.setIdChapitre(cour.getIdChapitre());
+        serviceCours.UpdateCours(cours);
 
         okClicked = true;
         dialogStage.close();
+
+        /*cours.setPdfFile(cours.getPdfFile());
+        ServiceCours serviceCours=new ServiceCours();
+        cours.setIdChapitre(id);
+        System.out.println("cours="+cours);
+        //serviceCours.update(cours);
+        */
+
     }
 
     @FXML

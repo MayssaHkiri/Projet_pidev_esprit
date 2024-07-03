@@ -27,7 +27,7 @@
     <!-- Add file upload control for PDF file -->
     <HBox spacing="10">
         <Label text="PDF File:" />
-        <Button text="Choisir" onAction="#handleChooseFile" />
+        <Button  text="Choisir" onAction="#handleChooseFile" />
     </HBox>
 
     <HBox spacing="10">

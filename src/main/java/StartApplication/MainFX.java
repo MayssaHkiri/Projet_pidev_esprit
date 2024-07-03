@@ -16,7 +16,8 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+       FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+      //  FXMLLoader loader = new FXMLLoader(getClass().getResource("/EtudiantCoursView.fxml"));
 
         //    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Sidebar.fxml"));
         Parent root = null ;

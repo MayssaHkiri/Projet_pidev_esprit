@@ -1,5 +1,6 @@
 package Entities;
 
+import java.io.File;
 import java.sql.Blob;
 
 public class Cours {
@@ -33,6 +34,7 @@ public class Cours {
         this.description = description;
         this.pdfFile = pdfFile;
     }
+
 
     public int getIdChapitre() {
         return idChapitre;
