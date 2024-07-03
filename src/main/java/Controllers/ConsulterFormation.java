@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -53,6 +54,12 @@ public class ConsulterFormation implements Initializable {
     private void loadFormationsFromDatabase() throws SQLException, FileNotFoundException {
         List<Formation> formations = formationService.getAllFormations();
         formationsList.addAll(formations);
+
+        displayFormations(formations);
+    }
+
+    private void displayFormations(List<Formation> formations) {
+        formationsVBox.getChildren().clear(); // Nettoyer les anciennes formations affichées
 
         for (Formation formation : formations) {
             StackPane formationPane = createFormationPane(formation);
@@ -156,66 +163,19 @@ public class ConsulterFormation implements Initializable {
     @FXML
     private void handleSearch() {
         String searchTerm = searchField.getText().trim();
-        formationsVBox.getChildren().clear(); // Nettoyer les anciennes formations affichées
 
         try {
-            List<Formation> formations = formationService.searchFormations(searchTerm);
-            for (Formation formation : formations) {
-                StackPane formationPane = createFormationPane(formation);
-                formationsVBox.getChildren().add(formationPane);
+            List<Formation> formations;
+            if (!searchTerm.isEmpty()) {
+                formations = formationService.searchFormations(searchTerm);
+            } else {
+                formations = formationService.getAllFormations();
             }
+            displayFormations(formations);
         } catch (SQLException e) {
             e.printStackTrace();
             showLoadFormationsErrorAlert();
         }
-    }
-
-    @FXML
-    private void handleSQL() {
-        // Exemple d'action pour SQL
-        System.out.println("Affichage d'un mot qui contient SQL");
-    }
-
-    @FXML
-    private void handleJava() {
-        // Exemple d'action pour Java
-        System.out.println("Affichage d'un mot qui contient Java");
-    }
-
-    @FXML
-    private void handlePython() {
-        // Exemple d'action pour Python
-        System.out.println("Affichage d'un mot qui contient Python");
-    }
-
-    @FXML
-    private void handleNiveau1() {
-        // Action à exécuter pour Niveau 1
-        System.out.println("Action pour Niveau 1");
-    }
-
-    @FXML
-    private void handleNiveau2() {
-        // Action à exécuter pour Niveau 2
-        System.out.println("Action pour Niveau 2");
-    }
-
-    @FXML
-    private void handleNiveau3() {
-        // Action à exécuter pour Niveau 3
-        System.out.println("Action pour Niveau 3");
-    }
-
-    @FXML
-    private void handleNiveau4() {
-        // Action à exécuter pour Niveau 4
-        System.out.println("Action pour Niveau 4");
-    }
-
-    @FXML
-    private void handleAccueil() {
-        // Action à exécuter pour Accueil
-        System.out.println("Action pour Accueil");
     }
 
     private void showLoadFormationsErrorAlert() {

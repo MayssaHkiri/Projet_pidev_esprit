@@ -30,8 +30,8 @@
                 <!-- Search Bar -->
                 <HBox alignment="CENTER" prefHeight="40.0" prefWidth="163.0" style="-fx-background-color: #C4C4C4;">
                     <children>
-                        <TextField fx:id="searchField" prefHeight="25.0" prefWidth="125.0" promptText="Recherche..." style="-fx-background-color: white; -fx-text-fill: black; -fx-prompt-text-fill: gray;" />
-                        <Button onAction="#handleSearch" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Rechercher" />
+                        <TextField fx:id="searchField" prefHeight="25.0" prefWidth="125.0" promptText="Rechercher..." style="-fx-background-color: white; -fx-text-fill: black; -fx-prompt-text-fill: gray;" />
+                        <Button onAction="#handleSearch" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Rech" />
                     </children>
                     <padding>
                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />

@@ -19,7 +19,7 @@ public class MainFX extends Application {
 
             // Configurer la fenêtre principale (Stage)
             stage.setScene(scene);
-            stage.setTitle("Gérer une formation"); // Titre de la fenêtre
+            stage.setTitle("Consulter les formations"); // Titre de la fenêtre
             stage.show();
         } catch (Exception e) {
             System.err.println("Erreur lors du chargement de l'interface utilisateur : " + e.getMessage());

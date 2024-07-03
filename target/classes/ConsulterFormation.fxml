@@ -2,44 +2,47 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="Controllers.ConsulterFormation">
+<HBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ConsulterFormation">
     <children>
-        <BorderPane>
-            <top>
-                <HBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #f4f4f4; -fx-padding: 10;">
-                    <Button onAction="#handleAccueil" text="Accueil" />
-                    <MenuButton fx:id="niveauxMenuButton" text="Niveaux">
-                        <items>
-                            <MenuItem onAction="#handleNiveau1" text="Niveau 1" />
-                            <MenuItem onAction="#handleNiveau2" text="Niveau 2" />
-                            <MenuItem onAction="#handleNiveau3" text="Niveau 3" />
-                            <MenuItem onAction="#handleNiveau4" text="Niveau 4" />
-                        </items>
-                    </MenuButton>
-                    <MenuButton fx:id="languagesMenuButton" text="Langues">
-                        <items>
-                            <MenuItem onAction="#handlePython" text="Python" />
-                            <MenuItem onAction="#handleJava" text="Java" />
-                            <MenuItem onAction="#handleSQL" text="SQL" />
-                        </items>
-                    </MenuButton>
-                    <TextField fx:id="searchField" promptText="Recherche..." style="-fx-background-color: white; -fx-text-fill: black; -fx-prompt-text-fill: gray;" />
-                    <Button onAction="#handleSearch" text="Rechercher" />
+        <!-- Sidebar -->
+        <VBox fx:id="sidebar" prefHeight="400.0" prefWidth="163.0" style="-fx-background-color: #C4C4C4;">
+            <children>
+                <!-- Space for Logo -->
+                <AnchorPane prefHeight="56.0" prefWidth="250.0">
+                    <children>
+                        <!-- Replace with your logo ImageView -->
+                        <Button text="Logo Placeholder" />
+                    </children>
+                </AnchorPane>
+
+                <!-- Search Bar -->
+                <HBox alignment="CENTER" prefHeight="40.0" prefWidth="163.0" style="-fx-background-color: #C4C4C4;">
+                    <children>
+                        <TextField fx:id="searchField" prefHeight="25.0" prefWidth="125.0" promptText="Recherche..." style="-fx-background-color: white; -fx-text-fill: black; -fx-prompt-text-fill: gray;" />
+                        <Button onAction="#handleSearch" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 14px;" text="Rechercher" />
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                    </padding>
                 </HBox>
-            </top>
-            <center>
-                <VBox fx:id="formationsVBox" spacing="20.0" padding="10.0">
-                    <!-- Les formations seront ajoutées dynamiquement ici -->
+            </children>
+        </VBox>
+
+        <!-- Main Content -->
+        <AnchorPane fx:id="mainContent" prefHeight="400.0" prefWidth="437.0" style="-fx-background-color: #f0f0f0;">
+            <children>
+                <VBox alignment="CENTER" layoutY="11.2" prefHeight="378.0" prefWidth="438.0" spacing="10" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="11.0">
+                    <!-- Replace with your dynamic content VBox for formations -->
+                    <VBox fx:id="formationsVBox" spacing="20.0" padding="10.0">
+                        <!-- Dynamic content will be added here -->
+                    </VBox>
                 </VBox>
-            </center>
-        </BorderPane>
+            </children>
+        </AnchorPane>
     </children>
-</AnchorPane>
+</HBox>
