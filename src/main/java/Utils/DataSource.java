@@ -9,7 +9,7 @@ import java.util.List;
 public class DataSource {
     private final String url = "jdbc:mysql://localhost:3306/pi_dev_db";
     private final String login = "root";
-    private final String pwd = ""; // Mot de passe vide
+    private final String pwd = "root"; // Mot de passe vide
     private static DataSource data;
 
     private Connection con;
