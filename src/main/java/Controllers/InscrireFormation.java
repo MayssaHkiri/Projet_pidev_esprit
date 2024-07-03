@@ -1,9 +1,12 @@
 package Controllers;
 
+import Entities.Inscription;
+import Services.InscriptionService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class InscrireFormation {
 
@@ -19,13 +22,12 @@ public class InscrireFormation {
     @FXML
     private TextField telephoneField;
 
-    private int id; // ID de la formation à laquelle l'étudiant s'inscrit
+    private int formationId; // ID de la formation à laquelle l'étudiant s'inscrit
 
-    public static void showStage(int id) {
-    }
+    private InscriptionService inscriptionService = new InscriptionService();
 
-    public void setId(int id) {
-        this.id = id;
+    public void setFormationId(int formationId) {
+        this.formationId = formationId;
     }
 
     @FXML
@@ -40,15 +42,33 @@ public class InscrireFormation {
             alert.setContentText("Veuillez remplir tous les champs obligatoires.");
             alert.showAndWait();
         } else {
-            // Afficher un message de succès
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Inscription réussie");
-            alert.setHeaderText(null);
-            alert.setContentText("Inscription avec succès !");
-            alert.showAndWait();
+            // Créer un nouvel objet Inscription
+            Inscription inscription = new Inscription(nomField.getText(), prenomField.getText(), emailField.getText(), telephoneField.getText());
 
-            // Vider les champs après inscription réussie (facultatif)
-            clearFields();
+            // Ajouter l'inscription à la base de données
+            boolean success = inscriptionService.add(inscription);
+            if (success) {
+                // Afficher un message de succès
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Inscription réussie");
+                alert.setHeaderText(null);
+                alert.setContentText("Inscription avec succès !");
+                alert.showAndWait();
+
+                // Vider les champs après inscription réussie (facultatif)
+                clearFields();
+
+                // Fermer la fenêtre
+                Stage stage = (Stage) nomField.getScene().getWindow();
+                stage.close();
+            } else {
+                // Afficher un message d'erreur en cas d'échec de l'inscription
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
+                alert.showAndWait();
+            }
         }
     }
 

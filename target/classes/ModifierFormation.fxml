@@ -29,6 +29,8 @@
                         <Label style="-fx-font-weight: bold;" text="Date de la Formation" />
                         <DatePicker fx:id="dateFormationPicker" promptText="Date de la Formation" VBox.vgrow="ALWAYS" />
 
+                        <Button mnemonicParsing="false" onAction="#handleSelectImage" text="Sélectionner Image" />
+
                         <Label style="-fx-font-weight: bold;" />
                     </children>
                     <HBox.margin>

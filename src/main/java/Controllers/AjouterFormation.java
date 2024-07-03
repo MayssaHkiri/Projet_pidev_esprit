@@ -6,12 +6,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 public class AjouterFormation {
     private ObservableList<Formation> formationList = FXCollections.observableArrayList();
     private FormationService formationService = new FormationService();
+    private Stage stage;
 
     @FXML
     private ComboBox<String> btNiveau;
@@ -42,6 +45,10 @@ public class AjouterFormation {
     private DatePicker datePicker;
 
     private Blob selectedImageBlob;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     @FXML
     void handleSelectImage(ActionEvent event) {
@@ -86,14 +93,14 @@ public class AjouterFormation {
         try {
             boolean added = formationService.addFormation(formation);
             if (added) {
-                System.out.println("Formation ajoutée avec succès");
-                formationList.add(formation);
+                showAlert("Succès", "Formation ajoutée", "La formation a été ajoutée avec succès.");
                 clearFields();
+                closeWindow();
             } else {
-                System.err.println("Erreur lors de l'ajout de la formation");
+                showAlert("Erreur", "Erreur d'ajout", "Une erreur s'est produite lors de l'ajout de la formation.");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            showAlert("Erreur", "Erreur SQL", e.getMessage());
         }
     }
 
@@ -104,5 +111,19 @@ public class AjouterFormation {
         imageView.setImage(null);
         selectedImageBlob = null;
         datePicker.setValue(null);
+    }
+
+    private void closeWindow() {
+        if (stage != null) {
+            stage.close();
+        }
+    }
+
+    private void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

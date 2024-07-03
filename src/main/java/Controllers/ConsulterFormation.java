@@ -5,16 +5,20 @@ import Services.FormationService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.sql.Blob;
@@ -26,15 +30,12 @@ public class ConsulterFormation implements Initializable {
 
     @FXML
     private VBox formationsVBox;
+    private ObservableList<Formation> formationList;
 
     @FXML
     private TextField searchField;
-
     @FXML
-    private MenuButton niveauxMenuButton;
-
-    @FXML
-    private MenuButton languagesMenuButton;
+    private Pagination pagination;
 
     private FormationService formationService;
     private ObservableList<Formation> formationsList;
@@ -45,13 +46,19 @@ public class ConsulterFormation implements Initializable {
         formationsList = FXCollections.observableArrayList();
         try {
             loadFormationsFromDatabase();
-        } catch (SQLException | FileNotFoundException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
             showLoadFormationsErrorAlert();
         }
+        formationList = FXCollections.observableArrayList();
+
+        int itemsPerPage = 3;
+        int pageCount = (int) Math.ceil((double) formationList.size() / itemsPerPage);
+        pagination.setPageCount(pageCount);
     }
 
-    private void loadFormationsFromDatabase() throws SQLException, FileNotFoundException {
+
+    private void loadFormationsFromDatabase() throws SQLException, IOException {
         List<Formation> formations = formationService.getAllFormations();
         formationsList.addAll(formations);
 
@@ -103,8 +110,9 @@ public class ConsulterFormation implements Initializable {
 
         Label titleLabel = new Label("Titre : " + formation.getTitre());
         Label descriptionLabel = new Label("Description : " + formation.getDescription());
+        Label dateFormationLabel = new Label("Date de Formation : " + formation.getDateFormation()); // Ajouter la date de formation
 
-        vbox.getChildren().addAll(titleLabel, descriptionLabel);
+        vbox.getChildren().addAll(titleLabel, descriptionLabel, dateFormationLabel);
 
         stackPane.getChildren().add(vbox);
 
@@ -134,7 +142,19 @@ public class ConsulterFormation implements Initializable {
         Formation formation = getFormationFromPane(stackPane);
         if (formation != null) {
             // Ouvrir une nouvelle fenêtre ou dialog pour gérer le processus d'inscription
-            InscrireFormation.showStage(formation.getId());
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/InscrireFormation.fxml"));
+                VBox root = loader.load();
+
+                InscrireFormation controller = loader.getController();
+
+                Stage stage = new Stage();
+                stage.setTitle("Inscription à la formation");
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

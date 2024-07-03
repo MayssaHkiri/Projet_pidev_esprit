@@ -15,15 +15,15 @@ public class InscriptionService {
     }
 
     public boolean add(Inscription inscription) {
-        String query = "INSERT INTO inscriptions (idFormation, idEtudiant, dateD, dateF) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO inscription (nom, prenom, email, numTel,idFormation,idEtudiant) VALUES (?, ?, ?, ?,1,1)";
 
         try (Connection con = dataSource.getCon();
              PreparedStatement pst = con.prepareStatement(query)) {
 
-            pst.setInt(1, inscription.getIdFormation());
-            pst.setInt(2, inscription.getIdEtudiant());
-            pst.setTimestamp(3, inscription.getDateD());
-            pst.setTimestamp(4, inscription.getDateF());
+            pst.setString(1, inscription.getNom());
+            pst.setString(2, inscription.getPrenom());
+            pst.setString(3, inscription.getEmail());
+            pst.setString(4, inscription.getNumTel());
 
             int result = pst.executeUpdate();
             return result > 0;

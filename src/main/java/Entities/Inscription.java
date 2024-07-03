@@ -1,59 +1,48 @@
 package Entities;
-import java.sql.Timestamp;
 
 public class Inscription {
-    private int id;
-    private int idFormation;
-    private int idEtudiant;
-    private Timestamp dateD;
-    private Timestamp dateF;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String numTel;
 
-    // Constructeurs, getters et setters
-    public Inscription(int id, int idFormation, int idEtudiant, Timestamp dateD, Timestamp dateF) {
-        this.id = id;
-        this.idFormation = idFormation;
-        this.idEtudiant = idEtudiant;
-        this.dateD = dateD;
-        this.dateF = dateF;
+    public Inscription(String nom, String prenom, String email, String numTel) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.numTel = numTel;
     }
 
-    public int getId() {
-        return id;
+    // Getters and setters
+    public String getNom() {
+        return nom;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public int getIdFormation() {
-        return idFormation;
+    public String getPrenom() {
+        return prenom;
     }
 
-    public void setIdFormation(int idFormation) {
-        this.idFormation = idFormation;
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
-    public int getIdEtudiant() {
-        return idEtudiant;
+    public String getEmail() {
+        return email;
     }
 
-    public void setIdEtudiant(int idEtudiant) {
-        this.idEtudiant = idEtudiant;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Timestamp getDateD() {
-        return dateD;
+    public String getNumTel() {
+        return numTel;
     }
 
-    public void setDateD(Timestamp dateD) {
-        this.dateD = dateD;
-    }
-
-    public Timestamp getDateF() {
-        return dateF;
-    }
-
-    public void setDateF(Timestamp dateF) {
-        this.dateF = dateF;
+    public void setNumTel(String numTel) {
+        this.numTel = numTel;
     }
 }

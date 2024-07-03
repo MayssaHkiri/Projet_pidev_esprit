@@ -2,18 +2,26 @@ package Controllers;
 
 import Entities.Formation;
 import Services.FormationService;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.sql.rowset.serial.SerialBlob;
 
 public class ModifierFormation {
 
@@ -25,11 +33,11 @@ public class ModifierFormation {
     private ImageView imageView;
     @FXML
     private DatePicker dateFormationPicker;
-    @FXML
-    private TextField dateFormationField;
 
     private Formation formation;
     private FormationService formationService;
+
+    private Blob selectedImageBlob;
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
@@ -45,6 +53,7 @@ public class ModifierFormation {
                 byte[] imageBytes = formation.getImageFormation().getBytes(1, (int) formation.getImageFormation().length());
                 Image image = new Image(new ByteArrayInputStream(imageBytes));
                 imageView.setImage(image);
+                selectedImageBlob = new SerialBlob(imageBytes); // Initialise selectedImageBlob
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -61,6 +70,33 @@ public class ModifierFormation {
     }
 
     @FXML
+    void handleSelectImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try (FileInputStream fis = new FileInputStream(selectedFile);
+                 ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+                byte[] buffer = new byte[1024];
+                int readNum;
+                while ((readNum = fis.read(buffer)) != -1) {
+                    bos.write(buffer, 0, readNum);
+                }
+                byte[] imageBytes = bos.toByteArray();
+                selectedImageBlob = new SerialBlob(imageBytes);
+
+                // Afficher l'image dans l'ImageView
+                Image image = new Image(selectedFile.toURI().toString());
+                imageView.setImage(image);
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
     void modifierFormation() {
         String newTitre = titreField.getText();
         String newDescription = descriptionField.getText();
@@ -71,6 +107,7 @@ public class ModifierFormation {
             formation.setTitre(newTitre);
             formation.setDescription(newDescription);
             formation.setDateFormation(newDateString);
+            formation.setImageFormation(selectedImageBlob); // Update the image
 
             try {
                 formationService.ModifierFormation(formation);

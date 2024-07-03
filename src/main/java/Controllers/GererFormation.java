@@ -16,6 +16,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -67,10 +68,24 @@ public class GererFormation {
             Stage stage = new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterFormation.fxml"));
             Parent root = loader.load();
+
+            // Récupérer le contrôleur et passer le stage
+            AjouterFormation controller = loader.getController();
+            controller.setStage(stage);
+
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Ajouter Formation");
             stage.show();
+
+            // Attacher un écouteur pour rafraîchir la TableView lors de la fermeture de la fenêtre
+            stage.setOnHidden((WindowEvent we) -> {
+                try {
+                    loadFormationsFromDatabase();
+                } catch (SQLException e) {
+                    showAlert("Erreur de chargement", "Erreur lors du rechargement des formations depuis la base de données.", e.getMessage());
+                }
+            });
         } catch (IOException e) {
             showAlert("Erreur d'ouverture", "Erreur lors de l'ouverture de la fenêtre d'ajout de formation.", e.getMessage());
         }

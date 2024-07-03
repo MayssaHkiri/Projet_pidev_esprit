@@ -22,9 +22,9 @@
                         <image>
                             <Image url="@image1.png" />
                         </image>
-                  <VBox.margin>
-                     <Insets top="15.0" />
-                  </VBox.margin>
+                        <VBox.margin>
+                            <Insets top="15.0" />
+                        </VBox.margin>
                     </ImageView>
                     <Text fx:id="titreFormationText" style="-fx-font-size: 20px;" />
                 </VBox>
@@ -51,18 +51,18 @@
                     <Label style="-fx-text-fill: red;" text="*" GridPane.columnIndex="2" GridPane.rowIndex="3" />
 
                     <Button onAction="#handleInscription" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="S'inscrire" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
-               <columnConstraints>
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-                  <ColumnConstraints />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-                  <RowConstraints />
-               </rowConstraints>
+                    <columnConstraints>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
                 </GridPane>
             </center>
         </BorderPane>
