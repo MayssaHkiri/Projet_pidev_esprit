@@ -66,7 +66,8 @@ public class ModifierQuizController {
     public void handleModifierTitre() {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Modifier le titre");
-
+        dialog.getDialogPane().setMinWidth(400);
+        dialog.getDialogPane().setMinHeight(400);
         ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
@@ -100,7 +101,8 @@ public class ModifierQuizController {
     public void handleModifierDescription() {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Modifier la description");
-
+        dialog.getDialogPane().setMinWidth(400);
+        dialog.getDialogPane().setMinHeight(400);
         ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
@@ -133,7 +135,8 @@ public class ModifierQuizController {
     public void handleChangerMatiere() {
         Dialog<Matiere> dialog = new Dialog<>();
         dialog.setTitle("Changer la matiere");
-
+        dialog.getDialogPane().setMinWidth(400);
+        dialog.getDialogPane().setMinHeight(400);
         ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
@@ -527,7 +530,6 @@ public class ModifierQuizController {
             try {
                 quizService.deleteChoixPossibleByQuestionId(question.getId());
 
-                // Then, delete the question
                 quizService.deleteQuestionByQuizId(this.quiz.getId());
             } catch (SQLException e) {
                 e.printStackTrace();
