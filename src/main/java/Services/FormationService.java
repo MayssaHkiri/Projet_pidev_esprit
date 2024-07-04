@@ -3,6 +3,7 @@ package Services;
 import Entities.Formation;
 import Utils.DataSource;
 
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class FormationService {
     }
 
     public boolean addFormation(Formation formation) throws SQLException {
-        String req = "INSERT INTO formation (titre, description, imageFormation, idEnseignant, dateFormation) VALUES (?, ?, ?, 1, ?)";
+        String req = "INSERT INTO formation (titre, description, imageFormation, dateFormation) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setString(1, formation.getTitre());

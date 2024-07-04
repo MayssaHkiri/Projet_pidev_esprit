@@ -1,4 +1,5 @@
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Services\FormationService.java
+C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Controllers\MainController.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Services\InscriptionService.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\StartApplication\Main.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Controllers\ConsulterFormation.java
@@ -7,9 +8,12 @@ C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Controllers\
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Utils\DataSource.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Services\Iservice.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Controllers\AjouterFormation.java
+C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Controllers\GererOffres.java
+C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Controllers\GererCours.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Entities\Utilisateurs.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\StartApplication\MainFX.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Controllers\GererFormation.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Services\UtilisateursService.java
+C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Controllers\GererUtilisateurs.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Entities\Inscription.java
 C:\Users\LENOVO\Desktop\PROJET PI\Projet_pidev_esprit\src\main\java\Controllers\InscrireFormation.java

@@ -37,6 +37,7 @@ public class GererFormation {
 
     private ObservableList<Formation> formationsList;
     private FormationService serviceFormation = new FormationService();
+    private MainController mainController;
 
     @FXML
     public void initialize() {
@@ -47,6 +48,10 @@ public class GererFormation {
         } catch (SQLException e) {
             showAlert("Erreur de chargement", "Erreur lors du chargement des formations depuis la base de données.", e.getMessage());
         }
+    }
+
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 
     private void displayFormations() {
@@ -120,7 +125,7 @@ public class GererFormation {
         Formation selectedFormation = tableView.getSelectionModel().getSelectedItem();
         if (selectedFormation != null) {
             try {
-                if (serviceFormation.SupprimerFormation(selectedFormation.getId())) {
+                if (serviceFormation.SupprimerFormation(selectedFormation.getId())) { // Corrected method name
                     formationsList.remove(selectedFormation);
                     showAlert("Suppression réussie", "Formation supprimée avec succès.", "");
                 } else {
@@ -151,6 +156,26 @@ public class GererFormation {
                 showAlert("Erreur de chargement", "Erreur lors du rechargement des formations depuis la base de données.", e.getMessage());
             }
         }
+    }
+
+    @FXML
+    private void handleLoadGestionCoursPage(ActionEvent event) {
+        mainController.loadGestionCoursPage();
+    }
+
+    @FXML
+    private void handleLoadGestionFormationsPage(ActionEvent event) {
+        mainController.loadGestionFormationsPage();
+    }
+
+    @FXML
+    private void handleLoadGestionOffresPage(ActionEvent event) {
+        mainController.loadGestionOffresPage();
+    }
+
+    @FXML
+    private void handleLoadGestionUtilisateursPage(ActionEvent event) {
+        mainController.loadGestionUtilisateursPage();
     }
 
     private void showAlert(String title, String header, String content) {

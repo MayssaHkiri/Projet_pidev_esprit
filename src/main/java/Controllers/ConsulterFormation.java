@@ -7,13 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -34,8 +35,6 @@ public class ConsulterFormation implements Initializable {
 
     @FXML
     private TextField searchField;
-    @FXML
-    private Pagination pagination;
 
     private FormationService formationService;
     private ObservableList<Formation> formationsList;
@@ -51,12 +50,7 @@ public class ConsulterFormation implements Initializable {
             showLoadFormationsErrorAlert();
         }
         formationList = FXCollections.observableArrayList();
-
-        int itemsPerPage = 3;
-        int pageCount = (int) Math.ceil((double) formationList.size() / itemsPerPage);
-        pagination.setPageCount(pageCount);
     }
-
 
     private void loadFormationsFromDatabase() throws SQLException, IOException {
         List<Formation> formations = formationService.getAllFormations();
@@ -66,7 +60,7 @@ public class ConsulterFormation implements Initializable {
     }
 
     private void displayFormations(List<Formation> formations) {
-        formationsVBox.getChildren().clear(); // Nettoyer les anciennes formations affichées
+        formationsVBox.getChildren().clear(); // Clear the previous formations displayed
 
         for (Formation formation : formations) {
             StackPane formationPane = createFormationPane(formation);
@@ -81,13 +75,13 @@ public class ConsulterFormation implements Initializable {
         stackPane.setStyle("-fx-border-color: black; -fx-border-width: 2; -fx-padding: 5;");
 
         try {
-            // Charger l'image depuis le Blob
+            // Load the image from the Blob
             Blob imageFormation = formation.getImageFormation();
             if (imageFormation != null && imageFormation.length() > 0) {
                 InputStream is = imageFormation.getBinaryStream();
                 Image image = new Image(is);
 
-                // Afficher l'image dans ImageView
+                // Display the image in ImageView
                 ImageView imageView = new ImageView();
                 imageView.setFitHeight(92.0);
                 imageView.setFitWidth(80.0);
@@ -95,12 +89,12 @@ public class ConsulterFormation implements Initializable {
                 imageView.setImage(image);
                 stackPane.getChildren().add(imageView);
             } else {
-                // Gérer le cas où le Blob de l'image est vide ou null
+                // Handle the case where the Blob is empty or null
                 showImageLoadErrorAlert();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Gérer l'erreur de chargement de l'image
+            // Handle the image load error
             showImageLoadErrorAlert();
         }
 
@@ -108,9 +102,9 @@ public class ConsulterFormation implements Initializable {
         vbox.setAlignment(Pos.CENTER_LEFT);
         vbox.setSpacing(5);
 
-        Label titleLabel = new Label("Titre : " + formation.getTitre());
-        Label descriptionLabel = new Label("Description : " + formation.getDescription());
-        Label dateFormationLabel = new Label("Date de Formation : " + formation.getDateFormation()); // Ajouter la date de formation
+        Label titleLabel = new Label("Titre: " + formation.getTitre());
+        Label descriptionLabel = new Label("Description: " + formation.getDescription());
+        Label dateFormationLabel = new Label("Date de Formation: " + formation.getDateFormation()); // Add the date of formation
 
         vbox.getChildren().addAll(titleLabel, descriptionLabel, dateFormationLabel);
 
@@ -119,29 +113,28 @@ public class ConsulterFormation implements Initializable {
         return stackPane;
     }
 
-
     private void handleMouseEnter(StackPane stackPane) {
-        // Appliquer un effet de flou à l'image lors du survol
+        // Apply blur effect to the image on hover
         stackPane.getChildren().get(0).setEffect(new javafx.scene.effect.GaussianBlur(10));
 
-        // Afficher le bouton d'inscription
+        // Show the inscription button
         Button inscrireButton = new Button("S'inscrire");
         inscrireButton.setOnAction(event -> handleInscription(stackPane));
         stackPane.getChildren().add(inscrireButton);
     }
 
     private void handleMouseExit(StackPane stackPane) {
-        // Retirer l'effet de flou
+        // Remove blur effect
         stackPane.getChildren().get(0).setEffect(null);
 
-        // Cacher le bouton d'inscription
+        // Hide the inscription button
         stackPane.getChildren().removeIf(node -> node instanceof Button);
     }
 
     private void handleInscription(StackPane stackPane) {
         Formation formation = getFormationFromPane(stackPane);
         if (formation != null) {
-            // Ouvrir une nouvelle fenêtre ou dialog pour gérer le processus d'inscription
+            // Open a new window or dialog to handle the inscription process
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/InscrireFormation.fxml"));
                 VBox root = loader.load();
@@ -165,12 +158,12 @@ public class ConsulterFormation implements Initializable {
                 for (Object label : vbox.getChildren()) {
                     if (label instanceof Label) {
                         String titre = ((Label) label).getText();
-                        titre = titre.replace("Titre : ", "").trim();
+                        titre = titre.replace("Titre: ", "").trim();
                         try {
                             return formationService.getFormationByTitre(titre);
                         } catch (SQLException e) {
                             e.printStackTrace();
-                            // Gérer l'exception selon les besoins de votre application
+                            // Handle the exception as needed for your application
                             showGetFormationErrorAlert();
                         }
                     }
@@ -208,17 +201,17 @@ public class ConsulterFormation implements Initializable {
 
     private void showImageLoadErrorAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur de Chargement d'Image");
+        alert.setTitle("Erreur de Chargement de l'Image");
         alert.setHeaderText(null);
-        alert.setContentText("Une erreur est survenue lors du chargement de l'image de la formation. Veuillez réessayer.");
+        alert.setContentText("Une erreur est survenue lors du chargement de l'image de la formation.");
         alert.showAndWait();
     }
 
     private void showGetFormationErrorAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur de Récupération de Formation");
+        alert.setTitle("Erreur de Récupération de la Formation");
         alert.setHeaderText(null);
-        alert.setContentText("Une erreur est survenue lors de la récupération de la formation. Veuillez réessayer.");
+        alert.setContentText("Une erreur est survenue lors de la récupération de la formation.");
         alert.showAndWait();
     }
 }
