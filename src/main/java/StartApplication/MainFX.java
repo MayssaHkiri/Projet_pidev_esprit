@@ -16,13 +16,23 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/VoirOffres.fxml"));
 
-        Parent root = null ;
+        //Parent root = null ;
+        /*Parent root = loader.load();
         root = loader.load();
         Scene scene = new Scene(root);
         stage.setTitle("Welcome page");
         stage.setScene(scene);
+        stage.show();
+*/
+
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.setTitle("Consulter Offre");
         stage.show();
     }
 }

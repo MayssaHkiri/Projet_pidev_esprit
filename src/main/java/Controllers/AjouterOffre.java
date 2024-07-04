@@ -160,21 +160,11 @@ public class AjouterOffre {
     }
 
     public void handleCancel(ActionEvent actionEvent) {
-        try {
-            // Charger le fichier FXML de l'interface consulterOffre
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ConsulterOffre.fxml"));
-            Parent root = loader.load();
 
-            // Obtenir la scène actuelle et définir le nouveau contenu
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) validerBtn.getScene().getWindow();
-            stage.setScene(scene);
+            Stage stage = (Stage) titreOffre.getScene().getWindow();
+            // Fermer la fenêtre
+            stage.close();
 
-            // Afficher la nouvelle scène
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public TextField getTitreOffreTextField() {

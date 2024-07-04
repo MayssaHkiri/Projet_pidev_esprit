@@ -112,19 +112,8 @@ public class ModifierOffre {
     }
 
     public void handleCancel(ActionEvent actionEvent) {
-        try {
-            // Charger le fichier FXML de l'interface ConsulterOffre
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ConsulterOffre.fxml"));
-            Parent root = loader.load();
-
-            // Obtenir la scène actuelle et définir le nouveau contenu
-            Stage stage = (Stage) titreOffre.getScene().getWindow();
-            stage.setScene(new Scene(root));
-
-            // Afficher la nouvelle scène
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) titreOffre.getScene().getWindow();
+        // Fermer la fenêtre
+        stage.close();
     }
 }

@@ -107,7 +107,7 @@ public class ConsulterOffre {
             dateLimiteColumn.setCellValueFactory(new PropertyValueFactory<>("dateLimite"));
             emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
 
-            tableView.setItems(offresList);
+           tableView.setItems(offresList);
 
 
 //fin
@@ -186,7 +186,6 @@ public class ConsulterOffre {
             //this code was commented
             controller.setEntreprise(offre.getEntreprise());
             //fin code
-            controller.setEntreprise(offre.getEntreprise());
             controller.setTitreOffre(offre.getTitreOffre());
             controller.setDescriptionOffre(offre.getDescriptionOffre());
             controller.setNiveauEtude(offre.getNiveauEtude());
@@ -212,18 +211,23 @@ public class ConsulterOffre {
 
 
         @FXML
-        private void handleAdd(ActionEvent event) throws IOException {
+        private void handleAdd(ActionEvent event) throws IOException, SQLException {
             // Récupérer la scène actuelle à partir de n'importe quel nœud de la scène
-            Scene scene = tableView.getScene();
+           // Scene scene = tableView.getScene();
 
             // Récupérer la fenêtre principale (Stage) à partir de la scène
-            Stage stage = (Stage) scene.getWindow();
+            //Stage stage = (Stage) scene.getWindow();
 
             // Logique pour ajouter une nouvelle offre (à implémenter)
             // Ajouter la nouvelle offre à la base de données puis à la liste `offresList`
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
             Parent root = loader.load();
+            // Créer une nouvelle scène pour la modification
             Scene newScene = new Scene(root);
+            Stage newStage = new Stage();
+            newStage.setScene(newScene);
+            newStage.setTitle("Ajouter Offre");
+
 
             // Récupérer le contrôleur de la nouvelle scène
             AjouterOffre controller = loader.getController();
@@ -232,11 +236,22 @@ public class ConsulterOffre {
             TextField titreOffreTextField = controller.getTitreOffreTextField();
 
             // Utiliser le TextField titreOffreTextField comme nécessaire
+            // Rendre le nouveau stage modal par rapport au stage principal
+            Stage primaryStage = (Stage) tableView.getScene().getWindow();
+            newStage.initOwner(primaryStage);
+            newStage.initModality(Modality.WINDOW_MODAL);
 
-            // Remplacer la scène actuelle par la nouvelle scène
-            stage.setScene(newScene);
-            stage.setTitle("Ajouter Offre");
-            stage.show();
+            // Afficher la nouvelle fenêtre et attendre qu'elle soit fermée avant de continuer
+            newStage.showAndWait();
+
+            // Recharger les offres après la modification
+            loadOffresFromDatabase();
+
+
+            // Fermer la fenêtre après la modification
+            Stage stage = (Stage) titreOffre.getScene().getWindow();
+            stage.close();
+
         }
 
 
