@@ -213,4 +213,22 @@ public class QuizService {
         }
         return list;
     }
+    public List<Quiz> findAllByMatiere(String matiere) throws SQLException {
+        List<Quiz> list = new ArrayList<>();
+        String req = "SELECT quiz.*, matiere.nom AS matiereName FROM quiz JOIN matiere ON quiz.matiereId = matiere.id WHERE matiere.nom = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setString(1, matiere);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Matiere matiereObj = new Matiere(rs.getString("matiereName"));
+                Quiz quiz = new Quiz(rs.getInt("id"), rs.getString("description"), rs.getString("titre"), rs.getDate("dateCreation"));
+                quiz.setMatiere(matiereObj);
+                list.add(quiz);
+            }
+
+            return list;
+        }
+    }
 }
