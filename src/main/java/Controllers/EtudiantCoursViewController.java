@@ -20,16 +20,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class EtudiantCoursViewController {
     private ObservableList<Cours> coursList;
+    private List<Cours> allCoursList; // Liste complète des cours
     private ServiceCours serviceCours = new ServiceCours();
 
     @FXML
     private Pagination pagination;
-
+    @FXML
+    private Label noResultsLabel;
     @FXML
     private VBox container; // Assurez-vous que votre FXML contient un VBox avec fx:id="container"
 
@@ -42,6 +45,8 @@ public class EtudiantCoursViewController {
     @FXML
     public void initialize() throws SQLException {
         coursList = FXCollections.observableArrayList();
+        allCoursList = new ArrayList<>(); // Initialiser la liste complète
+
         loadCoursFromDatabase();
 
         // Calculer le nombre de pages nécessaires pour afficher 3 cours par page
@@ -137,23 +142,42 @@ public class EtudiantCoursViewController {
     private void loadCoursFromDatabase() throws SQLException {
         List<Cours> cours = serviceCours.readAll();
         coursList.setAll(cours);
+        allCoursList.addAll(cours); // Remplir la liste complète
     }
 
     @FXML
     private void handleSearch(ActionEvent actionEvent) {
         String searchTerm = searchField.getText().toLowerCase().trim();
-        if (!searchTerm.isEmpty()) {
-            List<Cours> filtered = coursList.stream()
+
+        List<Cours> filtered;
+        if (searchTerm.isEmpty()) {
+            // Afficher tous les éléments si le champ de recherche est vide
+            filtered = new ArrayList<>(allCoursList);
+        } else {
+            // Filtrer les éléments selon le terme de recherche
+            filtered = allCoursList.stream()
                     .filter(cours -> cours.getTitre().toLowerCase().contains(searchTerm))
                     .collect(Collectors.toList());
-
-            coursList.setAll(filtered);
-
-            int itemsPerPage = 3;
-            int pageCount = (int) Math.ceil((double) filtered.size() / itemsPerPage);
-            pagination.setPageCount(pageCount);
-            pagination.setCurrentPageIndex(0); // Retour à la première page après la recherche
-            pagination.setPageFactory(this::createPage);
         }
+
+        if (filtered.isEmpty()) {
+            noResultsLabel.setVisible(true);
+        } else {
+            noResultsLabel.setVisible(false);
+        }
+
+        // Remettre tous les cours en cas de recherche vide
+        if (searchTerm.isEmpty()) {
+            coursList.setAll(allCoursList);
+        } else {
+            coursList.setAll(filtered);
+        }
+
+        int itemsPerPage = 3;
+        int pageCount = (int) Math.ceil((double) coursList.size() / itemsPerPage);
+        pagination.setPageCount(pageCount);
+        pagination.setCurrentPageIndex(0); // Retour à la première page après la recherche
+        pagination.setPageFactory(this::createPage);
     }
 }
+
