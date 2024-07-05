@@ -123,6 +123,7 @@ public class ConsulterOffresParEtudiant {
             controller.setDureeContrat(offre.getDureeContrat());
             controller.setDatePublication(offre.getDatePublication().toString());
             controller.setDateLimite(offre.getDateLimite().toString());
+            controller.setEmail(offre.getEmail());
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

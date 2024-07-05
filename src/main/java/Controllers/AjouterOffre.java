@@ -114,6 +114,7 @@ public class AjouterOffre {
                 serviceOffre.ajouter(nouvelleOffre);
                 afficherPopup("Succès", "Ajout réussi", "L'offre a été ajoutée avec succès.");
                 clearFields();
+
             } catch (SQLException e) {
                 e.printStackTrace();
                 afficherPopup("Erreur", "Erreur d'ajout", "Une erreur est survenue lors de l'ajout de l'offre.");
@@ -144,21 +145,9 @@ public class AjouterOffre {
     }
 
     public void handleCancel(ActionEvent actionEvent) {
-        try {
-            // Charger le fichier FXML de l'interface consulterOffre
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ConsulterOffre.fxml"));
-            Parent root = loader.load();
-
-            // Obtenir la scène actuelle et définir le nouveau contenu
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) validerBtn.getScene().getWindow();
-            stage.setScene(scene);
-
-            // Afficher la nouvelle scène
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Fermer la fenêtre
+        Stage stage = (Stage) titreOffre.getScene().getWindow();
+        stage.close();
     }
 
     public TextField getTitreOffreTextField() {

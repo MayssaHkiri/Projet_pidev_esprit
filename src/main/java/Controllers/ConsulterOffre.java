@@ -212,8 +212,8 @@ public class ConsulterOffre {
 
 
         @FXML
-        private void handleAdd(ActionEvent event) throws IOException {
-            // Récupérer la scène actuelle à partir de n'importe quel nœud de la scène
+        private void handleAdd(ActionEvent event) throws IOException, SQLException {
+        /*    // Récupérer la scène actuelle à partir de n'importe quel nœud de la scène
             Scene scene = tableView.getScene();
 
             // Récupérer la fenêtre principale (Stage) à partir de la scène
@@ -231,12 +231,55 @@ public class ConsulterOffre {
             // Récupérer le TextField titreOffre depuis le contrôleur de la nouvelle scène
             TextField titreOffreTextField = controller.getTitreOffreTextField();
 
+
             // Utiliser le TextField titreOffreTextField comme nécessaire
 
             // Remplacer la scène actuelle par la nouvelle scène
             stage.setScene(newScene);
             stage.setTitle("Ajouter Offre");
-            stage.show();
+            stage.show();*/
+           /* try {
+                // Charger le fichier FXML de la fenêtre d'ajout
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
+                Parent root = loader.load();
+
+                // Créer une nouvelle scène avec le contenu du fichier FXML
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Ajouter une nouvelle offre");
+
+                // Afficher la nouvelle fenêtre
+                stage.show();
+                tableView.refresh();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert("Erreur", "Erreur de chargement", "Impossible d'ouvrir la fenêtre d'ajout.");
+            }
+            */
+                // Charger la nouvelle scène pour modifier une offre
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterOffre.fxml"));
+                Parent root = loader.load();
+
+                // Créer une nouvelle scène pour la modification
+                Scene newScene = new Scene(root);
+                Stage newStage = new Stage();
+                newStage.setScene(newScene);
+                newStage.setTitle("Ajouter Offre");
+
+                // Rendre le nouveau stage modal par rapport au stage principal
+                Stage primaryStage = (Stage) tableView.getScene().getWindow();
+                newStage.initOwner(primaryStage);
+                newStage.initModality(Modality.WINDOW_MODAL);
+
+                // Afficher la nouvelle fenêtre et attendre qu'elle soit fermée avant de continuer
+                newStage.showAndWait();
+
+                // Recharger les offres après la modification
+                loadOffresFromDatabase();
+
         }
 
 

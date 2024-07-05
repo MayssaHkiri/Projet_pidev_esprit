@@ -24,6 +24,10 @@ public class VoirPlusController {
     private Label datePublicationLabel;
     @FXML
     private Label dateLimiteLabel;
+     @FXML
+    private Label emailLabel;
+
+
 
     public void setEntreprise(String entreprise) {
         entrepriseLabel.setText(entreprise);
@@ -52,10 +56,12 @@ public class VoirPlusController {
     public void setDateLimite(String date) {
         dateLimiteLabel.setText(date);
     }
+    public void setEmail(String email) { emailLabel.setText(email); }
+
 
     @FXML
     private void handlePostuler() {
-        String recipient = "entreprise@gmail.com"; // Remplacez par l'adresse e-mail de destination
+        String recipient = emailLabel.getText(); // Remplacez par l'adresse e-mail de destination
         String subject = "Candidature pour le poste";
         String body = "Bonjour,\n\nJe souhaite postuler pour le poste chez " + entrepriseLabel.getText() + ".\n\nCordialement.";
 
