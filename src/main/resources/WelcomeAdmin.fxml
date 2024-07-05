@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminInterface">
+    <!-- Image de fond -->
+    <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="false">
+        <image>
+            <Image url="@wlAdmin.jpg" />
+        </image>
+    </ImageView>
+
+    <!-- Conteneur des boutons centré -->
+    <VBox alignment="CENTER" layoutX="180.0" layoutY="77.0" prefHeight="290.0" prefWidth="240.0" spacing="15.0">
+        <padding>
+            <Insets bottom="20" left="20" right="20" top="20" />
+        </padding>
+        <Button onAction="#GestionFormation" style="-fx-background-color: gray; -fx-text-fill: white; -fx-font-size: 16px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-pref-width: 200px; -fx-pref-height: 40px;" text="Gérer formation" />
+        <Button onAction="#GestionUsers" style="-fx-background-color: gray; -fx-text-fill: white; -fx-font-size: 16px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-pref-width: 200px; -fx-pref-height: 40px;" text="Gérer Utilisateur" />
+        <Button onAction="#GestionOffres" style="-fx-background-color: gray; -fx-text-fill: white; -fx-font-size: 16px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-pref-width: 200px; -fx-pref-height: 40px;" text="Gérer Offres de stages" />
+        <Button onAction="#Profil" style="-fx-background-color: gray; -fx-text-fill: white; -fx-font-size: 16px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-pref-width: 200px; -fx-pref-height: 40px;" text="Profil">
+         <VBox.margin>
+            <Insets bottom="40.0" />
+         </VBox.margin></Button>
+    </VBox>
+</AnchorPane>

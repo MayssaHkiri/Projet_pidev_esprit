@@ -8,6 +8,16 @@ public class User {
     private String password ;
     private String role ;
 
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -26,6 +36,16 @@ public class User {
         this.id = id ;
         this.role = role ;
     }
+    public User(int id, String nom, String prenom, String email, String password, String role  , String status) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.status = status  ;
+    }
+
     public User(int id, String nom, String prenom, String email, String password, String role) {
         this.id = id;
         this.nom = nom;
@@ -34,6 +54,7 @@ public class User {
         this.password = password;
         this.role = role;
     }
+
     public User (String nom , String prenom , String email , String role ) {
     this.nom = nom;
     this.prenom = prenom;

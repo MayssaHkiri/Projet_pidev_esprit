@@ -43,9 +43,7 @@ public class UserService implements IService<User> {
     @Override
     public ArrayList<User> getAll() throws SQLException {
         ArrayList<User> users = new ArrayList<>();
-
-        String req = "SELECT id, nom, prenom, email, role FROM user ";
-        Statement st;
+        String req = "SELECT id, nom, prenom, email, role, status FROM user WHERE role != 'admin'"; // Exclude users with role 'admin'
         try {
             ResultSet res = ste.executeQuery(req);
             while (res.next()) {
@@ -55,14 +53,15 @@ public class UserService implements IService<User> {
                 user.setPrenom(res.getString("prenom"));
                 user.setEmail(res.getString("email"));
                 user.setRole(res.getString("role"));
+                user.setStatus(res.getString("status"));
                 users.add(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return users;
     }
+
 
     @Override
     public boolean add(User u) throws SQLException {
@@ -74,35 +73,34 @@ public class UserService implements IService<User> {
         // Generate a random password and set it to the user
         String randomPassword = generateRandomPassword(8);
         u.setPassword(randomPassword);
+        u.setStatus("ACTIVE"); // Définir le status par défaut à ACTIVE
 
-        String req = "INSERT INTO user "
-                + "( nom, prenom, email, pwd, role)\r\n"
-                + "VALUES ( ?, ?, ?, ?, ?)";
+        String req = "INSERT INTO user (nom, prenom, email, pwd, role, status) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement pst = cnx.prepareStatement(req);
         try {
             pst.setString(1, u.getNom());
             pst.setString(2, u.getPrenom());
-            pst.setString(3 , u.getEmail()) ;
-            pst.setString(4 , u.getPassword()) ;
-            pst.setString(5 , u.getRole()) ;
+            pst.setString(3 , u.getEmail());
+            pst.setString(4 , u.getPassword());
+            pst.setString(5 , u.getRole());
+            pst.setString(6, u.getStatus());
             int result = pst.executeUpdate();
             if (result > 0) {
                 System.out.println("Ajout réussi");
-
-                // Appel de la méthode pour envoyer le mot de passe par e-mail
                 sendPasswordByEmail(u.getEmail(), randomPassword);
-
                 return true;
             } else  {
                 System.out.println("Échec de l'ajout");
                 return false;
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false ;
+        return false;
     }
+
+
+
 
     @Override
     public boolean delete(int id) throws SQLException {
@@ -178,23 +176,24 @@ public class UserService implements IService<User> {
     }
     public User authenticate(String email, String password) throws SQLException {
         if (emailExists(email)) {
-            System.out.println("j'ai trouvé le mail souhaité ! ");
+            System.out.println("j'ai trouvé le mail souhaité !");
+        } else {
+            System.out.println("le email ne se trouve pas !");
+            return null; // Retourne null si l'email n'existe pas
         }
-        else {
-            System.out.println("le email ne se trouve pas ! ");
-        }
-        String query = "SELECT id, role, pwd FROM user WHERE email = ?";
+        String query = "SELECT id, nom, prenom, email, role, pwd FROM user WHERE email = ?";
         try (PreparedStatement preparedStatement = cnx.prepareStatement(query)) {
             preparedStatement.setString(1, email);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     int userId = resultSet.getInt("id");
-                    System.out.println(userId);
                     String role = resultSet.getString("role");
-                    System.out.println(role);
                     String storedPassword = resultSet.getString("pwd");
                     if (password.equals(storedPassword)) {
-                        return new User(userId, role );
+                        String nom = resultSet.getString("nom");
+                        String prenom = resultSet.getString("prenom");
+                        String emailFromDb = resultSet.getString("email");
+                        return new User(userId, nom, prenom, emailFromDb, storedPassword, role);
                     }
                 }
             }
@@ -338,7 +337,7 @@ public class UserService implements IService<User> {
             String currentDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
             String htmlContent = "<p>Bonjour,</p>"
                     + "<p>Votre mot de passe a été changé avec succès le " + currentDate + ".</p>"
-                    + "<p>Si vous n'êtes pas à l'origine de ce changement, veuillez contacter notre support immédiatement.</p>"
+                    + "<p>Si vous n'êtes pas à l'origine de ce changement, veuillez <a href='http://yourapp.com/reclaim'>cliquer ici</a> pour soumettre une réclamation immédiatement.</p>"
                     + "<p>Cordialement,<br/>L'équipe de votre application</p>";
 
             message.setContent(htmlContent, "text/html; charset=utf-8");
@@ -352,5 +351,27 @@ public class UserService implements IService<User> {
             System.out.println("Erreur lors de l'envoi de la notification de changement de mot de passe");
         }
     }
+
+    public boolean activateUser(int userId) throws SQLException {
+        return updateUserStatus(userId, "ACTIVE");
+    }
+
+    public boolean deactivateUser(int userId) throws SQLException {
+        return updateUserStatus(userId, "DISACTIVE");
+    }
+
+    private boolean updateUserStatus(int userId, String status) throws SQLException {
+        String req = "UPDATE user SET status = ? WHERE id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setString(1, status);
+            pst.setInt(2, userId);
+            int result = pst.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 }

@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -20,6 +21,13 @@ import java.util.List;
 
 public class UsersManagement {
 
+        private User authenticatedUser;
+
+        public void setUser(User user) {
+                this.authenticatedUser = user;
+                System.out.println(user.getNom());
+                System.out.println(user.getEmail());
+        }
 
         @FXML
         private TableColumn<User, String> emailColumn;
@@ -34,6 +42,9 @@ public class UsersManagement {
         private TableColumn<User, String> roleColumn;
 
         @FXML
+        private TableColumn<User, String> statusColumn;
+
+        @FXML
         private Button searchButton;
 
         @FXML
@@ -42,20 +53,34 @@ public class UsersManagement {
         @FXML
         private TableView<User> tableView;
 
-        private UserService userService = new UserService() ;
+        @FXML
+        private Button activateButton;
+
+        @FXML
+        private Button deactivateButton;
+
+        @FXML
+        private Pagination pagination;
+
+        private UserService userService = new UserService();
         private ObservableList<User> usersList;
+
+        private static final int ROWS_PER_PAGE = 10;
 
         @FXML
         private void handleSearch(ActionEvent event) {
                 String searchTerm = searchField.getText();
+
                 if (searchTerm != null && !searchTerm.isEmpty()) {
                         try {
                                 List<User> searchResults = userService.search(searchTerm);
                                 usersList.setAll(searchResults);
+                                updatePagination();
                         } catch (SQLException e) {
                                 showAlert("Erreur", "Erreur de recherche", e.getMessage());
                         }
                 } else {
+                        // Load all users (excluding admins) when search field is empty
                         try {
                                 loadUsersFromDatabase();
                         } catch (SQLException e) {
@@ -63,7 +88,6 @@ public class UsersManagement {
                         }
                 }
         }
-
 
         @FXML
         public void initialize() throws SQLException {
@@ -74,17 +98,34 @@ public class UsersManagement {
                 nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
                 prenomColumn.setCellValueFactory(new PropertyValueFactory<>("prenom"));
                 roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
+                statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-                tableView.setItems(usersList);
+                updatePagination();
         }
 
         private void loadUsersFromDatabase() throws SQLException {
                 List<User> users = userService.getAll();
                 usersList.setAll(users);
+                updatePagination();
+        }
+
+        private void updatePagination() {
+                int pageCount = (int) Math.ceil((double) usersList.size() / ROWS_PER_PAGE);
+                pagination.setPageCount(pageCount);
+                pagination.setPageFactory(this::createPage);
+        }
+
+        private VBox createPage(int pageIndex) {
+                int fromIndex = pageIndex * ROWS_PER_PAGE;
+                int toIndex = Math.min(fromIndex + ROWS_PER_PAGE, usersList.size());
+                tableView.setItems(FXCollections.observableArrayList(usersList.subList(fromIndex, toIndex)));
+
+                VBox box = new VBox(tableView);
+                return box;
         }
 
         @FXML
-        void handleEdit(ActionEvent event) {
+        private void handleEdit(ActionEvent event) {
                 User selectedUser = tableView.getSelectionModel().getSelectedItem();
                 if (selectedUser != null) {
                         boolean okClicked = showEditDialog(selectedUser);
@@ -101,6 +142,7 @@ public class UsersManagement {
                         showAlert("Aucune sélection", "Aucun utilisateur sélectionné.", "Veuillez sélectionner un utilisateur à modifier.");
                 }
         }
+
         private boolean showEditDialog(User user) {
                 try {
                         FXMLLoader loader = new FXMLLoader();
@@ -125,7 +167,7 @@ public class UsersManagement {
         }
 
         @FXML
-        void handleDelete(ActionEvent event) {
+        private void handleDelete(ActionEvent event) {
                 User selectedUser = tableView.getSelectionModel().getSelectedItem();
                 if (selectedUser != null) {
                         try {
@@ -139,6 +181,49 @@ public class UsersManagement {
                         showAlert("Aucune sélection", "Aucun utilisateur sélectionné.", "Veuillez sélectionner un utilisateur à supprimer.");
                 }
         }
+
+        @FXML
+        private void handleActivate(ActionEvent event) {
+                User selectedUser = tableView.getSelectionModel().getSelectedItem();
+                if (selectedUser != null) {
+                        try {
+                                boolean success = userService.activateUser(selectedUser.getId());
+                                if (success) {
+                                        showAlert("Succès", "Activation réussie", "L'utilisateur a été activé avec succès.");
+                                        loadUsersFromDatabase();
+                                        tableView.refresh();
+                                } else {
+                                        showAlert("Erreur", "Erreur d'activation", "Impossible d'activer l'utilisateur.");
+                                }
+                        } catch (SQLException e) {
+                                showAlert("Erreur", "Erreur d'activation", e.getMessage());
+                        }
+                } else {
+                        showAlert("Aucune sélection", "Aucun utilisateur sélectionné.", "Veuillez sélectionner un utilisateur à activer.");
+                }
+        }
+
+        @FXML
+        private void handleDeactivate(ActionEvent event) {
+                User selectedUser = tableView.getSelectionModel().getSelectedItem();
+                if (selectedUser != null) {
+                        try {
+                                boolean success = userService.deactivateUser(selectedUser.getId());
+                                if (success) {
+                                        showAlert("Succès", "Désactivation réussie", "L'utilisateur a été désactivé avec succès.");
+                                        loadUsersFromDatabase();
+                                        tableView.refresh();
+                                } else {
+                                        showAlert("Erreur", "Erreur de désactivation", "Impossible de désactiver l'utilisateur.");
+                                }
+                        } catch (SQLException e) {
+                                showAlert("Erreur", "Erreur de désactivation", e.getMessage());
+                        }
+                } else {
+                        showAlert("Aucune sélection", "Aucun utilisateur sélectionné.", "Veuillez sélectionner un utilisateur à désactiver.");
+                }
+        }
+
         private void showAlert(String title, String header, String content) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle(title);
@@ -176,5 +261,3 @@ public class UsersManagement {
                 }
         }
 }
-
-
