@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ListeMatiereQuizController">
+  <children>
+    <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <items>
+        <AnchorPane style="-fx-background-color: #A9A9A9;">
+          <children>
+                  <AnchorPane layoutX="-1.0" prefHeight="129.0" prefWidth="223.0">
+                     <children>
+                        <ImageView fitHeight="129.0" fitWidth="223.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@espritlogo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+            <Label alignment="CENTER" layoutX="15.0" layoutY="142.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Module: QUIZ" textAlignment="CENTER" textFill="#1f1b1b" wrapText="false">
+              <font>
+                <Font name="Consolas" size="18.0" fx:id="x1" />
+              </font>
+            </Label>
+                  <ButtonBar layoutX="-1.0" layoutY="276.0" prefHeight="40.0" prefWidth="235.0">
+                     <buttons>
+                         <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="234.0" style="-fx-background-color: d40707;" text="Profile" />
+                     </buttons>
+                  </ButtonBar>
+                <Button layoutX="8.0" layoutY="179.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="226.0" style="-fx-background-color: d40707;" text="Accueil" />
+                  <Button fx:id="btnCreerQuiz" layoutX="8.0" layoutY="230.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="226.0" style="-fx-background-color: red;" text="Afficher mes matieres" />
+          </children>
+        </AnchorPane>
+        <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
+               <content>
+                  <AnchorPane prefHeight="564.0" prefWidth="657.0">
+                     <children>
+                        <Button layoutX="57.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Quiz">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Button>
+                         <AnchorPane id="parentContainer" fx:id="parentContainer" layoutX="1.0" layoutY="73.0" prefHeight="497.0" prefWidth="649.0" style="-fx-background-position: center center; -fx-background-size: contain;">
+                             <children>
+                                 <VBox fx:id="vboxContainer" />
+                              <Separator layoutX="211.0" layoutY="82.0" orientation="VERTICAL" prefHeight="328.0" prefWidth="0.0" />
+                              <Separator layoutX="59.0" layoutY="246.0" prefHeight="5.0" prefWidth="531.0" />
+                              <Separator layoutX="423.0" layoutY="82.0" orientation="VERTICAL" prefHeight="328.0" prefWidth="0.0" />
+                              <Label layoutX="219.0" layoutY="14.0" prefHeight="36.0" prefWidth="211.0" text="Liste des Matieres">
+                                 <font>
+                                    <Font name="System Bold Italic" size="25.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="59.0" layoutY="69.0" prefHeight="25.0" prefWidth="110.0" text="Math">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="291.0" layoutY="69.0" prefHeight="25.0" prefWidth="67.0" text="Physique">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="480.0" layoutY="69.0" prefHeight="25.0" prefWidth="110.0" text="Informatique">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="85.0" layoutY="267.0" prefHeight="25.0" prefWidth="57.0" text="Anglais">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="292.0" layoutY="267.0" prefHeight="25.0" prefWidth="57.0" text="Français">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="506.0" layoutY="267.0" prefHeight="25.0" prefWidth="67.0" text="Réseaux">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <ImageView fitHeight="91.0" fitWidth="97.0" layoutX="68.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@math.png" />
+                                 </image>
+                              </ImageView>
+                              <Button id="Math" layoutX="64.0" layoutY="202.0" mnemonicParsing="false" text="Afficher les quiz" onAction="#handleMatiereButton"/>
+                              <ImageView fitHeight="89.0" fitWidth="112.0" layoutX="276.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@physique.png" />
+                                 </image>
+                              </ImageView>
+                              <Button id="Physique" layoutX="275.0" layoutY="202.0" mnemonicParsing="false" text="Afficher les quiz" onAction="#handleMatiereButton"/>
+                              <ImageView fitHeight="100.0" fitWidth="112.0" layoutX="479.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@info.png" />
+                                 </image>
+                              </ImageView>
+                              <Button id="Informatique" layoutX="479.0" layoutY="202.0" mnemonicParsing="false" text="Afficher les quiz" onAction="#handleMatiereButton"/>
+                              <ImageView fitHeight="99.0" fitWidth="119.0" layoutX="271.0" layoutY="295.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@fr.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="85.0" fitWidth="85.0" layoutX="67.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@anglais.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="95.0" fitWidth="99.0" layoutX="490.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@reseau.png" />
+                                 </image>
+                              </ImageView>
+                              <Button id="anglais" layoutX="64.0" layoutY="397.0" mnemonicParsing="false" text="Afficher les quiz" onAction="#handleMatiereButton"/>
+                              <Button id="francais" layoutX="275.0" layoutY="397.0" mnemonicParsing="false" text="Afficher les quiz" onAction="#handleMatiereButton"/>
+                              <Button id="reseau" layoutX="479.0" layoutY="397.0" mnemonicParsing="false" text="Afficher les quiz" onAction="#handleMatiereButton"/>                           </children>
+                        </AnchorPane>
+                        <Button layoutX="157.0" layoutY="17.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="79.0" style="-fx-background-color: d40707;" text="Cours">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="484.0" layoutY="14.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="119.0" style="-fx-background-color: grey;" text="Deconnexion">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Separator layoutX="-1.0" layoutY="67.0" prefHeight="5.0" prefWidth="647.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+        </ScrollPane>
+      </items>
+    </SplitPane>
+    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+      <children>
+        <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
+          <font>
+            <Font size="11.0" fx:id="x3" />
+          </font>
+          <textFill>
+            <Color red="0.625" green="0.625" blue="0.625" fx:id="x4" />
+          </textFill>
+        </Label>
+        <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
+        <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
+      </children>
+      <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+      </padding>
+    </HBox>
+  </children>
+</VBox>
