@@ -1,85 +1,111 @@
 package StartApplication;
 
-import Entities.Formation;
-import Services.FormationService;
-import Utils.DataSource;
+import Entities.User;
+import Services.UserService;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    private static UserService us = new UserService() ;
+    public static void main(String[] args)  {
+
+
+        //testerCreationCompte(new User("zogh" , "ferr" , "feriel.zoghlemi@esprit.tn" , "etudiant"));
+        //testerAffichage();
+        //testerDelete(1);
+       //testerUpdate(new User(2, "benAti" , "nour" , "nour.benati@esprit.tn"));
+        //testerAuthentification("feriel.zoghlemi@esprit.tn" , "l3v20kox") ;
+        //testerSearch("fer");
+        String testEmail = "mayssahkiri2001@gmail.com";
+        String testPassword = "testpassword123";
+        us.sendPasswordByEmail(testEmail , testPassword);
+
+    }
+    public static void testerCreationCompte(User user) {
+        boolean result = false ;
         try {
-            DataSource ds = DataSource.getInstance();
-            Connection con = ds.getCon();
-
-            // Service pour gérer les formations
-            FormationService formationService = new FormationService();
-
-            // Création de formations avec images en Blob
-            Blob imageBlob1 = createImageBlob("ressources/image1.png");
-            Blob imageBlob2 = createImageBlob("ressources/image2.png");
-
-            // Définir les dates de formation
-            LocalDate localDateFormation1 = LocalDate.of(2023, 7, 1);
-            LocalDate localDateFormation2 = LocalDate.of(2023, 8, 1);
-            String dateFormation1 = localDateFormation1.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            String dateFormation2 = localDateFormation2.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-            // Créer des objets Formation
-            Formation formation1 = new Formation(1, "Java", "Cours Java avancé", imageBlob1, dateFormation1);
-            Formation formation2 = new Formation(2, "Python", "Cours Python débutant", imageBlob2, dateFormation2);
-
-            // Ajouter une formation
-            if (formationService.addFormation(formation1)) {
-                System.out.println("Formation Java ajoutée avec succès");
-            } else {
-                System.out.println("Erreur lors de l'ajout de la formation Java");
+            result =  us.add(new User(user.getNom() , user.getPrenom() , user.getEmail() , user.getRole())) ;
+            System.out.println(result);
+        }
+        catch (SQLException e ) {
+            System.out.println(e);
+        }
+    }
+    public static void testerAffichage() {
+        try {
+            ArrayList<User> users = us.getAll();
+            for (User u : users ) {
+                System.out.println("ID:" + u.getId());
+                System.out.println("Nom:" + u.getNom());
+                System.out.println("Prenom : " + u.getPrenom());
+                System.out.println("Email : " + u.getEmail());
+                System.out.println("Role : " + u.getRole());
             }
-
-            // Supprimer une formation par ID
-            if (formationService.SupprimerFormation(1)) {
-                System.out.println("Formation Java supprimée avec succès");
-            } else {
-                System.out.println("Erreur lors de la suppression de la formation Java");
+        } catch (SQLException e ) {
+            System.out.println(e);
+        }
+    }
+    public static void testerDelete(int userIdToDelete) {
+        try {
+            boolean isDeleted = us.delete((userIdToDelete)) ;
+            if (isDeleted) {
+                System.out.println("utilisateur supprimé avec succès ! ");
             }
-
-            // Trouver une formation par ID
-            Formation foundFormation = formationService.getFormationById(2);
-            if (foundFormation != null) {
-                System.out.println("Formation trouvée : " + foundFormation);
-            } else {
-                System.out.println("Formation non trouvée");
+            else {
+                System.out.println("Echéc de la suppression de l'utlisateur ! ");
             }
-
-            // Lister toutes les formations
-            System.out.println("Toutes les formations : " + formationService.getAllFormations());
-
-            // Mettre à jour une formation
-            formation2.setDescription("Cours Python intermédiaire");
-            if (formationService.ModifierFormation(formation2)) {
-                System.out.println("Formation Python mise à jour avec succès");
-            } else {
-                System.out.println("Erreur lors de la mise à jour de la formation Python");
+        }
+        catch (Exception e ) {
+            System.out.println(e);
+        }
+    }
+    public static void testerUpdate (User newUser) {
+        try {
+            boolean isUpdated = us.update(newUser) ;
+            if (isUpdated) {
+                System.out.println("Utilisateur mis à jour avec succès ! ");
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            else {
+                System.out.println("Echec de la mise à jour de l'utilisateur ");
+            }
+        }
+        catch (Exception e ) {
+            System.out.println(e);
+        }
+    }
+    public static void testerAuthentification (String email , String password ) {
+        try {
+            User authentificatedUser = us.authenticate(email , password) ;
+            if (authentificatedUser != null ) {
+                System.out.println("Authentification réussie ! ");
+                System.out.println("ID : " + authentificatedUser.getId());
+                System.out.println("Role : " + authentificatedUser.getRole());
+            }
+            else {
+                System.out.println("Echec de l'authentification ");
+            }
+        }
+        catch (Exception e ) {
+            System.out.println(e);
+        }
+    }
+    public static void testerSearch ( String searchTerm ) {
+        try {
+            List<User> users = us.search(searchTerm) ;
+            for ( User user : users ) {
+                System.out.println("ID : " + user.getId());
+                System.out.println(("Nom : " + user.getNom()));
+                System.out.println("Prenom : " + user.getPrenom());
+                System.out.println("Email : " + user.getEmail());
+                System.out.println("Role : " + user.getRole());
+                System.out.println("---------------------------------");
+            }
+        }
+        catch (Exception e )  {
+            System.out.println(e);
         }
     }
 
-    // Méthode utilitaire pour créer un Blob à partir d'une image
-    private static Blob createImageBlob(String imagePath) throws SQLException {
-        try (InputStream inputStream = new FileInputStream(imagePath)) {
-            byte[] imageBytes = inputStream.readAllBytes();
-            return new javax.sql.rowset.serial.SerialBlob(imageBytes);
-        } catch (Exception e) {
-            throw new SQLException("Failed to create Blob from image: " + e.getMessage());
-        }
-    }
 }

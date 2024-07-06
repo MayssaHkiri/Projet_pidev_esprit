@@ -1,44 +1,28 @@
 package Controllers;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 public class MainController {
-
     @FXML
     private StackPane contentPane;
 
     @FXML
-    private VBox sidebar; // Assurez-vous que votre VBox de sidebar est correctement injecté depuis le fichier FXML.
-
-    @FXML
-    public void loadGestionCoursPage() {
-        loadPage("GererCours.fxml");
+    private void loadGestionCoursPage() {
+        loadPage("CoursView.fxml");
     }
 
     @FXML
-    public void loadGestionFormationsPage() {
-        // Masquer le sidebar spécifiquement pour la gestion des formations
-        sidebar.setManaged(false);
-        sidebar.setVisible(false);
+    private void loadGestionMatieresPage() {
+        loadPage("MatiereView.fxml");
+    }
 
+    @FXML
+    private void loadGestionFormationPage() {
         loadPage("GererFormation.fxml");
-
-        // Restaurer l'état du sidebar après chargement
-        sidebar.setManaged(true);
-        sidebar.setVisible(true);
-    }
-
-    @FXML
-    public void loadGestionOffresPage() {
-        loadPage("GererOffres.fxml");
-    }
-
-    @FXML
-    public void loadGestionUtilisateursPage() {
-        loadPage("GererUtilisateurs.fxml");
     }
 
     private void loadPage(String fxmlFile) {
@@ -48,5 +32,9 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void loadGestionOffrePage(ActionEvent actionEvent) {
+        loadPage("ConsulterOffre.fxml");
     }
 }

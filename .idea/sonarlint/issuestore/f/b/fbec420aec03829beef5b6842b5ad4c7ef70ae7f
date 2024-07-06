@@ -1,0 +1,15 @@
+
+r	java:S117h"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(°˜Õüÿÿÿÿ8Ñ„¤Íş1
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ñ¶‘–8ç¡êÌş1
+l
+java:S2095A"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(ííïÈ8¹ù“ğş1
+d
+java:S2095t"GUse try-with-resources or close this "Statement" in a "finally" clause.(ÜÙ°ù8¹ù“ğş1
+L	java:S106"+Replace this use of System.out by a logger.(¨¶ÑÍşÿÿÿÿ8í¡êÌş1
+I
+java:S1481)"'Remove this unused "st" local variable.(˜¢Šªûÿÿÿÿ8¦’œÍş1
+L	java:S106J"+Replace this use of System.out by a logger.(´â§úÿÿÿÿ8ğ¡êÌş1
+L	java:S106M"+Replace this use of System.out by a logger.(š»Ë±ıÿÿÿÿ8ğ¡êÌş1
+G	java:S106k"+Replace this use of System.out by a logger.(é™ÇÀ8€æ£Íş1
+X
+java:S1144";Remove this unused private "generateRandomPassword" method.(ÄŸş8ˆÓ©Íş1

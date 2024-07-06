@@ -163,27 +163,6 @@ public class GererFormation {
             }
         }
     }
-
-    @FXML
-    private void handleLoadGestionCoursPage(ActionEvent event) {
-        mainController.loadGestionCoursPage();
-    }
-
-    @FXML
-    private void handleLoadGestionFormationsPage(ActionEvent event) {
-        mainController.loadGestionFormationsPage();
-    }
-
-    @FXML
-    private void handleLoadGestionOffresPage(ActionEvent event) {
-        mainController.loadGestionOffresPage();
-    }
-
-    @FXML
-    private void handleLoadGestionUtilisateursPage(ActionEvent event) {
-        mainController.loadGestionUtilisateursPage();
-    }
-
     private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType, content, ButtonType.OK);
         alert.setTitle(title);
