@@ -22,7 +22,7 @@ public class MainController {
 
     @FXML
     private void loadGestionFormationPage() {
-        loadPage("FormationView.fxml");
+        loadPage("GererFormation.fxml");
     }
 
     private void loadPage(String fxmlFile) {

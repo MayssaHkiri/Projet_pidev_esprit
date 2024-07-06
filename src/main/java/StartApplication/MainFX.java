@@ -20,7 +20,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainStudent.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainTeacher.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main.fxml"));
         stage.getIcons().add(new Image("/logo_esprit.png"));
         Parent root = null ;
         root = loader.load();
@@ -28,7 +28,7 @@ public class MainFX extends Application {
         stage.setTitle("Welcome page");
         stage.setScene(scene);
         stage.show();
-
+/*
         String fxmlFile = loader.getLocation().getFile();
         if (fxmlFile.endsWith("mainTeacher.fxml")) {
             MainTeacherController controller = loader.getController();
@@ -37,7 +37,7 @@ public class MainFX extends Application {
             MainStudentController controller = loader.getController();
             controller.setStage(stage);
         }
-
+*/
 
     }
 }
