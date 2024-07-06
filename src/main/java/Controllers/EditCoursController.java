@@ -81,8 +81,8 @@ public class EditCoursController {
         }
 
     }
-    @FXML
-    private ChoiceBox<Chapitre> chapitreChoiceBox;
+   /* @FXML
+    private ChoiceBox<Chapitre> chapitreChoiceBox;*/
 
     @FXML
     private void handleSave() throws SQLException {
@@ -110,12 +110,7 @@ public class EditCoursController {
         okClicked = true;
         dialogStage.close();
 
-        /*cours.setPdfFile(cours.getPdfFile());
-        ServiceCours serviceCours=new ServiceCours();
-        cours.setIdChapitre(id);
-        System.out.println("cours="+cours);
-        //serviceCours.update(cours);
-        */
+
 
     }
 

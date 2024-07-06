@@ -50,6 +50,7 @@ public class EditMatiereController {
 
     @FXML
     private void handleCancel() {
+
         dialogStage.close();
     }
 }

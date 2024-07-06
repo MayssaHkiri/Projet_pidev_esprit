@@ -118,9 +118,16 @@ public class CoursViewController implements Initializable {
         String description = descriptionField.getText();
         Matiere selectedMatiere = matiereChoiceBox.getValue();
         Chapitre selectedChapitre = chapitreChoiceBox.getValue();
-        System.out.println("id=" + selectedChapitre.getId());
-
         Blob pdfBlob = null;
+
+        // Check if all required fields are filled
+        if (titre == null || titre.isEmpty() || description == null || description.isEmpty() ||
+                selectedMatiere == null || selectedChapitre == null || pdfFile == null) {
+            showAlert(AlertType.ERROR, "Ajout impossible", null, "Vous n'avez pas rempli les champs obligatoires !");
+            return;
+        }
+
+        // If all fields are filled, proceed with adding the course
         if (pdfFile != null) {
             try (FileInputStream fis = new FileInputStream(pdfFile)) {
                 pdfBlob = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
@@ -129,9 +136,8 @@ public class CoursViewController implements Initializable {
             }
         }
 
-        if (titre != null && !titre.isEmpty() && description != null && !description.isEmpty() && pdfBlob != null) {
+        if (pdfBlob != null) {
             try {
-                System.out.println(selectedChapitre);
                 Cours cours = new Cours(titre, description, 1, selectedChapitre.getId(), pdfBlob);
                 serviceCours.ajouter(cours);
                 coursList.add(cours);
@@ -145,10 +151,9 @@ public class CoursViewController implements Initializable {
                 e.printStackTrace();
                 showAlert(AlertType.ERROR, "Erreur", "Exception SQL", e.getMessage());
             }
-        } else {
-            showAlert(AlertType.ERROR, "Ajout impossible", null, "Vous n'avez pas rempli les champs obligatoires !");
         }
     }
+
 
     private void showAlert(AlertType alertType, String title, String header, String content) {
         Alert alert = new Alert(alertType);
@@ -161,48 +166,16 @@ public class CoursViewController implements Initializable {
     @FXML
     private void handleUpdate() {
         Cours selectedCours = tableView.getSelectionModel().getSelectedItem();
-        Blob pdfBlob = selectedCours.getPdfFile();
 
-        if (selectedCours != null) {
-            Cours cours = showEditDialog(selectedCours);
-            tableView.refresh();
-
-           /* if (cours != null) {
-                try {
-
-                    try (FileInputStream fis = new FileInputStream(pdfFile)) {
-                        pdfBlob = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
-                    } catch (IOException | SQLException e) {
-                        e.printStackTrace();
-                    }
-
-                    selectedCours.setPdfFile(cours.getPdfFile());
-                    serviceCours.update(selectedCours);
-                    tableView.refresh();
-
-                    // Show success alert
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Modification réussie");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Le cours a été modifié avec succès !");
-                    alert.showAndWait();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-
-
+        if (selectedCours == null) {
+            showAlert(AlertType.ERROR, "Erreur", null, "Veuillez sélectionner un cours à modifier !");
+            return;
         }
-            */
+        Cours updatedCours = showEditDialog(selectedCours);
     }
-}
 
-    private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
+
 
     @FXML
     private void handleDelete() {
@@ -319,5 +292,7 @@ public class CoursViewController implements Initializable {
 
 
     }
+
+
 }
 
