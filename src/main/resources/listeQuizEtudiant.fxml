@@ -54,7 +54,7 @@
   <children>
     <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
-        <AnchorPane style="-fx-background-color: #A9A9A9;">
+          <AnchorPane minWidth="250" maxWidth="250" prefWidth="200" style="-fx-background-color: #A9A9A9;">
           <children>
                   <AnchorPane layoutX="-1.0" prefHeight="129.0" prefWidth="223.0">
                      <children>

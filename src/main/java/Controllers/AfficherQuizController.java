@@ -6,6 +6,7 @@ import Entities.Quiz;
 import Entities.Reponse;
 import Services.QuestionService;
 import Services.ReponseService;
+import Utils.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -157,6 +158,25 @@ public class AfficherQuizController implements Initializable {
             stage.show();
         } catch (IOException e) {
             System.out.println("Error while loading ajoutQuiz.fxml: " + e.getMessage());
+        }
+    }
+    public void handleAccueil(ActionEvent actionEvent) {
+        Stage mainTeacherStage = StageManager.getInstance().getMainTeacherStage();
+        if (mainTeacherStage != null && mainTeacherStage.isShowing()) {
+            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+        } else {
+            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainTeacher.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                StageManager.getInstance().setMainTeacherStage(stage);
+            } catch (IOException e) {
+                System.out.println("Error while loading mainTeacher.fxml: " + e.getMessage());
+            }
         }
     }
 }

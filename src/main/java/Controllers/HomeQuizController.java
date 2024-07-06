@@ -1,5 +1,6 @@
 package Controllers;
 
+import Utils.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +15,7 @@ import javafx.collections.FXCollections;
 import Services.QuizService;
 import Entities.Quiz;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -137,6 +139,25 @@ public class HomeQuizController {
             stage.show();
         } catch (IOException e) {
             System.out.println("Error while loading ajoutQuiz.fxml: " + e.getMessage());
+        }
+    }
+    public void handleAccueil(ActionEvent actionEvent) {
+        Stage mainTeacherStage = StageManager.getInstance().getMainTeacherStage();
+        if (mainTeacherStage != null && mainTeacherStage.isShowing()) {
+            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+        } else {
+            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainTeacher.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                StageManager.getInstance().setMainTeacherStage(stage);
+            } catch (IOException e) {
+                System.out.println("Error while loading mainTeacher.fxml: " + e.getMessage());
+            }
         }
     }
 

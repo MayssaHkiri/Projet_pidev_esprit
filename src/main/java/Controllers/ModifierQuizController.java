@@ -2,6 +2,7 @@ package Controllers;
 
 import Entities.*;
 import Services.*;
+import Utils.StageManager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -67,7 +68,7 @@ public class ModifierQuizController {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle("Modifier le titre");
         dialog.getDialogPane().setMinWidth(400);
-        dialog.getDialogPane().setMinHeight(400);
+        dialog.getDialogPane().setMinHeight(150);
         ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
@@ -136,7 +137,7 @@ public class ModifierQuizController {
         Dialog<Matiere> dialog = new Dialog<>();
         dialog.setTitle("Changer la matiere");
         dialog.getDialogPane().setMinWidth(400);
-        dialog.getDialogPane().setMinHeight(400);
+        dialog.getDialogPane().setMinHeight(100);
         ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
@@ -543,5 +544,24 @@ public class ModifierQuizController {
 
     public void setQuestionId(int questionId) {
         this.questionId = questionId;
+    }
+    public void handleAccueil(ActionEvent actionEvent) {
+        Stage mainTeacherStage = StageManager.getInstance().getMainTeacherStage();
+        if (mainTeacherStage != null && mainTeacherStage.isShowing()) {
+            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+        } else {
+            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainTeacher.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                StageManager.getInstance().setMainTeacherStage(stage);
+            } catch (IOException e) {
+                System.out.println("Error while loading mainTeacher.fxml: " + e.getMessage());
+            }
+        }
     }
 }
