@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="400.0" prefWidth="180.0" spacing="15" style="-fx-background-color: #F4F4F4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AdminSidebarController">
+    <children>
+        <!-- Space for Logo -->
+        <ImageView fitHeight="56.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@logo_esprit.png" />
+            </image>
+            <VBox.margin>
+                <Insets bottom="20.0" top="-165.0" />
+            </VBox.margin>
+        </ImageView>
+        <!-- Buttons -->
+        <Button fx:id="btnUsers" onAction="#handleUsersManagement" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: #B0B0B0; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;" text="Gérer Utilisateurs" />
+        <Button fx:id="btnCourses" onAction="#handleCoursesManagement" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: #B0B0B0; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;" text="Gérer Formations" />
+        <Button fx:id="btnInternships" onAction="#handleInternshipsManagement" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-font-size: 12px; -fx-font-weight: bold; -fx-border-color: #B0B0B0; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;" text="Gérer Offres de Stage" />
+    </children>
+</VBox>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AccountCreation">
+    <children>
+
+        <!-- Sidebar -->
+        <fx:include fx:id="Adminsidebar" source="AdminSideBar.fxml" />
+
+        <!-- Main content -->
+        <VBox layoutX="190.0" layoutY="20.0" prefHeight="360.0" prefWidth="390.0" spacing="15" style="-fx-background-color: #C4C4C4; -fx-padding: 20;">
+            <children>
+                <HBox alignment="CENTER">
+                    <ImageView fitHeight="56.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@IconUtilisateur.png" />
+                        </image>
+                    </ImageView>
+                    <Label text="Ajouter Utilisateur" textFill="#030000">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                        <HBox.margin>
+                            <Insets left="10.0" />
+                        </HBox.margin>
+                    </Label>
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label alignment="CENTER_RIGHT" prefWidth="80.0" text="Nom:" textFill="BLACK">
+                        <font>
+                            <Font name="Bell MT Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="tfName" prefHeight="25.0" prefWidth="200.0" />
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label alignment="CENTER_RIGHT" prefWidth="80.0" text="Prénom:" textFill="BLACK">
+                        <font>
+                            <Font name="Bell MT Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="tfPrenom" prefHeight="25.0" prefWidth="200.0" />
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label alignment="CENTER_RIGHT" prefWidth="80.0" text="Email:" textFill="BLACK">
+                        <font>
+                            <Font name="Bell MT Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="tfEmail" prefHeight="25.0" prefWidth="200.0" />
+                </HBox>
+
+                <HBox spacing="10">
+                    <Label alignment="CENTER_RIGHT" prefWidth="80.0" text="Rôle:" textFill="BLACK">
+                        <font>
+                            <Font name="Bell MT Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <ChoiceBox fx:id="myChoiceBox" prefWidth="200.0" />
+                </HBox>
+
+                <!-- Centering the button within an HBox -->
+                <HBox alignment="CENTER">
+                    <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#AddNewUser" style="-fx-background-color: #FF6347; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="Ajouter" />
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

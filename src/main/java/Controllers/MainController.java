@@ -1,5 +1,6 @@
 package Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Pane;
@@ -21,7 +22,7 @@ public class MainController {
 
     @FXML
     private void loadGestionFormationPage() {
-        loadPage("FormationView.fxml");
+        loadPage("GererFormation.fxml");
     }
 
     private void loadPage(String fxmlFile) {
@@ -31,5 +32,9 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void loadGestionOffrePage(ActionEvent actionEvent) {
+        loadPage("ConsulterOffre.fxml");
     }
 }
