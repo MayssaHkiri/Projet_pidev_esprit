@@ -100,7 +100,6 @@ public class ServiceCours implements IService<Cours> {
         return new Cours(id, titre, description, enseignantId, idChapitre, pdfFile);
     }
 
-
     @Override
     public List<Cours> readAll() throws SQLException {
         List<Cours> cours = new ArrayList<>();
@@ -120,4 +119,43 @@ public class ServiceCours implements IService<Cours> {
 
         return cours;
     }
+
+    public List<Cours> readByMatiereAndChapitre(int matiereId, int chapitreId) throws SQLException {
+        List<Cours> cours = new ArrayList<>();
+        String sql = "SELECT c.* FROM support c JOIN chapitre ch ON c.idChapitre = ch.id WHERE ch.idMatiere = ? AND c.idChapitre = ?";
+
+        try (PreparedStatement ps = con1.prepareStatement(sql)) {
+            ps.setInt(1, matiereId);
+            ps.setInt(2, chapitreId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    cours.add(mapOffreFromResultSet(rs));
+                }
+            }
+        }
+
+        return cours;
+    }
+
+    public List<Cours> searchCourses(String searchTerm, int matiereId, int chapitreId) throws SQLException {
+        List<Cours> cours = new ArrayList<>();
+        String sql = "SELECT c.* FROM support c JOIN chapitre ch ON c.idChapitre = ch.id WHERE ch.idMatiere = ? AND c.idChapitre = ? AND LOWER(c.titre) LIKE ?";
+
+        try (PreparedStatement ps = con1.prepareStatement(sql)) {
+            ps.setInt(1, matiereId);
+            ps.setInt(2, chapitreId);
+            ps.setString(3, "%" + searchTerm.toLowerCase() + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    cours.add(mapOffreFromResultSet(rs));
+                }
+            }
+        }
+
+        return cours;
+    }
+
+
 }

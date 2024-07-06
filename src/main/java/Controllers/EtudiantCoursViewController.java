@@ -1,7 +1,11 @@
 package Controllers;
 
+import Entities.Chapitre;
 import Entities.Cours;
+import Entities.Matiere;
+import Services.ServiceChapitre;
 import Services.ServiceCours;
+import Services.ServiceMatiere;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,6 +32,8 @@ public class EtudiantCoursViewController {
     private ObservableList<Cours> coursList;
     private List<Cours> allCoursList; // Liste complète des cours
     private ServiceCours serviceCours = new ServiceCours();
+    private ServiceMatiere serviceMatiere = new ServiceMatiere();
+    private ServiceChapitre serviceChapitre = new ServiceChapitre();
 
     @FXML
     private Pagination pagination;
@@ -38,9 +44,16 @@ public class EtudiantCoursViewController {
 
     @FXML
     private TextField searchField;
-
     @FXML
     private Button searchButton;
+
+    @FXML
+    private ChoiceBox<Matiere> matiereChoiceBox;
+    @FXML
+    private ChoiceBox<Chapitre> chapitreChoiceBox;
+
+    private ObservableList<Matiere> matiereList = FXCollections.observableArrayList();
+    private ObservableList<Chapitre> chapitreList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() throws SQLException {
@@ -49,12 +62,32 @@ public class EtudiantCoursViewController {
 
         loadCoursFromDatabase();
 
-        // Calculer le nombre de pages nécessaires pour afficher 3 cours par page
-        int itemsPerPage = 3;
+        // Calculer le nombre de pages nécessaires pour afficher 5 cours par page
+        int itemsPerPage = 5;
         int pageCount = (int) Math.ceil((double) coursList.size() / itemsPerPage);
 
         pagination.setPageCount(pageCount);
         pagination.setPageFactory(this::createPage);
+
+        matiereList.addAll(serviceMatiere.readAll());
+        matiereChoiceBox.setItems(matiereList);
+
+        matiereChoiceBox.setOnAction(event -> {
+            Matiere selectedMatiere = matiereChoiceBox.getSelectionModel().getSelectedItem();
+            if (selectedMatiere != null) {
+                loadChapitresForMatiere(selectedMatiere.getId());
+            }
+        });
+    }
+
+    private void loadChapitresForMatiere(int matiereId) {
+        try {
+            chapitreList.clear();
+            chapitreList.addAll(serviceChapitre.readByMatiere(matiereId));
+            chapitreChoiceBox.setItems(chapitreList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private VBox createPage(int pageIndex) {
@@ -62,7 +95,7 @@ public class EtudiantCoursViewController {
         pageBox.setAlignment(Pos.CENTER);
 
         // Calculer l'index de début et de fin pour la page actuelle
-        int itemsPerPage = 3;
+        int itemsPerPage = 5;
         int startIndex = pageIndex * itemsPerPage;
         int endIndex = Math.min(startIndex + itemsPerPage, coursList.size());
 
@@ -81,8 +114,8 @@ public class EtudiantCoursViewController {
 
             // Créer une ImageView avec une image (à remplacer par votre propre chemin d'accès à l'image)
             ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/logoPdf.jpg"))));
-            imageView.setFitWidth(100); // Largeur de l'image
-            imageView.setFitHeight(100); // Hauteur de l'image
+            imageView.setFitWidth(50); // Largeur de l'image réduite
+            imageView.setFitHeight(50); // Hauteur de l'image réduite
 
             // Créer un Label avec le titre du cours
             Label label = new Label(cours.getTitre());
@@ -148,36 +181,58 @@ public class EtudiantCoursViewController {
     @FXML
     private void handleSearch(ActionEvent actionEvent) {
         String searchTerm = searchField.getText().toLowerCase().trim();
+        Matiere selectedMatiere = matiereChoiceBox.getValue();
+        Chapitre selectedChapitre = chapitreChoiceBox.getValue();
 
-        List<Cours> filtered;
-        if (searchTerm.isEmpty()) {
-            // Afficher tous les éléments si le champ de recherche est vide
-            filtered = new ArrayList<>(allCoursList);
-        } else {
-            // Filtrer les éléments selon le terme de recherche
-            filtered = allCoursList.stream()
-                    .filter(cours -> cours.getTitre().toLowerCase().contains(searchTerm))
-                    .collect(Collectors.toList());
-        }
+        if (selectedMatiere != null && selectedChapitre != null) {
+            try {
+                List<Cours> filteredCours = serviceCours.searchCourses(searchTerm, selectedMatiere.getId(), selectedChapitre.getId());
+                coursList.setAll(filteredCours);
 
-        if (filtered.isEmpty()) {
-            noResultsLabel.setVisible(true);
+                // Mise à jour du label "Aucun résultat trouvé"
+                noResultsLabel.setVisible(filteredCours.isEmpty());
+
+                // Réinitialisation de la pagination
+                int itemsPerPage = 5;
+                int pageCount = (int) Math.ceil((double) coursList.size() / itemsPerPage);
+                pagination.setPageCount(pageCount);
+                pagination.setCurrentPageIndex(0);
+                pagination.setPageFactory(this::createPage);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
+            coursList.setAll(allCoursList);
             noResultsLabel.setVisible(false);
         }
+    }
 
-        // Remettre tous les cours en cas de recherche vide
-        if (searchTerm.isEmpty()) {
-            coursList.setAll(allCoursList);
+
+    @FXML
+    private void handleFilter(ActionEvent actionEvent) {
+        Matiere selectedMatiere = matiereChoiceBox.getValue();
+        Chapitre selectedChapitre = chapitreChoiceBox.getValue();
+
+        if (selectedMatiere != null && selectedChapitre != null) {
+            try {
+                List<Cours> filteredCours = serviceCours.readByMatiereAndChapitre(selectedMatiere.getId(), selectedChapitre.getId());
+                coursList.setAll(filteredCours);
+
+                // Mise à jour du label "Aucun résultat trouvé"
+                noResultsLabel.setVisible(filteredCours.isEmpty());
+
+                // Réinitialisation de la pagination
+                int itemsPerPage = 5;
+                int pageCount = (int) Math.ceil((double) coursList.size() / itemsPerPage);
+                pagination.setPageCount(pageCount);
+                pagination.setCurrentPageIndex(0);
+                pagination.setPageFactory(this::createPage);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } else {
-            coursList.setAll(filtered);
+            coursList.setAll(allCoursList);
+            noResultsLabel.setVisible(false);
         }
-
-        int itemsPerPage = 3;
-        int pageCount = (int) Math.ceil((double) coursList.size() / itemsPerPage);
-        pagination.setPageCount(pageCount);
-        pagination.setCurrentPageIndex(0); // Retour à la première page après la recherche
-        pagination.setPageFactory(this::createPage);
     }
 }
-
