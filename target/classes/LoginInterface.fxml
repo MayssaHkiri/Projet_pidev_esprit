@@ -20,7 +20,7 @@
       <Text style="-fx-fill: black; -fx-font-size: 18px;" text="Password:" />
       <PasswordField fx:id="passwordField" style="-fx-background-color: white; -fx-border-color: gray; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.16), 5, 0, 0, 5);" />
       <Button fx:id="submitButton" contentDisplay="CENTER" onAction="#authentification" style="-fx-background-color: red; -fx-text-fill: white; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.16), 5, 0, 0, 5);" text="Login" textAlignment="CENTER" textFill="WHITE" />
-      <Button fx:id="resetButton" onAction="#changerMotDePasse" style="-fx-background-color: gray; -fx-text-fill: white; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.16), 5, 0, 0, 5);" text="Reset Password" />
+      <Button fx:id="resetButton" style="-fx-background-color: gray; -fx-text-fill: white; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.16), 5, 0, 0, 5);" text="Reset Password" />
    </VBox>
    <ImageView fitHeight="111.0" fitWidth="130.0" layoutX="330.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
       <image>
