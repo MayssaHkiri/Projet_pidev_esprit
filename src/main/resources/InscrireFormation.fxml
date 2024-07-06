@@ -4,8 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -16,19 +14,6 @@
 <VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.InscrireFormation">
     <children>
         <BorderPane style="-fx-background-color: #f0f0f0;">
-            <top>
-                <VBox alignment="CENTER" spacing="10">
-                    <ImageView fitHeight="100" fitWidth="100">
-                        <image>
-                            <Image url="@image1.png" />
-                        </image>
-                        <VBox.margin>
-                            <Insets top="15.0" />
-                        </VBox.margin>
-                    </ImageView>
-                    <Text fx:id="titreFormationText" style="-fx-font-size: 20px;" />
-                </VBox>
-            </top>
             <center>
                 <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10">
                     <padding>

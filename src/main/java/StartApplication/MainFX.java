@@ -12,7 +12,7 @@ public class MainFX extends Application {
     public void start(Stage stage) throws Exception {
         try {
             // Charger le fichier FXML principal
-            Parent root = FXMLLoader.load(getClass().getResource("/Main.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/ConsulterFormation.fxml"));
 
             // Configurer la scène
             Scene scene = new Scene(root);

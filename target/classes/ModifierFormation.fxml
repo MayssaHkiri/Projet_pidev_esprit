@@ -53,8 +53,14 @@
             </children>
         </HBox>
         <HBox alignment="CENTER" spacing="10.0">
-            <Button mnemonicParsing="false" onAction="#modifierFormation" style="-fx-background-color: green; -fx-text-fill: white;" text="Modifier" />
-            <Button mnemonicParsing="false" onAction="#annulerModification" style="-fx-background-color: #E22D0C; -fx-text-fill: white;" text="Annuler" />
+            <Button mnemonicParsing="false" onAction="#modifierFormation" style="-fx-background-color: green; -fx-text-fill: white;" text="Modifier">
+            <HBox.margin>
+               <Insets top="-30.0" />
+            </HBox.margin></Button>
+            <Button mnemonicParsing="false" onAction="#annulerModification" style="-fx-background-color: #E22D0C; -fx-text-fill: white;" text="Annuler">
+            <HBox.margin>
+               <Insets top="-30.0" />
+            </HBox.margin></Button>
         </HBox>
     </children>
     <padding>

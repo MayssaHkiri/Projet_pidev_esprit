@@ -74,7 +74,6 @@ public class GererFormation {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AjouterFormation.fxml"));
             Parent root = loader.load();
 
-            // Récupérer le contrôleur et passer le stage
             AjouterFormation controller = loader.getController();
             controller.setStage(stage);
 
@@ -83,7 +82,6 @@ public class GererFormation {
             stage.setTitle("Ajouter Formation");
             stage.show();
 
-            // Attacher un écouteur pour rafraîchir la TableView lors de la fermeture de la fenêtre
             stage.setOnHidden((WindowEvent we) -> {
                 try {
                     loadFormationsFromDatabase();
@@ -112,6 +110,14 @@ public class GererFormation {
                 stage.setScene(scene);
                 stage.setTitle("Modifier Formation");
                 stage.show();
+
+                stage.setOnHidden((WindowEvent we) -> {
+                    try {
+                        loadFormationsFromDatabase();
+                    } catch (SQLException e) {
+                        showAlert("Erreur de chargement", "Erreur lors du rechargement des formations depuis la base de données.", e.getMessage());
+                    }
+                });
             } catch (IOException e) {
                 showAlert("Erreur d'ouverture", "Erreur lors de l'ouverture de la fenêtre de modification de formation.", e.getMessage());
             }
@@ -125,7 +131,7 @@ public class GererFormation {
         Formation selectedFormation = tableView.getSelectionModel().getSelectedItem();
         if (selectedFormation != null) {
             try {
-                if (serviceFormation.SupprimerFormation(selectedFormation.getId())) { // Corrected method name
+                if (serviceFormation.SupprimerFormation(selectedFormation.getId())) {
                     formationsList.remove(selectedFormation);
                     showAlert("Suppression réussie", "Formation supprimée avec succès.", "");
                 } else {

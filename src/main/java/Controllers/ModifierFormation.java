@@ -101,7 +101,26 @@ public class ModifierFormation {
         String newTitre = titreField.getText();
         String newDescription = descriptionField.getText();
         LocalDate newDate = dateFormationPicker.getValue();
-        String newDateString = DATE_FORMATTER.format(newDate);
+        String newDateString = null;
+
+        if (newDate != null) {
+            newDateString = DATE_FORMATTER.format(newDate);
+        }
+
+        if (newTitre == null || newTitre.trim().isEmpty() || !newTitre.matches("[a-zA-Z\\s]+")) {
+            afficherPopup("Erreur de saisie", "Titre invalide", "Veuillez vérifier les données saisies.");
+            return;
+        }
+
+        if (newDescription == null || newDescription.trim().isEmpty() || !newDescription.matches("[a-zA-Z\\s]+")) {
+            afficherPopup("Erreur de saisie", "Description invalide", "Veuillez vérifier les données saisies.");
+            return;
+        }
+
+        if (newDateString == null) {
+            afficherPopup("Erreur de saisie", "Date invalide", "Veuillez vérifier les données saisies.");
+            return;
+        }
 
         if (formation != null) {
             formation.setTitre(newTitre);

@@ -2,140 +2,60 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterFormation">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AjouterFormation">
     <children>
-        <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="428.0" prefWidth="649.0">
+        <Label maxWidth="1.7976931348623157E308" prefWidth="-1.0" style="-fx-font-size: 18pt; -fx-font-weight: bold;" text="Ajouter Formation" wrapText="true">
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+        </Label>
+        <HBox spacing="20.0" VBox.vgrow="ALWAYS">
             <children>
-                <BorderPane layoutX="5.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="639.0">
-                    <left>
-                        <HBox prefHeight="361.0" prefWidth="121.0" BorderPane.alignment="CENTER">
-                            <children>
-                                <HBox prefHeight="361.0" prefWidth="133.0" style="-fx-background-color: #C4C4C4;">
-                                    <children>
-                                        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" style="-fx-background-color: #E22D0C; -fx-text-fill: white; -fx-font-weight: bold;" text="Accueil">
-                                            <HBox.margin>
-                                                <Insets left="15.0" top="30.0" />
-                                            </HBox.margin>
-                                            <padding>
-                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                                            </padding>
-                                        </Button>
-                                    </children>
-                                </HBox>
-                            </children>
-                        </HBox>
-                    </left>
-                    <top>
-                        <HBox prefHeight="83.0" prefWidth="645.0" style="-fx-background-color: #C4C4C4;" BorderPane.alignment="CENTER">
-                            <children>
-                                <ImageView fitHeight="47.0" fitWidth="95.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@Logo_ESPRIT_Ariana-removebg-preview.png" />
-                                    </image>
-                                    <HBox.margin>
-                                        <Insets left="15.0" top="20.0" />
-                                    </HBox.margin>
-                                </ImageView>
-                                <ComboBox fx:id="btNiveau" prefHeight="27.0" prefWidth="96.0" promptText="Niveaux">
-                                    <HBox.margin>
-                                        <Insets left="30.0" top="30.0" />
-                                    </HBox.margin>
-                                </ComboBox>
-                                <ComboBox prefHeight="27.0" prefWidth="116.0" promptText="Formations">
-                                    <HBox.margin>
-                                        <Insets left="15.0" top="30.0" />
-                                    </HBox.margin>
-                                </ComboBox>
-                                <ComboBox prefHeight="27.0" prefWidth="76.0" promptText="Quiz">
-                                    <HBox.margin>
-                                        <Insets left="15.0" top="30.0" />
-                                    </HBox.margin>
-                                </ComboBox>
-                                <ComboBox prefHeight="25.0" prefWidth="90.0" promptText="Cours">
-                                    <HBox.margin>
-                                        <Insets left="15.0" top="30.0" />
-                                    </HBox.margin>
-                                </ComboBox>
-                            </children>
-                        </HBox>
-                    </top>
-                    <center>
-                        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-                            <children>
-                                <HBox prefHeight="100.0" prefWidth="200.0">
-                                    <children>
-                                        <ImageView fx:id="imageView" fitHeight="131.0" fitWidth="107.0" pickOnBounds="true" preserveRatio="true">
-                                            <HBox.margin>
-                                                <Insets left="170.0" top="30.0" />
-                                            </HBox.margin>
-                                        </ImageView>
-                                        <Button mnemonicParsing="false" onAction="#handleSelectImage" style="-fx-background-color: #E22D0C; -fx-text-fill: white; -fx-font-weight: bold;" text="Sélectionner Image">
-                                            <HBox.margin>
-                                                <Insets left="15.0" top="30.0" />
-                                            </HBox.margin>
-                                            <padding>
-                                                <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                                            </padding>
-                                        </Button>
-                                    </children>
-                                </HBox>
-                                <Label style="-fx-font-weight: bold;" text="Titre">
-                                    <VBox.margin>
-                                        <Insets left="40.0" top="10.0" />
-                                    </VBox.margin>
-                                </Label>
-                                <TextField fx:id="tfTitre" prefHeight="26.0" prefWidth="275.0">
-                                    <VBox.margin>
-                                        <Insets left="40.0" top="5.0" />
-                                    </VBox.margin>
-                                </TextField>
-                                <Label style="-fx-font-weight: bold;" text="Description">
-                                    <VBox.margin>
-                                        <Insets left="40.0" top="10.0" />
-                                    </VBox.margin>
-                                </Label>
-                                <TextField fx:id="tfDescription" prefHeight="26.0" prefWidth="275.0">
-                                    <VBox.margin>
-                                        <Insets left="40.0" top="5.0" />
-                                    </VBox.margin>
-                                </TextField>
-                                <Label style="-fx-font-weight: bold;" text="Date de Formation">
-                                    <VBox.margin>
-                                        <Insets left="40.0" top="10.0" />
-                                    </VBox.margin>
-                                </Label>
-                                <DatePicker fx:id="datePicker" prefHeight="26.0" prefWidth="275.0">
-                                    <VBox.margin>
-                                        <Insets left="40.0" top="5.0" />
-                                    </VBox.margin>
-                                </DatePicker>
-                                <Button fx:id="btAjouter" mnemonicParsing="false" onAction="#handleAjouterFormation" prefHeight="33.0" prefWidth="149.0" style="-fx-background-color: #E22D0C; -fx-text-fill: white; -fx-font-weight: bold;" text="Ajouter Formation">
-                                    <VBox.margin>
-                                        <Insets left="195.0" top="10.0" />
-                                    </VBox.margin>
-                                    <padding>
-                                        <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-                                    </padding>
-                                </Button>
-                            </children>
-                            <BorderPane.margin>
-                                <Insets />
-                            </BorderPane.margin>
-                        </VBox>
-                    </center>
-                </BorderPane>
+                <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Label style="-fx-font-weight: bold;" text="Titre" />
+                        <TextField fx:id="tfTitre" promptText="Titre" />
+
+                        <Label style="-fx-font-weight: bold;" text="Description" />
+                        <TextField fx:id="tfDescription" promptText="Description" VBox.vgrow="ALWAYS" />
+
+                        <Label style="-fx-font-weight: bold;" text="Date de la Formation" />
+                        <DatePicker fx:id="datePicker" promptText="Date de la Formation" VBox.vgrow="ALWAYS" />
+
+                        <Button mnemonicParsing="false" onAction="#handleSelectImage" text="Sélectionner Image">
+                            <VBox.margin>
+                                <Insets right="20.0" top="10.0" />
+                            </VBox.margin>
+                        </Button>
+                    </children>
+                    <HBox.margin>
+                        <Insets top="30.0" />
+                    </HBox.margin>
+                </VBox>
+                <VBox spacing="10.0" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Label />
+                        <ImageView fx:id="imageView" fitHeight="189.0" fitWidth="282.0" pickOnBounds="true" preserveRatio="true">
+                            <VBox.margin>
+                                <Insets left="30.0" />
+                            </VBox.margin>
+                        </ImageView>
+                    </children>
+                </VBox>
             </children>
-        </AnchorPane>
+        </HBox>
+        <HBox alignment="CENTER" spacing="10.0">
+            <Button fx:id="btAjouter" mnemonicParsing="false" onAction="#handleAjouterFormation" style="-fx-background-color: green; -fx-text-fill: white;" text="Ajouter Formation" />
+        </HBox>
     </children>
-</AnchorPane>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+</VBox>

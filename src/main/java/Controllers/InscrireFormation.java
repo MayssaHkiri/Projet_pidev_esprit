@@ -2,10 +2,11 @@ package Controllers;
 
 import Entities.Inscription;
 import Services.InscriptionService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class InscrireFormation {
@@ -22,7 +23,11 @@ public class InscrireFormation {
     @FXML
     private TextField telephoneField;
 
+    @FXML
+    private ImageView formationImageView;
+
     private int formationId; // ID de la formation à laquelle l'étudiant s'inscrit
+    private Image formationImage; // Image de la formation sélectionnée
 
     private InscriptionService inscriptionService = new InscriptionService();
 
@@ -30,8 +35,13 @@ public class InscrireFormation {
         this.formationId = formationId;
     }
 
+    public void setFormationImage(Image image) {
+        this.formationImage = image;
+        formationImageView.setImage(image);
+    }
+
     @FXML
-    public void handleInscription(ActionEvent event) {
+    public void handleInscription() {
         // Vérifier si tous les champs obligatoires sont remplis
         if (nomField.getText().isEmpty() || prenomField.getText().isEmpty() ||
                 emailField.getText().isEmpty() || telephoneField.getText().isEmpty()) {

@@ -30,19 +30,16 @@ public class AjouterFormation {
     private Stage stage;
 
     @FXML
-    private ComboBox<String> btNiveau;
+    private TextField tfTitre;
 
     @FXML
     private TextField tfDescription;
 
     @FXML
-    private TextField tfTitre;
+    private DatePicker datePicker;
 
     @FXML
     private ImageView imageView;
-
-    @FXML
-    private DatePicker datePicker;
 
     private Blob selectedImageBlob;
 
@@ -81,8 +78,25 @@ public class AjouterFormation {
     void handleAjouterFormation(ActionEvent event) {
         String titre = tfTitre.getText();
         String description = tfDescription.getText();
-        String niveau = btNiveau.getValue();
-        String dateFormation = datePicker.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        String dateFormation = null;
+        if (datePicker.getValue() != null) {
+            dateFormation = datePicker.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        }
+
+        if (titre == null || titre.trim().isEmpty() || !titre.matches("[a-zA-Z\\s]+")) {
+            showAlert("Erreur de saisie", "Titre invalide", "Veuillez vérifier les données saisies.");
+            return;
+        }
+
+        if (description == null || description.trim().isEmpty() || !description.matches("[a-zA-Z\\s]+")) {
+            showAlert("Erreur de saisie", "Description invalide", "Veuillez vérifier les données saisies.");
+            return;
+        }
+
+        if (dateFormation == null) {
+            showAlert("Erreur de saisie", "Date invalide", "Veuillez vérifier les données saisies.");
+            return;
+        }
 
         Formation formation = new Formation();
         formation.setTitre(titre);
@@ -107,7 +121,6 @@ public class AjouterFormation {
     private void clearFields() {
         tfTitre.clear();
         tfDescription.clear();
-        btNiveau.setValue(null);
         imageView.setImage(null);
         selectedImageBlob = null;
         datePicker.setValue(null);
