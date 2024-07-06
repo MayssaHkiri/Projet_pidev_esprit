@@ -14,7 +14,7 @@
 <SplitPane dividerPositions="0.3334361505243676" prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainTeacherController">
     <items>
         <!-- Side Bar -->
-        <VBox alignment="CENTER" prefHeight="649.0" prefWidth="221.0" style="-fx-background-color: #C4C4C4;" VBox.vgrow="ALWAYS">
+        <VBox alignment="CENTER" minWidth="300" maxWidth="300" prefHeight="649.0" prefWidth="221.0" style="-fx-background-color: #C4C4C4;" VBox.vgrow="ALWAYS">
             <ImageView fitHeight="56.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@logoEsprit1.jpg" />
@@ -24,7 +24,7 @@
             <Button onAction="#loadProfil" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Mon profil" />
             <Button onAction="#loadGestionMatieres" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion matieres" />
             <Button onAction="#loadGestionCours" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion cours " />
-            <Button onAction="#loadGestionQuiz" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion quiz " />
+            <Button onAction="#handleGestionQuiz" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion quiz " />
             <ImageView fitHeight="167.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
         </VBox>
 

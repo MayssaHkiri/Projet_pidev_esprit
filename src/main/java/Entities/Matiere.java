@@ -1,10 +1,24 @@
 package Entities;
 
+import java.util.List;
+
 public class Matiere {
     private int id;
     private String nom;
     private int coeff;
     private String ModeEval;
+    private List<Quiz> quizzes;
+
+
+    public Matiere(int id, String nom, List<Quiz> quizzes) {
+        this.id = id;
+        this.nom = nom;
+        this.quizzes = quizzes;
+    }
+
+    public Matiere(String matiereName) {
+        this.nom = matiereName;
+    }
 
     public int getId() {
         return id;
@@ -51,10 +65,17 @@ public class Matiere {
         ModeEval = modeEval;
     }
 
+    public List<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = quizzes;
+    }
+
     @Override
     public String toString() {
         return nom;
-
     }
 }
 
