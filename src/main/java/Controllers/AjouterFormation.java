@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -83,13 +82,13 @@ public class AjouterFormation {
             dateFormation = datePicker.getValue().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         }
 
-        if (titre == null || titre.trim().isEmpty() || !titre.matches("[a-zA-Z\\s]+")) {
-            showAlert("Erreur de saisie", "Titre invalide", "Veuillez vérifier les données saisies.");
+        if (!isValidString(titre)) {
+            showAlert("Erreur de saisie", "Titre invalide", "Le titre doit être une chaîne de caractères valide (lettres, espaces, et caractères accentués).");
             return;
         }
 
-        if (description == null || description.trim().isEmpty() || !description.matches("[a-zA-Z\\s]+")) {
-            showAlert("Erreur de saisie", "Description invalide", "Veuillez vérifier les données saisies.");
+        if (!isValidString(description)) {
+            showAlert("Erreur de saisie", "Description invalide", "La description doit être une chaîne de caractères valide (lettres, espaces, et caractères accentués).");
             return;
         }
 
@@ -116,6 +115,10 @@ public class AjouterFormation {
         } catch (SQLException e) {
             showAlert("Erreur", "Erreur SQL", e.getMessage());
         }
+    }
+
+    private boolean isValidString(String str) {
+        return str != null && str.trim().length() > 0 && str.matches("[a-zA-Zà-ÿÀ-ß\\s]+");
     }
 
     private void clearFields() {

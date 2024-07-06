@@ -1,4 +1,3 @@
-
 package Controllers;
 
 import Entities.Formation;
@@ -13,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,41 +32,64 @@ public class ConsulterFormation implements Initializable {
 
     @FXML
     private VBox formationsVBox;
-    private ObservableList<Formation> formationList;
+    private ObservableList<Formation> formationsList;
 
     @FXML
     private TextField searchField;
 
+    @FXML
+    private Pagination pagination;
+
     private FormationService formationService;
-    private ObservableList<Formation> formationsList;
+    private ObservableList<Formation> filteredFormationsList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         formationService = new FormationService();
         formationsList = FXCollections.observableArrayList();
+        filteredFormationsList = FXCollections.observableArrayList();
         try {
             loadFormationsFromDatabase();
         } catch (SQLException | IOException e) {
             e.printStackTrace();
             showLoadFormationsErrorAlert();
         }
-        formationList = FXCollections.observableArrayList();
+
+        // Initialiser la liste filtrée avec toutes les formations
+        filteredFormationsList.setAll(formationsList);
+
+        // Mettre à jour la pagination
+        updatePagination();
     }
 
     private void loadFormationsFromDatabase() throws SQLException, IOException {
         List<Formation> formations = formationService.getAllFormations();
         formationsList.addAll(formations);
-
-        displayFormations(formations);
+        filteredFormationsList.addAll(formations);
     }
 
-    private void displayFormations(List<Formation> formations) {
-        formationsVBox.getChildren().clear(); // Clear the previous formations displayed
+    private void updatePagination() {
+        int itemsPerPage = 3;
+        int pageCount = (int) Math.ceil((double) filteredFormationsList.size() / itemsPerPage);
+        pagination.setPageCount(pageCount);
+        pagination.setPageFactory(this::createPage);
+    }
 
-        for (Formation formation : formations) {
+    private VBox createPage(int pageIndex) {
+        VBox pageBox = new VBox(10);
+        pageBox.setAlignment(Pos.CENTER);
+
+        int itemsPerPage = 3;
+        int startIndex = pageIndex * itemsPerPage;
+        int endIndex = Math.min(startIndex + itemsPerPage, filteredFormationsList.size());
+
+        for (int i = startIndex; i < endIndex; i++) {
+            Formation formation = filteredFormationsList.get(i);
             StackPane formationPane = createFormationPane(formation);
-            formationsVBox.getChildren().add(formationPane);
+            pageBox.getChildren().add(formationPane);
         }
+
+        return pageBox;
     }
 
     private StackPane createFormationPane(Formation formation) {
@@ -76,13 +99,11 @@ public class ConsulterFormation implements Initializable {
         stackPane.setStyle("-fx-border-color: black; -fx-border-width: 2; -fx-padding: 5;");
 
         try {
-            // Load the image from the Blob
             Blob imageFormation = formation.getImageFormation();
             if (imageFormation != null && imageFormation.length() > 0) {
                 InputStream is = imageFormation.getBinaryStream();
                 Image image = new Image(is);
 
-                // Display the image in ImageView
                 ImageView imageView = new ImageView();
                 imageView.setFitHeight(92.0);
                 imageView.setFitWidth(80.0);
@@ -90,12 +111,10 @@ public class ConsulterFormation implements Initializable {
                 imageView.setImage(image);
                 stackPane.getChildren().add(imageView);
             } else {
-                // Handle the case where the Blob is empty or null
                 showImageLoadErrorAlert();
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle the image load error
             showImageLoadErrorAlert();
         }
 
@@ -105,7 +124,7 @@ public class ConsulterFormation implements Initializable {
 
         Label titleLabel = new Label("Titre: " + formation.getTitre());
         Label descriptionLabel = new Label("Description: " + formation.getDescription());
-        Label dateFormationLabel = new Label("Date de Formation: " + formation.getDateFormation()); // Add the date of formation
+        Label dateFormationLabel = new Label("Date de Formation: " + formation.getDateFormation());
 
         vbox.getChildren().addAll(titleLabel, descriptionLabel, dateFormationLabel);
 
@@ -115,27 +134,21 @@ public class ConsulterFormation implements Initializable {
     }
 
     private void handleMouseEnter(StackPane stackPane) {
-        // Apply blur effect to the image on hover
         stackPane.getChildren().get(0).setEffect(new javafx.scene.effect.GaussianBlur(10));
 
-        // Show the inscription button
         Button inscrireButton = new Button("S'inscrire");
         inscrireButton.setOnAction(event -> handleInscription(stackPane));
         stackPane.getChildren().add(inscrireButton);
     }
 
     private void handleMouseExit(StackPane stackPane) {
-        // Remove blur effect
         stackPane.getChildren().get(0).setEffect(null);
-
-        // Hide the inscription button
         stackPane.getChildren().removeIf(node -> node instanceof Button);
     }
 
     private void handleInscription(StackPane stackPane) {
         Formation formation = getFormationFromPane(stackPane);
         if (formation != null) {
-            // Open a new window or dialog to handle the inscription process
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/InscrireFormation.fxml"));
                 VBox root = loader.load();
@@ -164,7 +177,6 @@ public class ConsulterFormation implements Initializable {
                             return formationService.getFormationByTitre(titre);
                         } catch (SQLException e) {
                             e.printStackTrace();
-                            // Handle the exception as needed for your application
                             showGetFormationErrorAlert();
                         }
                     }
@@ -185,7 +197,8 @@ public class ConsulterFormation implements Initializable {
             } else {
                 formations = formationService.getAllFormations();
             }
-            displayFormations(formations);
+            filteredFormationsList.setAll(formations);
+            updatePagination();
         } catch (SQLException e) {
             e.printStackTrace();
             showLoadFormationsErrorAlert();

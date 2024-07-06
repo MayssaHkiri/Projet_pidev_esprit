@@ -42,34 +42,55 @@ public class InscrireFormation {
 
     @FXML
     public void handleInscription() {
+        StringBuilder errorMessage = new StringBuilder();
+
         // Vérifier si tous les champs obligatoires sont remplis
         if (nomField.getText().isEmpty() || prenomField.getText().isEmpty() ||
                 emailField.getText().isEmpty() || telephoneField.getText().isEmpty()) {
-            // Afficher un message d'erreur si un champ obligatoire est vide
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez remplir tous les champs obligatoires.");
-        } else if (!isValidString(nomField.getText()) || !isValidString(prenomField.getText()) || !isValidEmail(emailField.getText()) || !isValidTelephone(telephoneField.getText())) {
-            // Afficher un message d'erreur si les données ne sont pas valides
-            showAlert(Alert.AlertType.ERROR, "Erreur", "Veuillez vérifier les données saisies.");
+            errorMessage.append("Veuillez remplir tous les champs obligatoires.\n");
+        }
+
+        // Valider chaque champ et ajouter des messages d'erreur spécifiques
+        if (!isValidString(nomField.getText())) {
+            errorMessage.append("Nom invalide.\n");
+        }
+
+        if (!isValidString(prenomField.getText())) {
+            errorMessage.append("Prénom invalide.\n");
+        }
+
+        if (!isValidEmail(emailField.getText())) {
+            errorMessage.append("L'adresse email doit être au format string@esprit.tn.\n");
+        }
+
+        if (!isValidTelephone(telephoneField.getText())) {
+            errorMessage.append("Le numéro de téléphone doit contenir 8 chiffres.\n");
+        }
+
+        // Afficher les messages d'erreur s'il y en a
+        if (errorMessage.length() > 0) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", errorMessage.toString());
+            return;
+        }
+
+        // Créer un nouvel objet Inscription
+        Inscription inscription = new Inscription(nomField.getText(), prenomField.getText(), emailField.getText(), telephoneField.getText());
+
+        // Ajouter l'inscription à la base de données
+        boolean success = inscriptionService.add(inscription);
+        if (success) {
+            // Afficher un message de succès
+            showAlert(Alert.AlertType.INFORMATION, "Inscription réussie", "Inscription avec succès !");
+
+            // Vider les champs après inscription réussie (facultatif)
+            clearFields();
+
+            // Fermer la fenêtre
+            Stage stage = (Stage) nomField.getScene().getWindow();
+            stage.close();
         } else {
-            // Créer un nouvel objet Inscription
-            Inscription inscription = new Inscription(nomField.getText(), prenomField.getText(), emailField.getText(), telephoneField.getText());
-
-            // Ajouter l'inscription à la base de données
-            boolean success = inscriptionService.add(inscription);
-            if (success) {
-                // Afficher un message de succès
-                showAlert(Alert.AlertType.INFORMATION, "Inscription réussie", "Inscription avec succès !");
-
-                // Vider les champs après inscription réussie (facultatif)
-                clearFields();
-
-                // Fermer la fenêtre
-                Stage stage = (Stage) nomField.getScene().getWindow();
-                stage.close();
-            } else {
-                // Afficher un message d'erreur en cas d'échec de l'inscription
-                showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
-            }
+            // Afficher un message d'erreur en cas d'échec de l'inscription
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
         }
     }
 
@@ -93,16 +114,16 @@ public class InscrireFormation {
     }
 
     private boolean isValidEmail(String email) {
-        // Vérifier que l'email est au format stringprenom@string.com
+        // Vérifier que l'email est au format string@esprit.tn
         if (email == null) {
             return false;
         }
         // Expression régulière pour le format spécifique
-        String regex = "^[a-zA-Z]+[a-zA-Z]*@[a-zA-Z]+\\.com$";
+        String regex = "^[a-zA-Z]+@[esprit]+\\.[tn]+$";
         return email.matches(regex);
     }
 
     private boolean isValidTelephone(String telephone) {
-        return telephone != null && telephone.matches("\\d{1,8}");
+        return telephone != null && telephone.matches("\\d{8}");
     }
 }

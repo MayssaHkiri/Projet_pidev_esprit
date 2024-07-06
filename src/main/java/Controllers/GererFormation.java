@@ -46,7 +46,7 @@ public class GererFormation {
             loadFormationsFromDatabase();
             displayFormations();
         } catch (SQLException e) {
-            showAlert("Erreur de chargement", "Erreur lors du chargement des formations depuis la base de données.", e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur de chargement", "Erreur lors du chargement des formations depuis la base de données.", e.getMessage());
         }
     }
 
@@ -86,11 +86,11 @@ public class GererFormation {
                 try {
                     loadFormationsFromDatabase();
                 } catch (SQLException e) {
-                    showAlert("Erreur de chargement", "Erreur lors du rechargement des formations depuis la base de données.", e.getMessage());
+                    showAlert(Alert.AlertType.ERROR, "Erreur de chargement", "Erreur lors du rechargement des formations depuis la base de données.", e.getMessage());
                 }
             });
         } catch (IOException e) {
-            showAlert("Erreur d'ouverture", "Erreur lors de l'ouverture de la fenêtre d'ajout de formation.", e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erreur d'ouverture", "Erreur lors de l'ouverture de la fenêtre d'ajout de formation.", e.getMessage());
         }
     }
 
@@ -115,14 +115,14 @@ public class GererFormation {
                     try {
                         loadFormationsFromDatabase();
                     } catch (SQLException e) {
-                        showAlert("Erreur de chargement", "Erreur lors du rechargement des formations depuis la base de données.", e.getMessage());
+                        showAlert(Alert.AlertType.ERROR, "Erreur de chargement", "Erreur lors du rechargement des formations depuis la base de données.", e.getMessage());
                     }
                 });
             } catch (IOException e) {
-                showAlert("Erreur d'ouverture", "Erreur lors de l'ouverture de la fenêtre de modification de formation.", e.getMessage());
+                showAlert(Alert.AlertType.ERROR, "Erreur d'ouverture", "Erreur lors de l'ouverture de la fenêtre de modification de formation.", e.getMessage());
             }
         } else {
-            showAlert("Aucune sélection", "Aucune formation sélectionnée.", "Veuillez sélectionner une formation à modifier.");
+            showAlert(Alert.AlertType.ERROR, "Aucune sélection", "Aucune formation sélectionnée.", "Veuillez sélectionner une formation à modifier.");
         }
     }
 
@@ -133,15 +133,15 @@ public class GererFormation {
             try {
                 if (serviceFormation.SupprimerFormation(selectedFormation.getId())) {
                     formationsList.remove(selectedFormation);
-                    showAlert("Suppression réussie", "Formation supprimée avec succès.", "");
+                    showAlert(Alert.AlertType.INFORMATION, "Suppression réussie", "Formation supprimée avec succès.", "");
                 } else {
-                    showAlert("Erreur lors de la suppression", "La formation n'a pas pu être supprimée.", "Veuillez réessayer plus tard.");
+                    showAlert(Alert.AlertType.ERROR, "Erreur lors de la suppression", "La formation n'a pas pu être supprimée.", "Veuillez réessayer plus tard.");
                 }
             } catch (SQLException e) {
-                showAlert("Erreur SQL", "Une erreur s'est produite lors de la suppression de la formation.", e.getMessage());
+                showAlert(Alert.AlertType.ERROR, "Erreur SQL", "Une erreur s'est produite lors de la suppression de la formation.", e.getMessage());
             }
         } else {
-            showAlert("Aucune sélection", "Aucune formation sélectionnée.", "Veuillez sélectionner une formation à supprimer.");
+            showAlert(Alert.AlertType.ERROR, "Aucune sélection", "Aucune formation sélectionnée.", "Veuillez sélectionner une formation à supprimer.");
         }
     }
 
@@ -153,13 +153,13 @@ public class GererFormation {
                 List<Formation> searchResults = serviceFormation.searchFormations(searchTerm);
                 formationsList.setAll(searchResults);
             } catch (SQLException e) {
-                showAlert("Erreur de recherche", "Une erreur s'est produite lors de la recherche de formations.", e.getMessage());
+                showAlert(Alert.AlertType.ERROR, "Erreur de recherche", "Une erreur s'est produite lors de la recherche de formations.", e.getMessage());
             }
         } else {
             try {
                 loadFormationsFromDatabase();
             } catch (SQLException e) {
-                showAlert("Erreur de chargement", "Erreur lors du rechargement des formations depuis la base de données.", e.getMessage());
+                showAlert(Alert.AlertType.ERROR, "Erreur de chargement", "Erreur lors du rechargement des formations depuis la base de données.", e.getMessage());
             }
         }
     }
@@ -184,8 +184,8 @@ public class GererFormation {
         mainController.loadGestionUtilisateursPage();
     }
 
-    private void showAlert(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, content, ButtonType.OK);
+    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType, content, ButtonType.OK);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.showAndWait();
