@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceCours implements IService<Cours> {
+public class ServiceCours implements IserviceCours<Cours> {
 
     private Connection con1 = DataSource.getInstance().getCon();
     private Statement ste;

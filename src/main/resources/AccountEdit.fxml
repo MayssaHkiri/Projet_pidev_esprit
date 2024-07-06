@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AccountEdit" spacing="10" style="-fx-background-color: #FFFFFF; -fx-padding: 20px; -fx-pref-width: 400px; -fx-pref-height: 400px;">
+    <children>
+        <Label text="Nom" style="-fx-text-fill: #000000; -fx-font-size: 16px;" />
+        <TextField fx:id="nomField" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 1px; -fx-font-size: 14px;" />
+
+        <Label text="Prénom" style="-fx-text-fill: #000000; -fx-font-size: 16px;" />
+        <TextField fx:id="prenomField" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 1px; -fx-font-size: 14px;" />
+
+        <Label text="Email" style="-fx-text-fill: #000000; -fx-font-size: 16px;" />
+        <TextField fx:id="emailField" style="-fx-background-color: #FFFFFF; -fx-border-color: #000000; -fx-border-width: 1px; -fx-font-size: 14px;" />
+
+        <Button text="Enregistrer" style="-fx-background-color: #FF0000; -fx-text-fill: #FFFFFF; -fx-font-size: 16px;" onAction="#handleSave" />
+        <Button text="Annuler" onAction="#handleCancel" style="-fx-background-color: #000000; -fx-text-fill: #FFFFFF; -fx-font-size: 16px;" />
+    </children>
+</VBox>
