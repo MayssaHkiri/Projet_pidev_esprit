@@ -1,7 +1,9 @@
 package Controllers;
 
+import Entities.Chapitre;
 import Entities.Cours;
 import Entities.Matiere;
+import Services.ServiceChapitre;
 import Services.ServiceCours;
 import Services.ServiceMatiere;
 import javafx.beans.property.SimpleStringProperty;
@@ -10,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
@@ -22,10 +25,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
-public class CoursViewController {
+public class CoursViewController implements Initializable {
 
     @FXML
     private TableView<Cours> tableView;
@@ -34,60 +39,95 @@ public class CoursViewController {
     @FXML
     private TableColumn<Cours, String> descriptionColumn;
     @FXML
-    private TableColumn<Cours, Integer> enseignantIdColumn;
-    @FXML
-    private TableColumn<Cours, Integer> chapitreIdColumn;
+    private TableColumn<Cours, String> pdfColumn;
     @FXML
     private TextField titreField;
     @FXML
     private TextField descriptionField;
     @FXML
-    private TextField enseignantIdField;
+    private ChoiceBox<Matiere> matiereChoiceBox;
     @FXML
-    private TextField chapitreIdField;
-    @FXML
-    private TableColumn<Cours, String> pdfColumn;
-    @FXML
-    private ComboBox<Matiere> matiereComboBox;
+    private ChoiceBox<Chapitre> chapitreChoiceBox;
+
     private ServiceMatiere serviceMatiere;
     private ServiceCours serviceCours;
+    private ServiceChapitre serviceChapitre;
+
     private ObservableList<Cours> coursList;
     private ObservableList<Matiere> matiereList;
+    private ObservableList<Chapitre> chapitreList;
+
     private File pdfFile;
 
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         serviceCours = new ServiceCours();
         serviceMatiere = new ServiceMatiere();
+        serviceChapitre = new ServiceChapitre();
+
         coursList = FXCollections.observableArrayList();
         matiereList = FXCollections.observableArrayList();
+        chapitreList = FXCollections.observableArrayList();
+
         titreColumn.setCellValueFactory(new PropertyValueFactory<>("titre"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        // enseignantIdColumn.setCellValueFactory(new PropertyValueFactory<>("enseignantId"));
-        // chapitreIdColumn.setCellValueFactory(new PropertyValueFactory<>("idChapitre"));
         pdfColumn.setCellValueFactory(cellData -> {
             Blob pdfBlob = cellData.getValue().getPdfFile();
-            return new SimpleStringProperty(pdfBlob != null ? "PDF Present" : "No PDF");
+            return new SimpleStringProperty(pdfBlob != null ? "PDF File" : "No PDF");
         });
 
         tableView.setItems(coursList);
+
         try {
             coursList.addAll(serviceCours.readAll());
             matiereList.addAll(serviceMatiere.readAll());
-            matiereComboBox.setItems(matiereList);
+            matiereChoiceBox.setItems(matiereList);
+
+            matiereChoiceBox.setOnAction(event -> {
+                Matiere selectedMatiere = matiereChoiceBox.getSelectionModel().getSelectedItem();
+                if (selectedMatiere != null) {
+                    loadChapitresForMatiere(selectedMatiere.getId());
+                }
+            });
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void loadChapitresForMatiere(int matiereId) {
+        try {
+            chapitreList.clear();
+            chapitreList.addAll(serviceChapitre.readByMatiere(matiereId));
+            chapitreChoiceBox.setItems(chapitreList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public int getIdMatiere(){
+                Matiere selectedMatiere = matiereChoiceBox.getValue();
+                if (selectedMatiere != null) {
+                    return selectedMatiere.getId();
+                }
+                return 0;
     }
 
     @FXML
     private void handleAdd() {
         String titre = titreField.getText();
         String description = descriptionField.getText();
-        Matiere selectedMatiere = matiereComboBox.getValue();
-        // int enseignantId = Integer.parseInt(enseignantIdField.getText()); // Commenté
-        // int chapitreId = Integer.parseInt(chapitreIdField.getText()); // Commenté
+        Matiere selectedMatiere = matiereChoiceBox.getValue();
+        Chapitre selectedChapitre = chapitreChoiceBox.getValue();
         Blob pdfBlob = null;
+
+        // Check if all required fields are filled
+        if (titre == null || titre.isEmpty() || description == null || description.isEmpty() ||
+                selectedMatiere == null || selectedChapitre == null || pdfFile == null) {
+            showAlert(AlertType.ERROR, "Ajout impossible", null, "Vous n'avez pas rempli les champs obligatoires !");
+            return;
+        }
+
+        // If all fields are filled, proceed with adding the course
         if (pdfFile != null) {
             try (FileInputStream fis = new FileInputStream(pdfFile)) {
                 pdfBlob = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
@@ -96,68 +136,46 @@ public class CoursViewController {
             }
         }
 
-        if (titre != null && !titre.isEmpty() && description != null && !description.isEmpty() && pdfBlob != null) {
+        if (pdfBlob != null) {
             try {
-
-
-                Cours cours = new Cours(titre, description, pdfBlob);
+                Cours cours = new Cours(titre, description, 1, selectedChapitre.getId(), pdfBlob);
                 serviceCours.ajouter(cours);
                 coursList.add(cours);
                 titreField.clear();
                 descriptionField.clear();
-                //enseignantIdField.clear();
-                //chapitreIdField.clear();
-                matiereComboBox.getSelectionModel().clearSelection();
-                // Show success alert
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Ajout réussi");
-                alert.setHeaderText(null);
-                alert.setContentText("Le cours a été ajouté avec succès !");
-                alert.showAndWait();
+                chapitreChoiceBox.getSelectionModel().clearSelection();
+                matiereChoiceBox.getSelectionModel().clearSelection();
+
+                showAlert(AlertType.INFORMATION, "Ajout réussi", null, "Le cours a été ajouté avec succès !");
             } catch (SQLException e) {
                 e.printStackTrace();
+                showAlert(AlertType.ERROR, "Erreur", "Exception SQL", e.getMessage());
             }
-        } else {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Ajout impossible");
-            alert.setHeaderText(null);
-            alert.setContentText("Vous n'avez pas rempli les champs obligatoire !");
-            alert.showAndWait();
         }
+    }
+
+
+    private void showAlert(AlertType alertType, String title, String header, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     @FXML
     private void handleUpdate() {
         Cours selectedCours = tableView.getSelectionModel().getSelectedItem();
-        Blob pdfBlob = selectedCours.getPdfFile();
 
-        if (selectedCours != null) {
-            Cours cours = showEditDialog(selectedCours);
-            if (cours != null) {
-                try {
-
-                    try (FileInputStream fis = new FileInputStream(pdfFile)) {
-                        pdfBlob = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
-                    } catch (IOException | SQLException e) {
-                        e.printStackTrace();
-                    }
-
-                    selectedCours.setPdfFile(cours.getPdfFile());
-                    serviceCours.update(selectedCours);
-                    tableView.refresh();
-
-                    // Show success alert
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Modification réussie");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Le cours a été modifié avec succès !");
-                    alert.showAndWait();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
+        if (selectedCours == null) {
+            showAlert(AlertType.ERROR, "Erreur", null, "Veuillez sélectionner un cours à modifier !");
+            return;
         }
+        Cours updatedCours = showEditDialog(selectedCours);
     }
+
+
+
 
     @FXML
     private void handleDelete() {
@@ -251,5 +269,30 @@ public class CoursViewController {
             alert.showAndWait();
         }
     }
+
+
+    public void HandleAjoutChapitre(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/AjoutChapitreView.fxml"));
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Ajouter Chapitre");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            Scene scene = new Scene(loader.load());
+            dialogStage.setScene(scene);
+
+            AjoutChapitreView controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+
+            dialogStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
 }
 

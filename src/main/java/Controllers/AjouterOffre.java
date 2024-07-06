@@ -50,6 +50,9 @@ public class AjouterOffre {
     private Button validerBtn;
 
     @FXML
+    private TextField email;
+
+    @FXML
     public ImageView imgPrev;
 
     private ServiceOffre serviceOffre = new ServiceOffre();
@@ -72,6 +75,7 @@ public class AjouterOffre {
         dureeContrat.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         datePublication.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         nomEntreprise.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
+        email.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         dateLimiteOffre.valueProperty().addListener((observable, oldValue, newValue) -> checkFields());
     }
 
@@ -83,6 +87,7 @@ public class AjouterOffre {
                 && !dureeContrat.getText().isEmpty()
                 && !datePublication.getText().isEmpty()
                 && !nomEntreprise.getText().isEmpty()
+                && !email.getText().isEmpty()
                 && dateLimiteOffre.getValue() != null;
 
         // Activer le bouton Ajouter si tous les champs sont remplis, sinon le désactiver
@@ -101,13 +106,15 @@ public class AjouterOffre {
                     dureeContrat.getText(),
                     datePublication.getText(),
                     nomEntreprise.getText(),
-                    dateLimiteOffre.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                    dateLimiteOffre.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                    email.getText()
             );
 
             try {
                 serviceOffre.ajouter(nouvelleOffre);
                 afficherPopup("Succès", "Ajout réussi", "L'offre a été ajoutée avec succès.");
                 clearFields();
+
             } catch (SQLException e) {
                 e.printStackTrace();
                 afficherPopup("Erreur", "Erreur d'ajout", "Une erreur est survenue lors de l'ajout de l'offre.");
@@ -122,6 +129,7 @@ public class AjouterOffre {
         dureeContrat.clear();
         datePublication.clear();
         nomEntreprise.clear();
+        email.clear();
         dateLimiteOffre.getEditor().clear(); // Efface la date sélectionnée dans le DatePicker
 
         // Désactiver à nouveau le bouton Ajouter après avoir vidé les champs
@@ -137,21 +145,9 @@ public class AjouterOffre {
     }
 
     public void handleCancel(ActionEvent actionEvent) {
-        try {
-            // Charger le fichier FXML de l'interface consulterOffre
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ConsulterOffre.fxml"));
-            Parent root = loader.load();
-
-            // Obtenir la scène actuelle et définir le nouveau contenu
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) validerBtn.getScene().getWindow();
-            stage.setScene(scene);
-
-            // Afficher la nouvelle scène
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Fermer la fenêtre
+        Stage stage = (Stage) titreOffre.getScene().getWindow();
+        stage.close();
     }
 
     public TextField getTitreOffreTextField() {

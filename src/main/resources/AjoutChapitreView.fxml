@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="408.0" prefWidth="600.0" spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="Controllers.AjoutChapitreView">
+    <Label text="Ajouter Chapitre" style="-fx-font-size: 18px;">
+        <VBox.margin>
+            <Insets top="-202.0" />
+        </VBox.margin>
+    </Label>
+
+    <HBox spacing="10">
+        <Label text="Titre:" style="-fx-font-size: 16px;" />
+        <TextField fx:id="titreField">
+            <HBox.margin>
+                <Insets left="43.0" />
+            </HBox.margin>
+        </TextField>
+        <VBox.margin>
+            <Insets left="48.0" />
+        </VBox.margin>
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Description:" style="-fx-font-size: 16px;">
+            <HBox.margin>
+                <Insets left="43.0" />
+            </HBox.margin>
+        </Label>
+        <TextField fx:id="descriptionField" />
+    </HBox>
+
+    <HBox spacing="10">
+        <Label text="Matière:" style="-fx-font-size: 16px;">
+            <HBox.margin>
+                <Insets left="46.0" />
+            </HBox.margin>
+        </Label>
+        <ChoiceBox fx:id="matiereChoiceBox">
+            <HBox.margin>
+                <Insets left="26.0" />
+            </HBox.margin>
+        </ChoiceBox>
+    </HBox>
+
+    <HBox spacing="10">
+        <Button onAction="#handleAdd" text="Ajouter" style="-fx-background-color: #4CAF50; -fx-text-fill: white;">
+            <HBox.margin>
+                <Insets left="242.0" top="16.0" />
+            </HBox.margin>
+        </Button>
+        <Button onAction="#handleCancel" text="Annuler" style="-fx-background-color: #F44336; -fx-text-fill: white;">
+            <HBox.margin>
+                <Insets top="16.0" />
+            </HBox.margin>
+        </Button>
+    </HBox>
+</VBox>

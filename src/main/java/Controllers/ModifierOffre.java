@@ -38,6 +38,10 @@ public class ModifierOffre {
     private TextField titreOffre;
 
     @FXML
+    private TextField emailEntreprise;
+
+
+    @FXML
     private ChoiceBox<String> niveauEtude;
 
     private ServiceOffre serviceOffre = new ServiceOffre();
@@ -62,6 +66,7 @@ public class ModifierOffre {
         dureeContrat.setText(offre.getDureeContrat());
         datePublication.setText(offre.getDatePublication());
         nomEntreprise.setText(offre.getEntreprise());
+        emailEntreprise.setText(offre.getEmail());
 
         // Convertir la date de limite de l'offre en LocalDate et l'assigner à dateLimiteOffre
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -78,6 +83,7 @@ public class ModifierOffre {
         offre.setDureeContrat(dureeContrat.getText());
         offre.setDatePublication(datePublication.getText());
         offre.setEntreprise(nomEntreprise.getText());
+        offre.setEmail(emailEntreprise.getText());
 
         // Convertir la date limite de LocalDate à String au format dd/MM/yyyy
         String dateLimiteFormatted = dateLimiteOffre.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -106,19 +112,8 @@ public class ModifierOffre {
     }
 
     public void handleCancel(ActionEvent actionEvent) {
-        try {
-            // Charger le fichier FXML de l'interface ConsulterOffre
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ConsulterOffre.fxml"));
-            Parent root = loader.load();
-
-            // Obtenir la scène actuelle et définir le nouveau contenu
-            Stage stage = (Stage) titreOffre.getScene().getWindow();
-            stage.setScene(new Scene(root));
-
-            // Afficher la nouvelle scène
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Fermer la fenêtre
+        Stage stage = (Stage) titreOffre.getScene().getWindow();
+        stage.close();
     }
 }

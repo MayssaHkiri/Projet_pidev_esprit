@@ -1,7 +1,10 @@
 package Services;
 
+import Entities.Chapitre;
 import Entities.Cours;
 import Utils.DataSource;
+import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,13 +22,29 @@ public class ServiceCours implements IserviceCours<Cours> {
             System.out.println(e);
         }
     }
+    @FXML
+    private ChoiceBox<Chapitre> chapitreChoiceBox;
 
     @Override
     public void ajouter(Cours cours) throws SQLException {
-        String req = "INSERT INTO support (titre, description, enseignantId, idChapitre, pdfFile) VALUES ('" +
-                cours.getTitre() + "', '" + cours.getDescription() + "', 1, 1, '" + cours.getPdfFile() + "');";
-        ste.executeUpdate(req);
+        // Assuming chapitreId is set in the Cours object, otherwise retrieve it using appropriate logic
+        int chapitreId = cours.getIdChapitre();
+        int enseignatId= cours.getEnseignantId();
+
+        System.out.println("id="+cours.getIdChapitre());
+
+
+        String req = "INSERT INTO support (titre, description, enseignantId, idChapitre, pdfFile) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = con1.prepareStatement(req)) {
+            ps.setString(1, cours.getTitre());
+            ps.setString(2, cours.getDescription());
+            ps.setInt(3, enseignatId);
+            ps.setInt(4, chapitreId);
+            ps.setBlob(5, cours.getPdfFile());
+            ps.executeUpdate();
+        }
     }
+
 
     @Override
     public void supprimer(Cours cours) throws SQLException {
@@ -35,16 +54,50 @@ public class ServiceCours implements IserviceCours<Cours> {
 
     @Override
     public void update(Cours cours) throws SQLException {
+        int id = cours.getIdChapitre();
         String req = "UPDATE support SET titre = '" + cours.getTitre() +
                 "', description = '" + cours.getDescription() +
-                "', enseignantId = 1, idChapitre = 1, pdfFile = '" + cours.getPdfFile() +
+                "', enseignantId = 1, idChapitre = " + cours.getIdChapitre()+
+                ", pdfFile = '" + cours.getPdfFile() +
                 "' WHERE id = " + cours.getId() + ";";
         ste.executeUpdate(req);
     }
+    private Connection con= DataSource.getInstance().getCon();
 
+     public void UpdateCours(Cours cours) throws SQLException {
+         String req = "UPDATE support SET titre = '" + cours.getTitre() +
+                 "', description = '" + cours.getDescription() +
+                 "', pdfFile = '" + cours.getPdfFile() +
+                 "' WHERE id = " + cours.getId() + ";";
+         ste.executeUpdate(req);
+     }
     @Override
-    public Cours findbyId(int e) throws SQLException {
+    public Cours findbyId(int idCours) throws SQLException {
+        String query = "SELECT * FROM `support` WHERE `id` = ?";
+
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, idCours);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    // Créez et retournez une instance d'Offre avec les données de la ligne
+                    return mapOffreFromResultSet(rs);
+                }
+            }
+        }
         return null;
+    }
+    private Cours mapOffreFromResultSet(ResultSet rs) throws SQLException {
+        // Mapping des colonnes du ResultSet aux attributs de la classe Offre
+        int id = rs.getInt("id");
+        String titre = rs.getString("titre");
+        String description = rs.getString("description");
+        int enseignantId = 1; // Initialiser à 1
+        int idChapitre = 9;   // Initialiser à 1
+        Blob pdfFile = rs.getBlob("pdfFile");
+
+        // Créez et retournez une instance de Offre avec les données récupérées
+        return new Cours(id, titre, description, enseignantId, idChapitre, pdfFile);
     }
 
     @Override
@@ -66,4 +119,43 @@ public class ServiceCours implements IserviceCours<Cours> {
 
         return cours;
     }
+
+    public List<Cours> readByMatiereAndChapitre(int matiereId, int chapitreId) throws SQLException {
+        List<Cours> cours = new ArrayList<>();
+        String sql = "SELECT c.* FROM support c JOIN chapitre ch ON c.idChapitre = ch.id WHERE ch.idMatiere = ? AND c.idChapitre = ?";
+
+        try (PreparedStatement ps = con1.prepareStatement(sql)) {
+            ps.setInt(1, matiereId);
+            ps.setInt(2, chapitreId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    cours.add(mapOffreFromResultSet(rs));
+                }
+            }
+        }
+
+        return cours;
+    }
+
+    public List<Cours> searchCourses(String searchTerm, int matiereId, int chapitreId) throws SQLException {
+        List<Cours> cours = new ArrayList<>();
+        String sql = "SELECT c.* FROM support c JOIN chapitre ch ON c.idChapitre = ch.id WHERE ch.idMatiere = ? AND c.idChapitre = ? AND LOWER(c.titre) LIKE ?";
+
+        try (PreparedStatement ps = con1.prepareStatement(sql)) {
+            ps.setInt(1, matiereId);
+            ps.setInt(2, chapitreId);
+            ps.setString(3, "%" + searchTerm.toLowerCase() + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    cours.add(mapOffreFromResultSet(rs));
+                }
+            }
+        }
+
+        return cours;
+    }
+
+
 }

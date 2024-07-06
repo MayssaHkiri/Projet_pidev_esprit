@@ -3,6 +3,7 @@ package Controllers;
 import Entities.*;
 import Services.*;
 import Utils.DataSource;
+import Utils.StageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -244,6 +245,25 @@ public class QuizController implements Initializable {
             stage.show();
         } catch (IOException e) {
             System.out.println("Error while loading gestionQuiz.fxml: " + e.getMessage());
+        }
+    }
+    public void handleAccueil(ActionEvent actionEvent) {
+        Stage mainTeacherStage = StageManager.getInstance().getMainTeacherStage();
+        if (mainTeacherStage != null && mainTeacherStage.isShowing()) {
+            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+        } else {
+            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainTeacher.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                StageManager.getInstance().setMainTeacherStage(stage);
+            } catch (IOException e) {
+                System.out.println("Error while loading mainTeacher.fxml: " + e.getMessage());
+            }
         }
     }
 }

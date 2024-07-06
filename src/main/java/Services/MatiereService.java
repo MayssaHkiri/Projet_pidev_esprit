@@ -21,7 +21,7 @@ public class MatiereService {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String nom = rs.getString("nom");
-                matieres.add(new Matiere(id, nom));
+                matieres.add(new Matiere(id, nom, null));
             }
         } catch (SQLException e) {
             System.out.println("Error while fetching matieres: " + e.getMessage());
@@ -42,7 +42,7 @@ public class MatiereService {
                 if (rs.next()) {
                     int id = rs.getInt("id");
                     String nom = rs.getString("nom");
-                    matiere = new Matiere(id, nom);
+                    matiere = new Matiere(id, nom, null);
                     System.out.println("Fetched matiere: " + matiere);
                 } else {
                     System.out.println("No matiere found with name: " + matiereNom);

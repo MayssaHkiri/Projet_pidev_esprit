@@ -19,7 +19,7 @@ public class QuizService {
              PreparedStatement ps = con.prepareStatement(req, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, quiz.getDescription());
             ps.setString(2, quiz.getTitre());
-            ps.setDate(3, new java.sql.Date(quiz.getDateCreation().getTime()));
+            ps.setDate(3, new Date(quiz.getDateCreation().getTime()));
             ps.setObject(4, quiz.getMatiere().getId());
             ps.executeUpdate();
 
@@ -119,7 +119,7 @@ public class QuizService {
         PreparedStatement ps = con.prepareStatement(req);
         ps.setString(1, quiz.getDescription());
         ps.setString(2, quiz.getTitre());
-        ps.setDate(3, new java.sql.Date(quiz.getDateCreation().getTime()));
+        ps.setDate(3, new Date(quiz.getDateCreation().getTime()));
         ps.setInt(4, quiz.getId());
         ps.executeUpdate();
     }
@@ -212,5 +212,23 @@ public class QuizService {
             }
         }
         return list;
+    }
+    public List<Quiz> findAllByMatiere(String matiere) throws SQLException {
+        List<Quiz> list = new ArrayList<>();
+        String req = "SELECT quiz.*, matiere.nom AS matiereName FROM quiz JOIN matiere ON quiz.matiereId = matiere.id WHERE matiere.nom = ?";
+        try (Connection con = DataSource.getInstance().getCon();
+             PreparedStatement ps = con.prepareStatement(req)) {
+            ps.setString(1, matiere);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Matiere matiereObj = new Matiere(rs.getString("matiereName"));
+                Quiz quiz = new Quiz(rs.getInt("id"), rs.getString("description"), rs.getString("titre"), rs.getDate("dateCreation"));
+                quiz.setMatiere(matiereObj);
+                list.add(quiz);
+            }
+
+            return list;
+        }
     }
 }

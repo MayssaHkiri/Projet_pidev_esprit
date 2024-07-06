@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="355.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.VoirPlusController">
+<VBox prefHeight="416.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.VoirPlusController">
     <children>
         <HBox prefHeight="0.0" prefWidth="770.0" spacing="20" styleClass="nav-header">
             <children>
@@ -159,10 +159,26 @@
                 <Font size="15.0" />
             </font>
         </Label>
+      <Label fx:id="emailLabel" text="Email entreprise">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="343.0" top="7.0" />
+         </VBox.margin>
+      </Label>
+      <Text text="Email entreprise">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <VBox.margin>
+            <Insets left="184.0" top="-22.0" />
+         </VBox.margin>
+      </Text>
 
         <Button mnemonicParsing="false" onAction="#handlePostuler" text="Postuler">
             <VBox.margin>
-                <Insets left="252.0" top="23.0" />
+                <Insets left="252.0" top="28.0" />
             </VBox.margin>
         </Button>
     </children>

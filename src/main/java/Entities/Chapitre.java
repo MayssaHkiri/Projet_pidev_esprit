@@ -2,10 +2,30 @@ package Entities;
 
 public class Chapitre {
     private int id;
-    private String titre;
-    private String description;
+    private String chapitreTitre;
+    private String chapitreDescription;
     private int idMatiere;
 
+    // Constructor with all attributes
+    public Chapitre(int id, String chapitreTitre, String chapitreDescription, int idMatiere) {
+        this.id = id;
+        this.chapitreTitre = chapitreTitre;
+        this.chapitreDescription = chapitreDescription;
+        this.idMatiere = idMatiere;
+    }
+
+    // Constructor without id (for new entries)
+    public Chapitre(String chapitreTitre, String chapitreDescription, int idMatiere) {
+        this.chapitreTitre = chapitreTitre;
+        this.chapitreDescription = chapitreDescription;
+        this.idMatiere = idMatiere;
+    }
+    public Chapitre(String chapitreTitre, String chapitreDescription) {
+        this.chapitreTitre = chapitreTitre;
+        this.chapitreDescription = chapitreDescription;
+    }
+
+    // Getter and Setter methods
     public int getId() {
         return id;
     }
@@ -14,20 +34,20 @@ public class Chapitre {
         this.id = id;
     }
 
-    public String getTitre() {
-        return titre;
+    public String getChapitreTitre() {
+        return chapitreTitre;
     }
 
-    public void setTitre(String titre) {
-        this.titre = titre;
+    public void setChapitreTitre(String chapitreTitre) {
+        this.chapitreTitre = chapitreTitre;
     }
 
-    public String getDescription() {
-        return description;
+    public String getChapitreDescription() {
+        return chapitreDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setChapitreDescription(String chapitreDescription) {
+        this.chapitreDescription = chapitreDescription;
     }
 
     public int getIdMatiere() {
@@ -38,27 +58,8 @@ public class Chapitre {
         this.idMatiere = idMatiere;
     }
 
-    public Chapitre(int id, String titre, String description, int idMatiere) {
-        this.id = id;
-        this.titre = titre;
-        this.description = description;
-        this.idMatiere = idMatiere;
-    }
-
-    public Chapitre(String titre, String description, int idMatiere) {
-        this.titre = titre;
-        this.description = description;
-        this.idMatiere = idMatiere;
-    }
-
     @Override
     public String toString() {
-        return "Chapitre{" +
-                "id=" + id +
-                ", titre='" + titre + '\'' +
-                ", description='" + description + '\'' +
-                ", idMatiere=" + idMatiere +
-                '}';
+        return chapitreTitre;
     }
 }
-
