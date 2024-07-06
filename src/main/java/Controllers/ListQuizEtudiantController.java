@@ -7,17 +7,23 @@ import Services.ChoixPossibleService;
 import Services.QuestionService;
 import Services.QuizService;
 import Services.ReponseService;
+import Utils.StageManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -130,6 +136,7 @@ public class ListQuizEtudiantController {
             // All questions have been answered, display the result
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.getDialogPane().setMinWidth(500);
+            System.out.println(questions.size());
             int passingScore = (int) (questions.size() * 0.8);
             if (score[0] >= passingScore) {
                 alert.setTitle("Félicitations!");
@@ -172,17 +179,22 @@ public class ListQuizEtudiantController {
         nextButton.addEventFilter(ActionEvent.ACTION, event -> {
             // Check answers and calculate score
             for (Node node : vbox.getChildren()) {
-                if (node instanceof CheckBox) {
-                    CheckBox checkBox = (CheckBox) node;
+                if (node instanceof HBox) {
+                    HBox hbox = (HBox) node;
+                    CheckBox checkBox = (CheckBox) hbox.getChildren().get(0);
+                    Label label = (Label) hbox.getChildren().get(1);
                     try {
-                        if (checkBox.isSelected() && questionService.findAllChoixPossible(question).stream().anyMatch(choix -> {
+                        boolean isCorrect = questionService.findAllChoixPossible(question).stream().anyMatch(choix -> {
                             try {
-                                return choix.getDescription().equals(checkBox.getText()) && reponseService.isCorrect(choix.getId());
+                                return choix.getDescription().equals(label.getText()) && reponseService.isCorrect(choix.getId());
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
-                        })) {
+                        });
+                        if (checkBox.isSelected() && isCorrect) {
                             score[0]++;
+                        } else if (checkBox.isSelected() && !isCorrect) {
+                            score[0]--;
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -200,28 +212,23 @@ public class ListQuizEtudiantController {
             event.consume();
         });
     }
-
-    private static class QuizResult {
-        private Quiz quiz;
-        private int score;
-        private boolean passed;
-
-        QuizResult(Quiz quiz, int score, boolean passed) {
-            this.quiz = quiz;
-            this.score = score;
-            this.passed = passed;
-        }
-
-        public Quiz getQuiz() {
-            return quiz;
-        }
-
-        public int getScore() {
-            return score;
-        }
-
-        public boolean isPassed() {
-            return passed;
+    public void handleAccueil(ActionEvent actionEvent) {
+        Stage mainStudentStage = StageManager.getInstance().getMainStudentStage();
+        if (mainStudentStage != null && mainStudentStage.isShowing()) {
+            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+        } else {
+            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainStudent.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                StageManager.getInstance().setMainStudentStage(stage);
+            } catch (IOException e) {
+                System.out.println("Error while loading mainTeacher.fxml: " + e.getMessage());
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package StartApplication;
 
+import Controllers.MainStudentController;
 import Controllers.MainTeacherController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +19,7 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/etudiantVoir.fxml"));
+        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainStudent.fxml"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainTeacher.fxml"));
         stage.getIcons().add(new Image("/logo_esprit.png"));
         Parent root = null ;
@@ -27,7 +28,16 @@ public class MainFX extends Application {
         stage.setTitle("Welcome page");
         stage.setScene(scene);
         stage.show();
-        MainTeacherController controller = loader.getController();
-        controller.setStage(stage);
+
+        String fxmlFile = loader.getLocation().getFile();
+        if (fxmlFile.endsWith("mainTeacher.fxml")) {
+            MainTeacherController controller = loader.getController();
+            controller.setStage(stage);
+        } else if (fxmlFile.endsWith("mainStudent.fxml")) {
+            MainStudentController controller = loader.getController();
+            controller.setStage(stage);
+        }
+
+
     }
 }

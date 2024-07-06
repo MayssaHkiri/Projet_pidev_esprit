@@ -22,10 +22,10 @@
             </ImageView>
             <TextField alignment="TOP_CENTER" prefHeight="14.0" prefWidth="214.0" promptText="Recherche..." style="-fx-background-color: white; -fx-text-fill: black; -fx-pref-width: 180; -fx-padding: 5; -fx-margin: 10 0;" />
             <Button onAction="#loadProfil" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Mon profil" />
-            <Button onAction="#loadConsulterFormations" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion matieres" />
-            <Button onAction="#loadConsulterCours" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion cours " />
-            <Button onAction="#loadConsulterOffres" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion quiz " />
-            <Button onAction="#loadPasserQuiz" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion quiz " />
+            <Button onAction="#loadConsulterFormations" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Consulter Formations " />
+            <Button onAction="#loadConsulterCours" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Consulter cours  " />
+            <Button onAction="#loadConsulterOffres" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Consulter offres " />
+            <Button onAction="#handlePasserQuiz" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Passer un quiz!" />
             <ImageView fitHeight="167.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
         </VBox>
 
