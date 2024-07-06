@@ -12,7 +12,7 @@ public class MainAdminController {
 
     @FXML
     private void loadGestionFormations() {
-        loadPage("FormationView.fxml");
+        loadPage("GererFormation.fxml");
     }
 
     @FXML

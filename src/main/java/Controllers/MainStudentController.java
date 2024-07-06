@@ -24,12 +24,12 @@ public class MainStudentController {
 
     @FXML
     private void loadConsulterFormations() {
-        loadPage("");
+        loadPage("ConsulterFormation.fxml");
     }
 
     @FXML
     private void loadConsulterCours() {
-        loadPage("");
+        loadPage("EtudiantCoursView.fxml");
     }
 
     @FXML

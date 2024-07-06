@@ -2,6 +2,7 @@ package Controllers;
 
 import Entities.Formation;
 import Services.FormationService;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -55,10 +56,10 @@ public class ConsulterFormation implements Initializable {
             showLoadFormationsErrorAlert();
         }
 
-        // Initialiser la liste filtrée avec toutes les formations
+        // Initialize the filtered list with all formations
         filteredFormationsList.setAll(formationsList);
 
-        // Mettre à jour la pagination
+        // Update the pagination
         updatePagination();
     }
 
@@ -206,26 +207,32 @@ public class ConsulterFormation implements Initializable {
     }
 
     private void showLoadFormationsErrorAlert() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur de Chargement des Formations");
-        alert.setHeaderText(null);
-        alert.setContentText("Une erreur est survenue lors du chargement des formations. Veuillez réessayer plus tard.");
-        alert.showAndWait();
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de Chargement des Formations");
+            alert.setHeaderText(null);
+            alert.setContentText("Une erreur est survenue lors du chargement des formations. Veuillez réessayer plus tard.");
+            alert.showAndWait();
+        });
     }
 
     private void showImageLoadErrorAlert() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur de Chargement de l'Image");
-        alert.setHeaderText(null);
-        alert.setContentText("Une erreur est survenue lors du chargement de l'image de la formation.");
-        alert.showAndWait();
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de Chargement de l'Image");
+            alert.setHeaderText(null);
+            alert.setContentText("Une erreur est survenue lors du chargement de l'image de la formation.");
+            alert.showAndWait();
+        });
     }
 
     private void showGetFormationErrorAlert() {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur de Récupération de la Formation");
-        alert.setHeaderText(null);
-        alert.setContentText("Une erreur est survenue lors de la récupération de la formation.");
-        alert.showAndWait();
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de Récupération de la Formation");
+            alert.setHeaderText(null);
+            alert.setContentText("Une erreur est survenue lors de la récupération de la formation.");
+            alert.showAndWait();
+        });
     }
 }

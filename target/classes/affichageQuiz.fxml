@@ -21,7 +21,7 @@
   <children>
     <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
-        <AnchorPane style="-fx-background-color: #A9A9A9;">
+          <AnchorPane maxWidth="250" minWidth="250" prefWidth="200" style="-fx-background-color: #A9A9A9;">
           <children>
                   <AnchorPane layoutX="-1.0" prefHeight="129.0" prefWidth="223.0">
                      <children>
@@ -32,28 +32,28 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-            <Label alignment="CENTER" layoutX="15.0" layoutY="142.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Module: QUIZ" textAlignment="CENTER" textFill="#1f1b1b" wrapText="false">
-              <font>
-                <Font name="Consolas" size="18.0" fx:id="x1" />
-              </font>
-            </Label>
                   <ButtonBar layoutX="-1.0" layoutY="276.0" prefHeight="40.0" prefWidth="235.0">
                      <buttons>
-                         <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="234.0" style="-fx-background-color: d40707;" text="Consulter les quiz" onAction="#handleConsulterQuiz" />
+                         <Button mnemonicParsing="false" onAction="#handleConsulterQuiz" prefHeight="40.0" prefWidth="226.0" style="-fx-background-color: #A9A9A9; -fx-border-color: black;" text="Consulter les quiz">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Button>
                      </buttons>
                   </ButtonBar>
-                <Button layoutX="8.0" layoutY="179.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="226.0" style="-fx-background-color: d40707;" text="Accueil" />
-                  <Button layoutX="8.0" layoutY="230.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="226.0" style="-fx-background-color: red;" text="Créer un quiz" />
+                <Button layoutX="8.0" layoutY="170.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="226.0" style="-fx-background-color: #A9A9A9; -fx-border-color: black;" text="Accueil" onAction="#handleAccueil">
+                     <font>
+                        <Font name="Arial" size="16.0" />
+                     </font></Button>
+                  <Button fx:id="btnCreerQuiz" layoutX="8.0" layoutY="225.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="226.0" style="-fx-background-color: #A9A9A9; -fx-border-color: black;" text="Créer un quiz">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Button>
           </children>
         </AnchorPane>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
                <content>
-                  <AnchorPane prefHeight="564.0" prefWidth="657.0">
+                  <AnchorPane prefHeight="564.0" prefWidth="657.0" style="-fx-background-color: white;">
                      <children>
-                        <Button layoutX="57.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: red;" text="Quiz">
-                           <font>
-                              <Font size="15.0" />
-                           </font></Button>
                          <AnchorPane id="parentContainer" fx:id="parentContainer" layoutX="1.0" layoutY="73.0" prefHeight="497.0" prefWidth="649.0" style="-fx-background-position: center center; -fx-background-size: contain;">
                              <children>
                                  <VBox fx:id="vboxContainer" />
@@ -91,19 +91,19 @@
                                     <Font name="Constantia Bold Italic" size="29.0" />
                                  </font>
                               </Label>
-                                 <Button id="afficherQuestions" layoutX="260.0" layoutY="361.0" mnemonicParsing="false" onAction="#showQuestionsDialog" text="Afficher les questions" />                              <Button id="ModifierQuiz" layoutX="260.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="Modifier le quiz" />                           </children>
+                                 <Button id="afficherQuestions" layoutX="260.0" layoutY="361.0" mnemonicParsing="false" onAction="#showQuestionsDialog" text="Afficher les questions" />                              <Button id="ModifierQuiz" fx:id="btnModifier" layoutX="260.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="Modifier le quiz" />                           </children>
                         </AnchorPane>
-                        <Button layoutX="157.0" layoutY="17.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="79.0" style="-fx-background-color: d40707;" text="Cours">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Button>
-                        <Button layoutX="484.0" layoutY="14.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="119.0" style="-fx-background-color: grey;" text="Deconnexion">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Button>
                         <Separator layoutX="-1.0" layoutY="67.0" prefHeight="5.0" prefWidth="647.0" />
+                        <Label alignment="CENTER" layoutX="241.0" layoutY="23.0" minWidth="60.0" prefHeight="31.0" prefWidth="223.0" style="&#10;" text="Quiz Dashboard" textAlignment="CENTER" textFill="#8f1919" wrapText="false">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="26.0" fx:id="x1" />
+                           </font>
+                        </Label>
+                        <ImageView fitHeight="49.0" fitWidth="167.0" layoutX="28.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@quiz.jpg" />
+                           </image>
+                        </ImageView>
                      </children>
                   </AnchorPane>
                </content>

@@ -16,7 +16,7 @@ public class FormationService {
     }
 
     public boolean addFormation(Formation formation) throws SQLException {
-        String req = "INSERT INTO formation (titre, description, imageFormation,idEnseignant ,idFormation, dateFormation) VALUES (?, ?, ?,1,1, ?)";
+        String req = "INSERT INTO formation (titre, description, imageFormation,idEnseignant ,idFormation, dateFormation) VALUES (?, ?, ?,2,1, ?)";
 
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setString(1, formation.getTitre());
