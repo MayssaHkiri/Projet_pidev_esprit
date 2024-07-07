@@ -3,6 +3,7 @@ package Controllers;
 import Entities.Chapitre;
 import Entities.Cours;
 import Entities.Matiere;
+import Entities.User;
 import Services.ServiceChapitre;
 import Services.ServiceCours;
 import Services.ServiceMatiere;
@@ -29,6 +30,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EtudiantCoursViewController {
+
+    private User authenticatedUser;
+
+    public void setUser(User user) {
+        this.authenticatedUser = user;
+    }
     private ObservableList<Cours> coursList;
     private List<Cours> allCoursList; // Liste complète des cours
     private ServiceCours serviceCours = new ServiceCours();

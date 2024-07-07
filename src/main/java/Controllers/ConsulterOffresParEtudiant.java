@@ -1,6 +1,7 @@
 package Controllers;
 
 import Entities.Offre;
+import Entities.User;
 import Services.ServiceOffre;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,7 +27,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ConsulterOffresParEtudiant {
+    private User authenticatedUser;
 
+    public void setUser(User user) {
+        this.authenticatedUser = user;
+    }
     private ObservableList<Offre> offresList;
     private ObservableList<Offre> filteredOffresList;
     private ServiceOffre serviceOffre = new ServiceOffre();

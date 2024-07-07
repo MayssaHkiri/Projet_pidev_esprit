@@ -1,7 +1,6 @@
 package Controllers;
 
 import Entities.User;
-import Utils.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,45 +15,51 @@ import java.io.IOException;
 public class MainTeacherController {
     private User authenticatedUser;
 
+    @FXML
+    private StackPane contentPane;
+
     public void setUser(User user) {
         this.authenticatedUser = user;
     }
-    @FXML
-    private StackPane contentPane;
-    private Stage stage;
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-        StageManager.getInstance().setMainTeacherStage(stage);
+    @FXML
+    private void loadGestionCours(ActionEvent event) {
+        loadPage("CoursView.fxml", authenticatedUser);
     }
 
     @FXML
-    private void loadGestionCours() {
-        loadPage("CoursView.fxml");
+    private void loadGestionMatieres(ActionEvent event) {
+        loadPage("MatiereView.fxml", authenticatedUser);
     }
 
     @FXML
-    private void loadGestionMatieres() {
-        loadPage("MatiereView.fxml");
+    private void loadProfil(ActionEvent event) {
+        loadPage("UserProfile.fxml", authenticatedUser);
     }
 
     @FXML
-    private void loadProfil() {
-        loadPage("UserProfile.fxml" );
+    private void loadGestionQuiz(ActionEvent event) {
+        loadPage("gestionQuiz.fxml", authenticatedUser);
     }
 
-    public void loadConsulterOffres (ActionEvent actionEvent) {
-        loadPage("");
-    }
-
-    public void loadGestionQuiz(ActionEvent actionEvent) {
-        loadPage("gestionQuiz.fxml");
-    }
-    private void loadPage(String fxmlFile) {
+    private void loadPage(String fxmlFile, User user) {
         try {
-            Pane pane = FXMLLoader.load(getClass().getResource("/" + fxmlFile));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + fxmlFile));
+            Pane pane = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof UserProfileController) {
+                ((UserProfileController) controller).setUser(user);
+            }
+            if (controller instanceof CoursViewController) {
+                ((CoursViewController) controller).setUser(user);
+            }
+            if (controller instanceof MatiereViewController) {
+                ((MatiereViewController) controller).setUser(user);
+            }
+
             contentPane.getChildren().setAll(pane);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

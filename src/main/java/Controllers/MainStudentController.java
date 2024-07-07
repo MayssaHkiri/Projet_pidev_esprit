@@ -39,7 +39,7 @@ public class MainStudentController {
 
     @FXML
     private void loadPasserQuiz() {
-        loadPage("PasserQuiz.fxml", authenticatedUser);
+        loadPage("", authenticatedUser);
     }
 
     public void loadConsulterOffres(ActionEvent actionEvent) {
@@ -55,6 +55,16 @@ public class MainStudentController {
             if (controller instanceof UserProfileController) {
                 ((UserProfileController) controller).setUser(user);
             }
+            if (controller instanceof EtudiantCoursViewController) {
+                ((EtudiantCoursViewController) controller).setUser(user);
+            }
+            if (controller instanceof EtudiantCoursViewController) {
+                ((EtudiantCoursViewController) controller).setUser(user);
+            }
+            if (controller instanceof ConsulterOffresParEtudiant ) {
+                ((ConsulterOffresParEtudiant) controller).setUser(user) ;
+            }
+
 
             contentPane.getChildren().setAll(pane);
         } catch (IOException e) {

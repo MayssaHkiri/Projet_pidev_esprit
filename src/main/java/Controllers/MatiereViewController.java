@@ -1,6 +1,7 @@
 package Controllers;
 
 import Entities.Matiere;
+import Entities.User;
 import Services.ServiceMatiere;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +20,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class MatiereViewController {
+    private User authenticatedUser;
 
+    public void setUser(User user) {
+        this.authenticatedUser = user;
+
+    }
     @FXML
     private TableView<Matiere> tableView;
     @FXML

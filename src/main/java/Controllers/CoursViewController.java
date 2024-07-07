@@ -3,6 +3,7 @@ package Controllers;
 import Entities.Chapitre;
 import Entities.Cours;
 import Entities.Matiere;
+import Entities.User;
 import Services.ServiceChapitre;
 import Services.ServiceCours;
 import Services.ServiceMatiere;
@@ -31,7 +32,12 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CoursViewController implements Initializable {
+    private User authenticatedUser;
 
+    public void setUser(User user) {
+        this.authenticatedUser = user;
+
+    }
     @FXML
     private TableView<Cours> tableView;
     @FXML
@@ -138,7 +144,7 @@ public class CoursViewController implements Initializable {
 
         if (pdfBlob != null) {
             try {
-                Cours cours = new Cours(titre, description, 1, selectedChapitre.getId(), pdfBlob);
+                Cours cours = new Cours(titre, description, authenticatedUser.getId(), selectedChapitre.getId(), pdfBlob);
                 serviceCours.ajouter(cours);
                 coursList.add(cours);
                 titreField.clear();
