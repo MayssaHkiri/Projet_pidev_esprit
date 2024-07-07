@@ -1,11 +1,17 @@
 package Controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import Entities.User;
 import Services.UserService;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class UserProfileController {
@@ -88,8 +94,24 @@ public class UserProfileController {
 
     @FXML
     private void handleChangePassword() {
-        // Logique pour changer le mot de passe
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ChangePassword.fxml"));
+            VBox root = loader.load();
+
+            ChangePasswordController changePasswordController = loader.getController();
+            // Passez l'utilisateur authentifié au contrôleur de changement de mot de passe
+            changePasswordController.setUser(authenticatedUser);
+
+            // Créez une nouvelle fenêtre pour afficher la modification de mot de passe
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Modifier Mot de Passe");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);

@@ -3,50 +3,38 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <SplitPane dividerPositions="0.3334361505243676" prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MainController">
     <items>
-        <!-- Side Bar -->
-        <VBox alignment="CENTER" prefHeight="649.0" prefWidth="221.0" style="-fx-background-color: #C4C4C4;" VBox.vgrow="ALWAYS">
-         <ImageView fitHeight="56.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@logoEsprit1.jpg" />
-            </image>
-         </ImageView>
-            <Button onAction="#loadGestionCoursPage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion des cours" />
-            <Button onAction="#loadGestionMatieresPage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion des matières" />
-            <Button onAction="#loadGestionFormationPage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion de la formation" />
-            <Button onAction="#loadGestionOffrePage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion offres de stages" />
-         <ImageView fitHeight="167.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+        <!-- Sidebar -->
+        <VBox fx:id="sidebar" alignment="CENTER" prefWidth="200.0" style="-fx-background-color: #C4C4C4;" VBox.vgrow="ALWAYS">
+            <children>
+                <ImageView fitHeight="56.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@Logo_ESPRIT_Ariana-removebg-preview.png" />
+                    </image>
+               <VBox.margin>
+                  <Insets top="-300.0" />
+               </VBox.margin>
+                </ImageView>
+                <TextField fx:id="searchField" alignment="TOP_CENTER" prefHeight="27.0" prefWidth="165.0" promptText="Recherche..." style="-fx-background-color: white; -fx-text-fill: black; -fx-pref-width: 180; -fx-padding: 5; -fx-margin: 10 0;">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin></TextField>
+                <Button onAction="#loadGestionFormationsPage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion des formations" />
+                <Button onAction="#loadGestionOffresPage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion des offres de stages" />
+                <Button onAction="#loadGestionUtilisateursPage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion des utilisateurs" />
+            </children>
         </VBox>
 
         <!-- Main Content -->
-        <StackPane fx:id="contentPane" prefHeight="5425.0" prefWidth="558.0" VBox.vgrow="ALWAYS">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue" underline="true">
-               <font>
-                  <Font size="42.0" />
-               </font>
-               <StackPane.margin>
-                  <Insets bottom="475.0" />
-               </StackPane.margin>
-            </Text>
-            <ImageView fitHeight="403.0" fitWidth="419.0">
-               <image>
-                  <Image url="@logo_e_learning-removebg-preview.png" />
-               </image>
-            </ImageView>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="\@Copyright">
-               <StackPane.margin>
-                  <Insets top="605.0" />
-               </StackPane.margin>
-            </Text>
-         </children></StackPane>
+        <StackPane fx:id="contentPane">
+            <!-- Your content here -->
+        </StackPane>
     </items>
 </SplitPane>

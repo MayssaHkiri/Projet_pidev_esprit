@@ -1,5 +1,6 @@
 package Controllers;
 
+import Entities.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +15,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class ChangePasswordController {
+
+    private User authenticatedUser;
+
+    public void setUser(User user) {
+        this.authenticatedUser = user;
+        this.userId = user.getId();
+    }
 
     @FXML
     private Button btnBack;

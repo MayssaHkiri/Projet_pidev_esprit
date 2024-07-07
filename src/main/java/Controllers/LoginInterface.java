@@ -41,7 +41,8 @@ public class LoginInterface {
             e.printStackTrace();
             showAlert("Database Error", "An error occurred while accessing the database.");
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
+            showAlert("Error", "An error occurred while loading the interface.");
         }
     }
 
@@ -51,25 +52,34 @@ public class LoginInterface {
 
         switch (role) {
             case "admin":
-                fxmlFile = "/WelcomeAdmin.fxml" ;
+                fxmlFile = "/mainAdmin.fxml";
                 break;
-            case "user":
-                fxmlFile = "";
+            case "enseignant":
+                fxmlFile = "/mainTeacher.fxml";
                 break;
-            case "etudiant" :
-                fxmlFile = "" ;
-                break ;
+            case "etudiant":
+                fxmlFile = "/mainStudent.fxml";
+                break;
             default:
                 showAlert("Authorization Error", "No interface found for role: " + role);
                 return;
         }
 
+        loadAndShowStage(event, fxmlFile, user);
+    }
+
+    private void loadAndShowStage(ActionEvent event, String fxmlFile, User user) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
         Parent root = loader.load();
 
-        // Pass the authenticated user to the new controller
-        AdminInterface welcomeAdminController = loader.getController();
-        welcomeAdminController.setUser(user);
+        Object controller = loader.getController();
+        if (controller instanceof MainAdminController) {
+            ((MainAdminController) controller).setUser(user);
+        } else if (controller instanceof MainTeacherController) {
+            ((MainTeacherController) controller).setUser(user);
+        } else if (controller instanceof MainStudentController) {
+            ((MainStudentController) controller).setUser(user);
+        }
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));

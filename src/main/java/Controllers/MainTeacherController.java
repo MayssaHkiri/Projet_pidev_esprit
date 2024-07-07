@@ -1,5 +1,6 @@
 package Controllers;
 
+import Entities.User;
 import Utils.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +14,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainTeacherController {
+    private User authenticatedUser;
+
+    public void setUser(User user) {
+        this.authenticatedUser = user;
+    }
     @FXML
     private StackPane contentPane;
     private Stage stage;
@@ -34,7 +40,7 @@ public class MainTeacherController {
 
     @FXML
     private void loadProfil() {
-        loadPage("UserProfile.fxml");
+        loadPage("UserProfile.fxml" );
     }
 
     public void loadConsulterOffres (ActionEvent actionEvent) {

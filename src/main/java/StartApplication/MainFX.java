@@ -20,7 +20,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainStudent.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainStudent.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/LoginInterface.fxml"));
         stage.getIcons().add(new Image("/logo_esprit.png"));
         Parent root = null ;
         root = loader.load();
