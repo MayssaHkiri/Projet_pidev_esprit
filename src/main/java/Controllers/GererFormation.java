@@ -1,6 +1,7 @@
 package Controllers;
 
 import Entities.Formation;
+import Entities.User;
 import Services.FormationService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +24,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class GererFormation {
+    private User authenticatedUser;
+
+    public void setUser(User user) {
+        this.authenticatedUser = user;
+        System.out.println(user.getNom());
+        System.out.println(user.getEmail());
+    }
 
     @FXML
     private TableView<Formation> tableView;
@@ -76,6 +84,7 @@ public class GererFormation {
 
             AjouterFormation controller = loader.getController();
             controller.setStage(stage);
+            controller.setUser(authenticatedUser); // Passer l'utilisateur authentifié
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -93,6 +102,7 @@ public class GererFormation {
             showAlert(Alert.AlertType.ERROR, "Erreur d'ouverture", "Erreur lors de l'ouverture de la fenêtre d'ajout de formation.", e.getMessage());
         }
     }
+
 
     @FXML
     private void handleModifierFormation(ActionEvent event) {

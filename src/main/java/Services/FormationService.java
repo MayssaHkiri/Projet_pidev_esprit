@@ -15,19 +15,21 @@ public class FormationService {
         // Initialisation de la connexion
     }
 
-    public boolean addFormation(Formation formation) throws SQLException {
-        String req = "INSERT INTO formation (titre, description, imageFormation,idEnseignant ,idFormation, dateFormation) VALUES (?, ?, ?,2,1, ?)";
+    public boolean addFormation(Formation formation, int idEnseignant) throws SQLException {
+        String req = "INSERT INTO formation (titre, description, imageFormation, idEnseignant, dateFormation) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setString(1, formation.getTitre());
             pst.setString(2, formation.getDescription());
             pst.setBlob(3, formation.getImageFormation());
-            pst.setString(4, formation.getDateFormation());
+            pst.setInt(4, idEnseignant);
+            pst.setString(5, formation.getDateFormation());
 
             int result = pst.executeUpdate();
             return result > 0;
         }
     }
+
 
     public boolean SupprimerFormation(int id) throws SQLException {
         String req = "DELETE FROM formation WHERE id = ?";

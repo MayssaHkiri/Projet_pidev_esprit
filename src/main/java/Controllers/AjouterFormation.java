@@ -1,6 +1,7 @@
 package Controllers;
 
 import Entities.Formation;
+import Entities.User;
 import Services.FormationService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,6 +28,13 @@ public class AjouterFormation {
     private ObservableList<Formation> formationList = FXCollections.observableArrayList();
     private FormationService formationService = new FormationService();
     private Stage stage;
+
+    private User authenticatedUser;
+
+    public void setUser(User user) {
+        this.authenticatedUser = user;
+
+    }
 
     @FXML
     private TextField tfTitre;
@@ -104,7 +112,7 @@ public class AjouterFormation {
         formation.setDateFormation(dateFormation);
 
         try {
-            boolean added = formationService.addFormation(formation);
+            boolean added = formationService.addFormation(formation , authenticatedUser.getId());
             if (added) {
                 showAlert("Succès", "Formation ajoutée", "La formation a été ajoutée avec succès.");
                 clearFields();

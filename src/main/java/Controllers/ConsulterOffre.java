@@ -1,6 +1,7 @@
 package Controllers;
 
 import Entities.Offre;
+import Entities.User;
 import Services.ServiceOffre;
 import Utils.DataSource;
 import javafx.collections.FXCollections;
@@ -41,6 +42,14 @@ import java.sql.Statement;
 
 public class ConsulterOffre {
 
+
+    private User authenticatedUser;
+
+    public void setUser(User user) {
+        this.authenticatedUser = user;
+        System.out.println(user.getNom());
+        System.out.println(user.getEmail());
+    }
         @FXML
         private TableView<Offre> tableView;
         @FXML

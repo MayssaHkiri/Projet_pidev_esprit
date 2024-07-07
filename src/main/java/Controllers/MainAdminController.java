@@ -44,6 +44,15 @@ public class MainAdminController {
             Object controller = loader.getController();
             if (controller instanceof UserProfileController) {
                 ((UserProfileController) controller).setUser(user);
+            } 
+            if (controller instanceof GererFormation ) {
+                ((GererFormation) controller).setUser(user) ;
+            }
+            if (controller instanceof UsersManagement  ) {
+                ((UsersManagement) controller).setUser(user) ;
+            }
+            if (controller instanceof ConsulterOffre  ) {
+                ((ConsulterOffre) controller).setUser(user) ;
             }
 
             contentPane.getChildren().setAll(pane);
