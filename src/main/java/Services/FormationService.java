@@ -24,8 +24,8 @@ public class FormationService {
             pst.setBlob(3, formation.getImageFormation());
             pst.setInt(4, idEnseignant);
             pst.setString(5, formation.getDateFormation());
-
             int result = pst.executeUpdate();
+            System.out.println("Enseignant="+formation + idEnseignant);
             return result > 0;
         }
     }

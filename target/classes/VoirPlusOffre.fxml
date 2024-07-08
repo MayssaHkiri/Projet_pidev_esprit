@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -21,23 +20,14 @@
                         <Image url="@logo_esprit.png" />
                     </image>
                 </ImageView>
-
-                <!-- Liens de navigation -->
-                <Hyperlink text="Formations">
-                    <font>
-                        <Font size="19.0" />
-                    </font>
-                </Hyperlink>
-                <Hyperlink text="Cours">
-                    <font>
-                        <Font size="19.0" />
-                    </font>
-                </Hyperlink>
-                <Hyperlink text="Offres de stages">
-                    <font>
-                        <Font size="19.0" />
-                    </font>
-                </Hyperlink>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Détails offre de stage" textAlignment="CENTER">
+               <font>
+                  <Font size="26.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="38.0" />
+               </HBox.margin>
+            </Text>
             </children>
         </HBox>
 
