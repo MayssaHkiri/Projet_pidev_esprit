@@ -6,8 +6,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -25,6 +28,8 @@
             <Button onAction="#loadGestionUsers" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion utilisateurs" />
             <Button onAction="#loadGestionFormations" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion formations " />
             <Button onAction="#loadGestionOffrePage" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion offres de stages" />
+            <Rectangle width="200.0" height="50.0" arcHeight="10.0" arcWidth="10.0" fill="#C4C4C4" stroke="transparent" strokeType="INSIDE" strokeWidth="4.0" />
+            <Button fx:id="logoutButton" onAction="#logoutAction" text="Se déconnecter" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200px; -fx-pref-height: 50px; -fx-margin: 10 0; -fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-font-weight: bold; -fx-font-size: 14px;" />
             <ImageView fitHeight="167.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
         </VBox>
 
@@ -49,6 +54,7 @@
                         <Insets top="605.0" />
                     </StackPane.margin>
                 </Text>
-            </children></StackPane>
+            </children>
+        </StackPane>
     </items>
 </SplitPane>

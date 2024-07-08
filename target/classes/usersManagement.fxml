@@ -13,7 +13,7 @@
 <HBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.UsersManagement">
     <children>
         <!-- Sidebar -->
-        <fx:include fx:id="Adminsidebar" source="AdminSideBar.fxml" />
+
 
         <!-- Main content -->
         <AnchorPane prefHeight="600.0" prefWidth="750.0" style="-fx-background-color: #f0f0f0;">

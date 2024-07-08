@@ -24,12 +24,14 @@ Controllers\HomeQuizController$1.class
 Controllers\AdminInterface.class
 Controllers\AccountCreation.class
 Services\ServiceChapitre.class
+Controllers\MainTeacherController.class
 Controllers\UsersInterface.class
 Controllers\AfficherQuizController.class
 Controllers\ModifierQuizController.class
 Controllers\EditCoursController.class
 Entities\QuizAttempt.class
 Services\UserService.class
+Controllers\MainStudentController.class
 Controllers\GererCours.class
 Controllers\ChangePasswordController.class
 Entities\Formation.class
@@ -46,6 +48,7 @@ Utils\StageManager.class
 Controllers\ListQuizEtudiantController.class
 Controllers\ConsulterOffre.class
 Services\ServiceOffre.class
+Controllers\MainAdminController.class
 Entities\Quiz.class
 Controllers\UserProfileController.class
 Services\IService.class
