@@ -18,7 +18,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+
+import java.awt.*;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -40,6 +48,8 @@ public class GererFormation {
     private TableColumn<Formation, String> descriptionFormationColumn;
     @FXML
     private TableColumn<Formation, String> dateFormationColumn;
+    @FXML
+    private TableColumn<Formation, Integer> nombreEtudiantsInscritsColumn; // Nouvelle colonne pour le nombre d'étudiants inscrits
     @FXML
     private TextField searchField;
 
@@ -66,8 +76,22 @@ public class GererFormation {
         titreFormationColumn.setCellValueFactory(new PropertyValueFactory<>("titre"));
         descriptionFormationColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         dateFormationColumn.setCellValueFactory(new PropertyValueFactory<>("dateFormation"));
+        // Assurez-vous que la PropertyValueFactory correspond à votre modèle de données
+
+        // Bind la nouvelle colonne avec le nombre d'étudiants inscrits
+        nombreEtudiantsInscritsColumn.setCellValueFactory(new PropertyValueFactory<>("nombreEtudiantsInscrits"));
 
         tableView.setItems(formationsList);
+
+        // Charger le nombre d'étudiants inscrits pour chaque formation
+        formationsList.forEach(formation -> {
+            try {
+                int nombreEtudiants = serviceFormation.getNumberOfStudentsEnrolled(formation.getId());
+                formation.setNombreEtudiantsInscrits(nombreEtudiants);
+            } catch (SQLException e) {
+                showAlert(Alert.AlertType.ERROR, "Erreur de chargement", "Erreur lors du chargement du nombre d'étudiants inscrits pour la formation.", e.getMessage());
+            }
+        });
     }
 
     private void loadFormationsFromDatabase() throws SQLException {
@@ -102,7 +126,6 @@ public class GererFormation {
             showAlert(Alert.AlertType.ERROR, "Erreur d'ouverture", "Erreur lors de l'ouverture de la fenêtre d'ajout de formation.", e.getMessage());
         }
     }
-
 
     @FXML
     private void handleModifierFormation(ActionEvent event) {
@@ -173,10 +196,74 @@ public class GererFormation {
             }
         }
     }
-    private void showAlert(Alert.AlertType alertType, String title, String header, String content) {
-        Alert alert = new Alert(alertType, content, ButtonType.OK);
+
+    @FXML
+    private void handleTelechargerExcel(ActionEvent event) {
+        try {
+            // Générer le fichier Excel avec les données nécessaires
+            File excelFile = generateExcelFile();
+
+            if (excelFile != null) {
+                // Ouvrir le fichier Excel avec l'application par défaut pour le téléchargement
+                Desktop.getDesktop().open(excelFile);
+
+                showAlert(Alert.AlertType.INFORMATION,
+                        "Success", "Téléchargement réussi",
+                        "Fichier Excel téléchargé avec succès à l'emplacement : " + excelFile.getAbsolutePath());
+            } else {
+                showAlert(Alert.AlertType.ERROR,
+                        "Erreur", "Erreur lors du téléchargement du fichier Excel.",
+                        "Le fichier Excel n'a pas pu être généré.");
+            }
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR,
+                    "Erreur", "Erreur lors du téléchargement du fichier Excel.",
+                    e.getMessage());
+        }
+    }
+
+    private File generateExcelFile() throws IOException {
+        // Création du Workbook
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Formations");
+
+        // Création de l'en-tête
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("Titre de la formation");
+        headerRow.createCell(1).setCellValue("Description de la formation");
+        headerRow.createCell(2).setCellValue("Date de la formation");
+        headerRow.createCell(3).setCellValue("Nombre d'étudiants inscrits");
+
+        // Remplissage des données
+        int rowNum = 1;
+        for (Formation formation : formationsList) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(formation.getTitre());
+            row.createCell(1).setCellValue(formation.getDescription());
+            row.createCell(2).setCellValue(formation.getDateFormation());
+            // Récupération du nombre d'étudiants inscrits à cette formation
+            int nombreEtudiantsInscrits = formation.getNombreEtudiantsInscrits();
+            row.createCell(3).setCellValue(nombreEtudiantsInscrits);
+        }
+
+        // Écriture du contenu dans le fichier
+        File file = new File("Formations.xlsx");
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+            workbook.write(outputStream);
+        } catch (IOException e) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'écriture dans le fichier Excel.", e.getMessage());
+            file = null;
+        }
+
+        workbook.close(); // Fermeture du Workbook
+        return file;
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {
+        Alert alert = new Alert(alertType);
         alert.setTitle(title);
-        alert.setHeaderText(header);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
         alert.showAndWait();
     }
 }
