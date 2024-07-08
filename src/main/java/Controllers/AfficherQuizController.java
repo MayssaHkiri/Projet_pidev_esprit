@@ -3,10 +3,8 @@ package Controllers;
 import Entities.ChoixPossible;
 import Entities.Question;
 import Entities.Quiz;
-import Entities.Reponse;
 import Services.QuestionService;
 import Services.ReponseService;
-import Utils.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -52,11 +48,6 @@ public class AfficherQuizController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        btnModifier.setOnAction(event -> {
-            handleModifierButton(quiz);
-        });
-        btnCreerQuiz.setOnAction(event -> handleCreerQuiz());
-
     }
 
     public void displayQuiz(Quiz quiz) {
@@ -101,7 +92,7 @@ public class AfficherQuizController implements Initializable {
             vbox.setSpacing(10);
             dialog.getDialogPane().setMinWidth(500);
             dialog.getDialogPane().setMinHeight(500);
-            List<ChoixPossible> listeChoix= questionService.findAllChoixPossible(questionService.findById(questionId));
+            List<ChoixPossible> listeChoix = questionService.findAllChoixPossible(questionService.findById(questionId));
 
             for (ChoixPossible choixPossible : listeChoix) {
                 Label label = new Label(choixPossible.getDescription());
@@ -120,6 +111,7 @@ public class AfficherQuizController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void handleConsulterQuiz(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gestionQuiz.fxml"));
@@ -132,7 +124,8 @@ public class AfficherQuizController implements Initializable {
             System.out.println("Error while loading gestionQuiz.fxml: " + e.getMessage());
         }
     }
-    public void handleModifierButton(Quiz quiz) {
+
+    public void handleModifierButton(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierQuiz.fxml"));
             Parent root = loader.load();
@@ -140,43 +133,22 @@ public class AfficherQuizController implements Initializable {
             ModifierQuizController controller = loader.getController();
             controller.setQuiz(quiz);
 
-            Stage stage = (Stage) titreLabel.getScene().getWindow();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    @FXML
-    public void handleCreerQuiz() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajoutQuiz.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) btnCreerQuiz.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            System.out.println("Error while loading ajoutQuiz.fxml: " + e.getMessage());
-        }
-    }
-    public void handleAccueil(ActionEvent actionEvent) {
-        Stage mainTeacherStage = StageManager.getInstance().getMainTeacherStage();
-        if (mainTeacherStage != null && mainTeacherStage.isShowing()) {
-            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
-        } else {
-            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainTeacher.fxml"));
-                Parent root = loader.load();
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.show();
-                StageManager.getInstance().setMainTeacherStage(stage);
-            } catch (IOException e) {
-                System.out.println("Error while loading mainTeacher.fxml: " + e.getMessage());
-            }
+
+    public void setQuiz(Quiz quiz) {
+        this.quiz = quiz;
+        if (quiz != null) {
+            titreLabel.setText(quiz.getDescription());
+            descriptionLabel.setText(quiz.getTitre());
+            dateCreationLabel.setText(quiz.getDateCreation().toString());
+            matiereLabel.setText(quiz.getMatiereName());
         }
     }
 }

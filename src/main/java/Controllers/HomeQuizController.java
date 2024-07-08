@@ -1,5 +1,6 @@
 package Controllers;
 
+import Entities.User;
 import Utils.StageManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 import Services.QuizService;
 import Entities.Quiz;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -32,9 +34,11 @@ public class HomeQuizController {
     private TableColumn<Quiz, Void> actions;
     @FXML
     private Button btnCreerQuiz;
+    private User authenticatedUser;
 
     private QuizService quizService;
-
+    @FXML
+    private MainTeacherController mainTeacherController;
     public HomeQuizController() {
         quizService = new QuizService();
     }
@@ -49,41 +53,14 @@ public class HomeQuizController {
             private final HBox pane = new HBox(btnAfficher, btnModifier, btnSupprimer);
 
             {
-                btnCreerQuiz.setOnAction(event -> handleCreerQuiz());
 
                 pane.setAlignment(Pos.CENTER); // Center the buttons
                 btnAfficher.setOnAction(event -> {
-                    Quiz quiz = getTableView().getItems().get(getIndex());
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/affichageQuiz.fxml"));
-                        Parent root = loader.load();
-
-                        AfficherQuizController controller = loader.getController();
-                        controller.displayQuiz(quiz);
-
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.setScene(new Scene(root));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    mainTeacherController.loadPage("affichageQuiz.fxml", authenticatedUser, getTableView().getItems().get(getIndex()));
                 });
 
                 btnModifier.setOnAction(event -> {
-                    Quiz quiz = getTableView().getItems().get(getIndex());
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/modifierQuiz.fxml"));
-                        Parent root = loader.load();
-
-                        ModifierQuizController controller = loader.getController();
-                        controller.setQuiz(quiz);
-
-                        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        stage.setScene(new Scene(root));
-
-                        stage.setOnCloseRequest(e -> findAll());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    mainTeacherController.loadPage("modifierQuiz.fxml", authenticatedUser, getTableView().getItems().get(getIndex()));
                 });
 
                 btnSupprimer.setOnAction(event -> {
@@ -122,43 +99,35 @@ public class HomeQuizController {
         try {
             ObservableList<Quiz> quizzes = FXCollections.observableArrayList(quizService.readAll());
             quizTable.setItems(quizzes);
-            titre.setCellValueFactory(cellData -> cellData.getValue().titreProperty());
+            titre.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
             matiere.setCellValueFactory(cellData -> cellData.getValue().matiereProperty());
         } catch (SQLException e) {
             System.out.println("Error while displaying all quizzes: " + e.getMessage());
         }
     }
-    @FXML
-    public void handleCreerQuiz() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajoutQuiz.fxml"));
-            Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) btnCreerQuiz.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            System.out.println("Error while loading ajoutQuiz.fxml: " + e.getMessage());
-        }
+
+    public void handleCreationQuiz(ActionEvent actionEvent) {
+        mainTeacherController.loadPage("ajoutQuiz.fxml", authenticatedUser, null);
     }
-    public void handleAccueil(ActionEvent actionEvent) {
-        Stage mainTeacherStage = StageManager.getInstance().getMainTeacherStage();
-        if (mainTeacherStage != null && mainTeacherStage.isShowing()) {
-            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
+    public void handleModifierQuiz(ActionEvent actionEvent) {
+        Quiz selectedQuiz = quizTable.getSelectionModel().getSelectedItem();
+        if (selectedQuiz != null) {
+            mainTeacherController.loadPage("modifierQuiz.fxml", authenticatedUser, selectedQuiz);
         } else {
-            ((Node) actionEvent.getSource()).getScene().getWindow().hide();
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainTeacher.fxml"));
-                Parent root = loader.load();
-                Scene scene = new Scene(root);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.show();
-                StageManager.getInstance().setMainTeacherStage(stage);
-            } catch (IOException e) {
-                System.out.println("Error while loading mainTeacher.fxml: " + e.getMessage());
-            }
+            System.out.println("No quiz selected");
         }
     }
 
+    public void handleAffichageQuiz(ActionEvent actionEvent) {
+        Quiz selectedQuiz = quizTable.getSelectionModel().getSelectedItem();
+        if (selectedQuiz != null) {
+            mainTeacherController.loadPage("affichageQuiz.fxml", authenticatedUser, selectedQuiz);
+        } else {
+            System.out.println("No quiz selected");
+        }
+    }
+
+    public void setMainTeacherController(MainTeacherController mainTeacherController) {
+        this.mainTeacherController = mainTeacherController;
+    }
 }

@@ -61,7 +61,7 @@ public class ModifierQuizController {
 
     public void setQuiz(Quiz quiz) {
         this.quiz = quiz;
-        titreLabel.setText(quiz.getTitre());
+        titreLabel.setText(quiz.getDescription());
     }
 
     public void handleModifierTitre() {
@@ -74,6 +74,15 @@ public class ModifierQuizController {
 
         TextField textField = new TextField();
         dialog.getDialogPane().setContent(textField);
+
+        // Enable/disable save button based on text field content
+        Node saveButton = dialog.getDialogPane().lookupButton(saveButtonType);
+        saveButton.setDisable(true); // Initially disable save button
+
+        // Listen for changes in the text field to enable/disable save button
+        textField.textProperty().addListener((observable, oldValue, newValue) -> {
+            saveButton.setDisable(newValue.trim().isEmpty()); // Disable if empty
+        });
 
         dialog.setResultConverter(buttonType -> {
             if (buttonType == saveButtonType) {
@@ -95,9 +104,15 @@ public class ModifierQuizController {
                 alert.showAndWait();
             } catch (SQLException e) {
                 e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Update Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to update title: " + e.getMessage());
+                alert.showAndWait();
             }
         });
     }
+
 
     public void handleModifierDescription() {
         Dialog<String> dialog = new Dialog<>();
@@ -109,6 +124,14 @@ public class ModifierQuizController {
 
         TextArea textArea = new TextArea();
         dialog.getDialogPane().setContent(textArea);
+
+        // Enable/disable save button based on text field content
+        Node saveButton = dialog.getDialogPane().lookupButton(saveButtonType);
+        saveButton.setDisable(true); // Initially disable save button
+
+        textArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            saveButton.setDisable(newValue.trim().isEmpty()); // Disable if empty
+        });
 
         dialog.setResultConverter(buttonType -> {
             if (buttonType == saveButtonType) {
@@ -218,6 +241,12 @@ public class ModifierQuizController {
         ButtonType innerModifierEnonceButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         modifierEnonceDialog.getDialogPane().getButtonTypes().add(innerModifierEnonceButtonType);
 
+        Node saveButton = modifierEnonceDialog.getDialogPane().lookupButton(innerModifierEnonceButtonType);
+        saveButton.setDisable(true);
+
+        textArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            saveButton.setDisable(newValue.trim().isEmpty()); // Disable if empty
+        });
         modifierEnonceDialog.setResultConverter(bt -> {
             if (bt == innerModifierEnonceButtonType) {
                 return textArea.getText();

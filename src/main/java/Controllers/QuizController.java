@@ -64,7 +64,33 @@ public class QuizController implements Initializable {
             String matiereName = matiereComboBox.getValue();
             String enonce = enonceTextArea.getText();
 
-            if (!titre.isEmpty() && !description.isEmpty() && matiereName != null && !enonce.isEmpty()) {
+            boolean isValid = true;
+
+            if (titre.isEmpty()) {
+                titreField.setPromptText("Ce champs est obligatoire!");
+                titreField.setStyle("-fx-prompt-text-fill: red;");
+                isValid = false;
+            }
+
+            if (description.isEmpty()) {
+                descriptionArea.setPromptText("Ce champs est obligatoire!");
+                descriptionArea.setStyle("-fx-prompt-text-fill: red;");
+                isValid = false;
+            }
+
+            if (matiereName == null) {
+                matiereComboBox.setPromptText("Ce champs est obligatoire!");
+                matiereComboBox.setStyle("-fx-prompt-text-fill: red;");
+                isValid = false;
+            }
+
+            if (enonce.isEmpty()) {
+                enonceTextArea.setPromptText("Ce champs est obligatoire!");
+                enonceTextArea.setStyle("-fx-prompt-text-fill: red;");
+                isValid = false;
+            }
+
+            if (isValid) {
                 Matiere matiere = matiereService.getMatiereByName(matiereName);
                 System.out.println(matiere);
                 if (matiere == null) {
@@ -88,13 +114,6 @@ public class QuizController implements Initializable {
                 descriptionArea.clear();
                 matiereComboBox.getSelectionModel().clearSelection();
                 enonceTextArea.clear();
-            } else {
-                Question question = new Question(0, quizService.findById(this.quizId), enonce);
-                int questionId = questionService.ajouter(question, quizId);
-                setQuestionId(questionId);
-                handleAjouterChoixPossible(event);
-
-                messageLabel.setText("Question ajoutée! Ajouter maintenant les choix possibles.");
             }
         } catch (SQLException e) {
             System.out.println("Error while saving question: " + e.getMessage());
@@ -102,6 +121,7 @@ public class QuizController implements Initializable {
             System.out.println("Unexpected error: " + e.getMessage());
         }
     }
+
 
 
     public ObservableList<String> getMatieres() {
