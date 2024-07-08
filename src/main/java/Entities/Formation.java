@@ -8,8 +8,9 @@ public class Formation {
     private int id;
     private String titre;
     private String description;
-    private Blob imageFormation; // Changer le type pour String
-    private String dateFormation; // Changer le type pour String
+    private Blob imageFormation; // Changer le type pour String si utilisation d'un chemin de fichier ou d'une URL
+    private String dateFormation;
+    private int NumberOfStudentsEnrolled; // Nouvel attribut
 
     public Formation() {
     }
@@ -20,19 +21,10 @@ public class Formation {
         this.description = description;
         this.imageFormation = imageFormation;
         this.dateFormation = dateFormation;
+        this.NumberOfStudentsEnrolled = 0; // Initialisation à 0
     }
 
-    // Getters and setters for dateFormation
-
-    public String getDateFormation() {
-        return dateFormation;
-    }
-
-    public void setDateFormation(String dateFormation) {
-        this.dateFormation = dateFormation;
-    }
-
-    // Getters and setters for other attributes
+    // Getters and setters pour tous les attributs
 
     public int getId() {
         return id;
@@ -58,12 +50,28 @@ public class Formation {
         this.description = description;
     }
 
+    public Blob getImageFormation() {
+        return imageFormation;
+    }
+
     public void setImageFormation(Blob imageFormation) {
         this.imageFormation = imageFormation;
     }
 
-    public Blob getImageFormation() {
-        return imageFormation;
+    public String getDateFormation() {
+        return dateFormation;
+    }
+
+    public void setDateFormation(String dateFormation) {
+        this.dateFormation = dateFormation;
+    }
+
+    public int getNombreEtudiantsInscrits() {
+        return NumberOfStudentsEnrolled;
+    }
+
+    public void setNombreEtudiantsInscrits(int nombreEtudiantsInscrits) {
+        this.NumberOfStudentsEnrolled = nombreEtudiantsInscrits;
     }
 
     @Override
@@ -73,7 +81,8 @@ public class Formation {
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
                 ", imageFormation=" + imageFormation +
-                ", dateFormation='" + dateFormation + '\'' + // Include dateFormation in the toString method
+                ", dateFormation='" + dateFormation + '\'' +
+                ", nombreEtudiantsInscrits=" + NumberOfStudentsEnrolled +
                 '}';
     }
 }
