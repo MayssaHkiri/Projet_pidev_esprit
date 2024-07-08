@@ -1,5 +1,6 @@
 package Controllers;
 
+import Entities.Quiz;
 import Entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,39 +25,27 @@ public class MainTeacherController {
 
     @FXML
     private void loadGestionCours(ActionEvent event) {
-        loadPage("CoursView.fxml", authenticatedUser);
+        loadPage("CoursView.fxml", authenticatedUser, null);
     }
 
     @FXML
     private void loadGestionMatieres(ActionEvent event) {
-        loadPage("MatiereView.fxml", authenticatedUser);
+        loadPage("MatiereView.fxml", authenticatedUser, null);
     }
 
     @FXML
     private void loadProfil(ActionEvent event) {
-        loadPage("UserProfile.fxml", authenticatedUser);
+        loadPage("UserProfile.fxml", authenticatedUser, null);
     }
 
     @FXML
     private void loadGestionQuiz(ActionEvent event) {
-        loadPage("gestionQuiz.fxml", authenticatedUser);
-    }
-
-    private void loadPage(String fxmlFile, User user) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + fxmlFile));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gestionQuiz.fxml"));
             Pane pane = loader.load();
 
-            Object controller = loader.getController();
-            if (controller instanceof UserProfileController) {
-                ((UserProfileController) controller).setUser(user);
-            }
-            if (controller instanceof CoursViewController) {
-                ((CoursViewController) controller).setUser(user);
-            }
-            if (controller instanceof MatiereViewController) {
-                ((MatiereViewController) controller).setUser(user);
-            }
+            HomeQuizController homeQuizController = loader.getController();
+            homeQuizController.setMainTeacherController(this); // Pass MainTeacherController to HomeQuizController
 
             contentPane.getChildren().setAll(pane);
         } catch (IOException e) {
@@ -64,13 +53,25 @@ public class MainTeacherController {
         }
     }
 
-    public void handleGestionQuiz(ActionEvent actionEvent) {
+    public void loadPage(String fxmlFile, User user, Quiz quiz) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gestionQuiz.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + fxmlFile));
+            Pane pane = loader.load();
+
+            Object controller = loader.getController();
+            if (controller instanceof UserProfileController) {
+                ((UserProfileController) controller).setUser(user);
+            } else if (controller instanceof CoursViewController) {
+                ((CoursViewController) controller).setUser(user);
+            } else if (controller instanceof MatiereViewController) {
+                ((MatiereViewController) controller).setUser(user);
+            } else if (controller instanceof AfficherQuizController) {
+                ((AfficherQuizController) controller).setQuiz(quiz);
+            } else if (controller instanceof ModifierQuizController) {
+                ((ModifierQuizController) controller).setQuiz(quiz);
+            }
+
+            contentPane.getChildren().setAll(pane);
         } catch (IOException e) {
             e.printStackTrace();
         }

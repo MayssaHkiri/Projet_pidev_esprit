@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -17,89 +16,60 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherQuizController">
+<VBox maxHeight="Infinity" maxWidth="Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AfficherQuizController">
   <children>
-    <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane focusTraversable="true" VBox.vgrow="ALWAYS">
       <items>
-          <AnchorPane maxWidth="250" minWidth="250" prefWidth="200" style="-fx-background-color: #A9A9A9;">
-          <children>
-                  <AnchorPane layoutX="-1.0" prefHeight="129.0" prefWidth="223.0">
-                     <children>
-                        <ImageView fitHeight="129.0" fitWidth="223.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@espritlogo.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </AnchorPane>
-                  <ButtonBar layoutX="-1.0" layoutY="276.0" prefHeight="40.0" prefWidth="235.0">
-                     <buttons>
-                         <Button mnemonicParsing="false" onAction="#handleConsulterQuiz" prefHeight="40.0" prefWidth="226.0" style="-fx-background-color: #A9A9A9; -fx-border-color: black;" text="Consulter les quiz">
-                           <font>
-                              <Font size="16.0" />
-                           </font></Button>
-                     </buttons>
-                  </ButtonBar>
-                <Button layoutX="8.0" layoutY="170.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="226.0" style="-fx-background-color: #A9A9A9; -fx-border-color: black;" text="Accueil" onAction="#handleAccueil">
-                     <font>
-                        <Font name="Arial" size="16.0" />
-                     </font></Button>
-                  <Button fx:id="btnCreerQuiz" layoutX="8.0" layoutY="225.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="226.0" style="-fx-background-color: #A9A9A9; -fx-border-color: black;" text="Créer un quiz">
-                     <font>
-                        <Font size="16.0" />
-                     </font></Button>
-          </children>
-        </AnchorPane>
         <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
                <content>
-                  <AnchorPane prefHeight="564.0" prefWidth="657.0" style="-fx-background-color: white;">
+                  <AnchorPane prefHeight="605.0" prefWidth="941.0" style="-fx-background-color: white;">
                      <children>
-                         <AnchorPane id="parentContainer" fx:id="parentContainer" layoutX="1.0" layoutY="73.0" prefHeight="497.0" prefWidth="649.0" style="-fx-background-position: center center; -fx-background-size: contain;">
+                         <AnchorPane id="parentContainer" fx:id="parentContainer" layoutX="1.0" layoutY="73.0" prefHeight="600.0" prefWidth="941.0" style="-fx-background-position: center center; -fx-background-size: contain;">
                              <children>
                                  <VBox fx:id="vboxContainer" />
-                                 <Label alignment="CENTER" layoutX="57.0" layoutY="84.0" prefHeight="22.0" prefWidth="101.0" text="Description :">
+                                 <Label alignment="CENTER" layoutX="188.0" layoutY="84.0" prefHeight="22.0" prefWidth="101.0" text="Description :">
                                  <font>
                                     <Font name="Constantia Bold Italic" size="15.0" />
                                  </font>
                               </Label>
-                              <Label alignment="CENTER" layoutX="57.0" layoutY="128.0" prefHeight="33.0" prefWidth="80.0" text="Matiere :">
+                              <Label alignment="CENTER" layoutX="188.0" layoutY="123.0" prefHeight="33.0" prefWidth="80.0" text="Matiere :">
                                  <font>
                                     <Font name="Constantia Bold Italic" size="15.0" />
                                  </font>
                               </Label>
-                              <TextArea id="descriptionLabel" fx:id="descriptionLabel" layoutX="207.0" layoutY="67.0" prefHeight="56.0" prefWidth="397.0">
+                              <TextArea id="descriptionLabel" fx:id="descriptionLabel" layoutX="352.0" layoutY="67.0" prefHeight="56.0" prefWidth="397.0">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </TextArea>
-                              <TextArea id="matiereLabel" fx:id="matiereLabel" layoutX="207.0" layoutY="129.0" prefHeight="31.0" prefWidth="193.0" />
-                              <Label alignment="CENTER" layoutX="57.0" layoutY="178.0" prefHeight="33.0" prefWidth="101.0" text="DateCreation">
+                              <TextArea id="matiereLabel" fx:id="matiereLabel" layoutX="352.0" layoutY="128.0" prefHeight="31.0" prefWidth="193.0" />
+                              <Label alignment="CENTER" layoutX="188.0" layoutY="178.0" prefHeight="33.0" prefWidth="101.0" text="DateCreation">
                                  <font>
                                     <Font name="Constantia Bold Italic" size="15.0" />
                                  </font>
                               </Label>
-                              <TextArea id="dateCreationLabel" fx:id="dateCreationLabel" layoutX="207.0" layoutY="175.0" prefHeight="40.0" prefWidth="226.0" />
-                              <Label alignment="CENTER" layoutX="149.0" layoutY="293.0" prefHeight="33.0" prefWidth="352.0" text="Questions/Réponses">
+                              <TextArea id="dateCreationLabel" fx:id="dateCreationLabel" layoutX="352.0" layoutY="175.0" prefHeight="40.0" prefWidth="226.0" />
+                              <Label alignment="CENTER" layoutX="289.0" layoutY="283.0" prefHeight="33.0" prefWidth="352.0" text="Questions/Réponses">
                                  <font>
                                     <Font name="Constantia Bold Italic" size="28.0" />
                                  </font>
                               </Label>
 
-                              <Separator layoutX="1.0" layoutY="246.0" prefHeight="5.0" prefWidth="647.0" />
-                              <Label id="titre" fx:id="titreLabel" alignment="CENTER" layoutX="178.0" layoutY="14.0" prefHeight="47.0" prefWidth="293.0">
+                              <Separator layoutX="1.0" layoutY="246.0" prefHeight="1.0" prefWidth="949.0" />
+                              <Label id="titre" fx:id="titreLabel" alignment="CENTER" layoutX="324.0" layoutY="14.0" prefHeight="47.0" prefWidth="293.0">
                                  <font>
                                     <Font name="Constantia Bold Italic" size="29.0" />
                                  </font>
                               </Label>
-                                 <Button id="afficherQuestions" layoutX="260.0" layoutY="361.0" mnemonicParsing="false" onAction="#showQuestionsDialog" text="Afficher les questions" />                              <Button id="ModifierQuiz" fx:id="btnModifier" layoutX="260.0" layoutY="401.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="Modifier le quiz" />                           </children>
+                                 <Button id="afficherQuestions" layoutX="382.0" layoutY="369.0" mnemonicParsing="false" onAction="#showQuestionsDialog" prefHeight="41.0" prefWidth="165.0" text="Afficher les questions" />                           </children>
                         </AnchorPane>
-                        <Separator layoutX="-1.0" layoutY="67.0" prefHeight="5.0" prefWidth="647.0" />
-                        <Label alignment="CENTER" layoutX="241.0" layoutY="23.0" minWidth="60.0" prefHeight="31.0" prefWidth="223.0" style="&#10;" text="Quiz Dashboard" textAlignment="CENTER" textFill="#8f1919" wrapText="false">
+                        <Separator layoutX="-1.0" layoutY="71.0" prefHeight="1.0" prefWidth="1029.0" />
+                        <Label alignment="CENTER" layoutX="360.0" layoutY="23.0" minWidth="60.0" prefHeight="31.0" prefWidth="223.0" style="&#10;" text="Quiz Dashboard" textAlignment="CENTER" textFill="#8f1919" wrapText="false">
                            <font>
                               <Font name="Arial Rounded MT Bold" size="26.0" fx:id="x1" />
                            </font>
                         </Label>
-                        <ImageView fitHeight="49.0" fitWidth="167.0" layoutX="28.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="49.0" fitWidth="167.0" layoutX="89.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@quiz.jpg" />
                            </image>
