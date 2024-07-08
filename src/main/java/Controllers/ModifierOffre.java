@@ -76,6 +76,37 @@ public class ModifierOffre {
 
     @FXML
     void modifierDB(ActionEvent event) {
+        StringBuilder errorMessage = new StringBuilder();
+
+        if (!isValidString(titreOffre.getText())) {
+            errorMessage.append("Le titre doit être une chaîne de caractères valide (lettres, espaces, et caractères accentués).\n");
+        }
+
+        if (!isValidString(nomEntreprise.getText())) {
+            errorMessage.append("Le nom d'entreprise doit être une chaîne de caractères valide (lettres, espaces, et caractères accentués).\n");
+        }
+
+        if (!isValidString(descriptionOffre.getText())) {
+            errorMessage.append("La description doit être une chaîne de caractères valide (lettres, espaces, et caractères accentués).\n");
+        }
+
+        if (datePublication.getText() == null) {
+            errorMessage.append("Veuillez vérifier les données saisies pour la date de publication.\n");
+        }
+
+        if (!isValidEmail(emailEntreprise.getText())) {
+            errorMessage.append("L'adresse email doit être au format string@esprit.tn.\n");
+        }
+
+        if (!validateDate(datePublication.getText(), dateLimiteOffre.getValue())) {
+            errorMessage.append("La date limite doit être après la date de publication.\n");
+        }
+
+        if (errorMessage.length() > 0) {
+            afficherPopup("Erreur de saisie", "Validation échouée", errorMessage.toString());
+            return;
+        }
+
         // Update the offer object with the modified data from fields
         offre.setTitreOffre(titreOffre.getText());
         offre.setDescriptionOffre(descriptionOffre.getText());
@@ -115,5 +146,22 @@ public class ModifierOffre {
         // Fermer la fenêtre
         Stage stage = (Stage) titreOffre.getScene().getWindow();
         stage.close();
+    }
+    private boolean validateDate(String publicationDate, LocalDate limiteDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate pubDate = LocalDate.parse(publicationDate, formatter);
+        return limiteDate.isAfter(pubDate);
+    }
+
+    private boolean isValidString(String str) {
+        return str != null && str.trim().length() > 0 && str.matches("[a-zA-Zà-ÿÀ-ß\\s]+");
+    }
+
+    private boolean isValidEmail(String email) {
+        if (email == null) {
+            return false;
+        }
+        String regex = "^[a-zA-Z]+@[esprit]+\\.[tn]+$";
+        return email.matches(regex);
     }
 }
