@@ -3,7 +3,6 @@ package Services;
 import Entities.Formation;
 import Utils.DataSource;
 
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,19 +23,16 @@ public class FormationService {
             pst.setBlob(3, formation.getImageFormation());
             pst.setInt(4, idEnseignant);
             pst.setString(5, formation.getDateFormation());
-
             int result = pst.executeUpdate();
             return result > 0;
         }
     }
-
 
     public boolean SupprimerFormation(int id) throws SQLException {
         String req = "DELETE FROM formation WHERE id = ?";
 
         try (PreparedStatement pst = cnx.prepareStatement(req)) {
             pst.setInt(1, id);
-
             int result = pst.executeUpdate();
             return result > 0;
         }
@@ -147,5 +143,18 @@ public class FormationService {
             int result = pst.executeUpdate();
             return result > 0;
         }
+    }
+
+    public int getNumberOfStudentsEnrolled(int formationId) throws SQLException {
+        String req = "SELECT COUNT(*) AS count FROM inscription WHERE formation_id = ?";
+        try (PreparedStatement pst = cnx.prepareStatement(req)) {
+            pst.setInt(1, formationId);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("count");
+                }
+            }
+        }
+        return 0;
     }
 }
