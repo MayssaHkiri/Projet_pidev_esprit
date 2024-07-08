@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="20" alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="Controllers.MatiereViewController">
+    <Label style="-fx-font-size: 18px;" text="Gestion des Matières" />
+
+
+    <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="nomColumn" text="Nom" prefWidth="150" />
+            <TableColumn fx:id="coeffColumn" text="Coefficient" prefWidth="100" />
+            <TableColumn fx:id="modeEvalColumn" text="Mode d'Évaluation" prefWidth="150" />
+        </columns>
+    </TableView>
+    <GridPane hgap="10" vgap="10" alignment="CENTER">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+        <Label text="Nom:" />
+        <TextField fx:id="nomField" GridPane.columnIndex="1" />
+        <Label text="Coefficient:" GridPane.rowIndex="1" />
+        <TextField fx:id="coeffField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label text="Mode d'Évaluation:" GridPane.rowIndex="2" />
+        <TextField fx:id="modeEvalField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+        </rowConstraints>
+    </GridPane>
+
+
+    <HBox spacing="10" alignment="CENTER">
+        <Button text="Ajouter" onAction="#handleAdd" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+        <Button text="Modifier" onAction="#handleUpdate" style="-fx-background-color: #FFC107; -fx-text-fill: white;" />
+        <Button text="Supprimer" onAction="#handleDelete" style="-fx-background-color: #F44336; -fx-text-fill: white;" />
+    </HBox>
+</VBox>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.InscrireFormation">
+    <children>
+        <BorderPane style="-fx-background-color: #f0f0f0;">
+            <center>
+                <GridPane alignment="CENTER_LEFT" hgap="10" vgap="10">
+                    <padding>
+                        <Insets bottom="20" left="20" right="20" top="20" />
+                    </padding>
+                    <Label text="Nom" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                    <TextField fx:id="nomField" promptText="Entrez votre nom" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Label style="-fx-text-fill: red;" text="*" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+
+                    <Label text="Prénom" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                    <TextField fx:id="prenomField" promptText="Entrez votre prénom" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Label style="-fx-text-fill: red;" text="*" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+
+                    <Label text="Adresse mail" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                    <TextField fx:id="emailField" promptText="Entrez votre adresse mail" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <Label style="-fx-text-fill: red;" text="*" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+
+                    <Label text="Numéro de téléphone" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                    <TextField fx:id="telephoneField" promptText="Entrez votre numéro de téléphone" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <Label style="-fx-text-fill: red;" text="*" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+
+                    <Button onAction="#handleInscription" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="S'inscrire" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="4" />
+                    <columnConstraints>
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+                </GridPane>
+            </center>
+        </BorderPane>
+    </children>
+</VBox>

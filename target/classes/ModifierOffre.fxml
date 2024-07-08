@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<HBox prefHeight="434.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ModifierOffre">
+    <children>
+
+        <AnchorPane fx:id="mainContent" prefHeight="400.0" prefWidth="486.0" style="-fx-background-color: #f0f0f0;">
+            <children>
+                <Text layoutX="157.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24px; -fx-fill: black;" text="Modifier offre" wrappingWidth="160.53668212890625" />
+
+                <!-- GridPane for form fields -->
+                <GridPane hgap="10" layoutX="20.0" layoutY="80.0" vgap="10">
+                    <children>
+                        <Label styleClass="label" text="Titre de l'offre:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+                        <TextField fx:id="titreOffre" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <padding>
+                                <Insets right="1.0" />
+                            </padding>
+                        </TextField>
+
+                        <Label styleClass="label" text="Description de l'offre:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+                        <TextField fx:id="descriptionOffre" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                        <Label styleClass="label" text="Niveau d'étude:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+                        <ChoiceBox fx:id="niveauEtude" styleClass="choice-box" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                        <Label styleClass="label" text="Durée du contrat:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+                        <TextField fx:id="dureeContrat" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                        <Label styleClass="label" text="Date de publication:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+                        <TextField fx:id="datePublication" disable="true" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                        <Label styleClass="label" text="Nom de l'entreprise:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+                        <TextField fx:id="nomEntreprise" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+
+                        <HBox alignment="center" spacing="10" style="-fx-spacing: 10; -fx-alignment: center;" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                    </children>
+               <columnConstraints>
+                  <ColumnConstraints />
+                  <ColumnConstraints />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints />
+               </rowConstraints>
+                </GridPane>
+                   <Button layoutX="121.0" layoutY="392.0" onAction="#modifierDB" style="-fx-background-color: green; -fx-text-fill: white;" text="Modifier" />
+                   <Button layoutX="209.0" layoutY="391.0" onAction="#handleCancel" style="-fx-background-color: #E22D0C; -fx-text-fill: white;" text="Annuler" />
+
+                  <Label layoutX="42.0" layoutY="338.0" styleClass="label" text="Date limite:" />
+                  <DatePicker fx:id="dateLimiteOffre" layoutX="137.0" layoutY="334.0" style="-fx-background-color: white; -fx-text-fill: black;" />
+
+                  <Label layoutX="30.0" layoutY="299.0" styleClass="label" text="Email entreprise:" />
+                  <TextField fx:id="emailEntreprise" layoutX="144.0" layoutY="296.0" styleClass="text-field" />
+
+            </children>
+        </AnchorPane>
+    </children>
+</HBox>

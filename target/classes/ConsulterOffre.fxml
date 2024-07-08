@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="Controllers.ConsulterOffre">
+    <VBox alignment="CENTER" spacing="10" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+        <Label style="-fx-font-size: 18px;" text="Gestion des Cours" />
+
+        <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="titreOffreColumn" text="Titre" />
+                <TableColumn fx:id="descriptionOffreColumn" text="Description" />
+                <TableColumn fx:id="niveauEtudeColumn" text="Niveau Etude" />
+                <TableColumn fx:id="dureeContratColumn" text="Durée contrat" />
+                <TableColumn fx:id="datePublicationColumn" text="Date publication" />
+                <TableColumn fx:id="entrepriseColumn" text="Entreprise" />
+                <TableColumn fx:id="dateLimiteColumn" text="Date limite" />
+                <TableColumn fx:id="emailColumn" text="Email entreprise" />
+
+            </columns>
+
+        </TableView>
+
+        <HBox alignment="CENTER" spacing="10">
+            <Button onAction="#handleAdd" style="-fx-background-color: green; -fx-text-fill: white;" text="Ajouter" />
+            <Button onAction="#handleUpdate" style="-fx-background-color: #e2b40c; -fx-text-fill: white;" text="Modifier" />
+            <Button onAction="#handleDelete" style="-fx-background-color: #E22D0C; -fx-text-fill: white;" text="Supprimer" />
+        </HBox>
+
+    </VBox>
+</AnchorPane>
