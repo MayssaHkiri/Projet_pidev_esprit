@@ -5,6 +5,7 @@ import Entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -75,5 +76,15 @@ public class MainTeacherController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void logoutAction(ActionEvent event) throws IOException {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+
+        // Charge l'interface de connexion (LoginInterface.fxml)
+        Parent root = FXMLLoader.load(getClass().getResource("/LoginInterface.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }

@@ -16,7 +16,7 @@ public class InscriptionService {
     }
 
     public boolean add(Inscription inscription) {
-        String query = "INSERT INTO inscription (nom, prenom, email, numTel,idEtudiant) VALUES (?, ?, ?, ?,1)";
+        String query = "INSERT INTO inscription (nom, prenom, email, numTel,idEtudiant,formation_id) VALUES (?, ?, ?, ?,1,2)";
 
         try (Connection con = dataSource.getCon();
              PreparedStatement pst = con.prepareStatement(query)) {

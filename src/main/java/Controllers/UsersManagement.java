@@ -233,23 +233,30 @@ public class UsersManagement {
         }
 
         @FXML
-        private void handleAdd(ActionEvent event) throws IOException {
-                // Récupérer la scène actuelle à partir de n'importe quel nœud de la scène
-                Scene scene = tableView.getScene();
+        private void handleAdd(ActionEvent event) {
+                try {
+                        // Charger le fichier FXML pour la création de compte
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AccountCreation.fxml"));
+                        Parent root = loader.load();
 
-                // Récupérer la fenêtre principale (Stage) à partir de la scène
-                Stage stage = (Stage) scene.getWindow();
+                        // Créer un nouveau stage pour la fenêtre modale
+                        Stage dialogStage = new Stage();
+                        dialogStage.setTitle("Création de compte");
+                        dialogStage.initModality(Modality.WINDOW_MODAL);
+                        dialogStage.initOwner(tableView.getScene().getWindow());
+                        Scene scene = new Scene(root);
+                        dialogStage.setScene(scene);
 
-                // Charger le fichier FXML pour la création de compte
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/AccountCreation.fxml"));
-                Parent root = loader.load();
-                Scene newScene = new Scene(root);
+                        // Afficher la fenêtre modale et attendre sa fermeture
+                        dialogStage.showAndWait();
 
-                // Remplacer la scène actuelle par la nouvelle scène
-                stage.setScene(newScene);
-                stage.setTitle("Création de compte");
-                stage.show();
+                        // Après la fermeture de la fenêtre, rafraîchir la liste des utilisateurs
+                        handleRefresh(event);
+                } catch (IOException e) {
+                        showAlert("Erreur", "Erreur de chargement", "Impossible de charger la fenêtre de création de compte.");
+                }
         }
+
 
         @FXML
         private void handleRefresh(ActionEvent event) {
