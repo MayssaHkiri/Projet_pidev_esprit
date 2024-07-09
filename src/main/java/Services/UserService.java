@@ -385,5 +385,31 @@ public class UserService implements IService<User> {
         }
     }
 
+    public boolean resetPasswordByEmail(String email) throws SQLException {
+        if (!emailExists(email)) {
+            return false; // Email n'existe pas
+        }
+
+        // Générer un nouveau mot de passe
+        String newPassword = generateRandomPassword(8);
+
+        // Mettre à jour le mot de passe dans la base de données
+        String updateQuery = "UPDATE user SET pwd = ? WHERE email = ?";
+        try (PreparedStatement preparedStatement = cnx.prepareStatement(updateQuery)) {
+            preparedStatement.setString(1, newPassword);
+            preparedStatement.setString(2, email);
+            int updatedRows = preparedStatement.executeUpdate();
+            if (updatedRows > 0) {
+                // Envoyer l'email avec le nouveau mot de passe
+                sendPasswordByEmail(email, newPassword);
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 
 }

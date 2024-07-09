@@ -26,7 +26,7 @@
             <Insets left="112.0" />
          </VBox.margin>
       </Button>
-      <Button fx:id="resetButton" style="-fx-background-color: gray; -fx-text-fill: white; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.16), 5, 0, 0, 5);" text="Reset Password">
+      <Button fx:id="resetButton" onAction="#showForgetPasswordInterface" style="-fx-background-color: gray; -fx-text-fill: white; -fx-border-radius: 5px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.16), 5, 0, 0, 5);" text="Forget Password">
          <VBox.margin>
             <Insets left="88.0" />
          </VBox.margin></Button>

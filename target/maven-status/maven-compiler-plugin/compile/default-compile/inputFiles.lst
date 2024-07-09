@@ -40,6 +40,7 @@ D:\LesProjetEsprit\Projet_pidev_esprit\src\main\java\Services\ReponseService.jav
 D:\LesProjetEsprit\Projet_pidev_esprit\src\main\java\Controllers\AjoutChapitreView.java
 D:\LesProjetEsprit\Projet_pidev_esprit\src\main\java\Services\FormationService.java
 D:\LesProjetEsprit\Projet_pidev_esprit\src\main\java\Controllers\MainTeacherController.java
+D:\LesProjetEsprit\Projet_pidev_esprit\src\main\java\Controllers\ForgetPasswordController.java
 D:\LesProjetEsprit\Projet_pidev_esprit\src\main\java\Entities\Offre.java
 D:\LesProjetEsprit\Projet_pidev_esprit\src\main\java\Controllers\AccountCreation.java
 D:\LesProjetEsprit\Projet_pidev_esprit\src\main\java\Utils\DatabaseUpdater.java
