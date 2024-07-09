@@ -69,6 +69,19 @@ public class UserProfileController {
         String updatedPrenom = tfPrenom.getText();
         String updatedEmail = tfEmail.getText();
 
+
+        if (!updatedName.matches("[a-zA-Z]+") || !updatedPrenom.matches("[a-zA-Z]+")) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le nom et le prénom doivent contenir uniquement des lettres alphabétiques.");
+            return;
+        }
+
+        // Vérifier que l'adresse email se termine par "@esprit.tn"
+        if (!updatedEmail.endsWith("@esprit.tn")) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "L'adresse email doit se terminer par @esprit.tn.");
+            return; // Arrêter la mise à jour
+        }
+
+        // Créer l'utilisateur mis à jour
         User updatedUser = new User(authenticatedUser.getId(), updatedName, updatedPrenom, updatedEmail);
 
         try {
@@ -84,6 +97,7 @@ public class UserProfileController {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de la mise à jour des informations utilisateur.");
         }
 
+        // Désactiver l'édition et revenir à l'état initial des boutons
         tfName.setEditable(false);
         tfPrenom.setEditable(false);
         tfEmail.setEditable(false);
