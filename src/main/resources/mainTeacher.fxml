@@ -25,6 +25,8 @@
             <Button onAction="#loadGestionMatieres" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion matieres" />
             <Button onAction="#loadGestionCours" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion cours " />
             <Button onAction="#loadGestionQuiz" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200; -fx-pref-height: 50; -fx-margin: 10 0;" text="Gestion quiz " />
+            <Button fx:id="logoutButton" onAction="#logoutAction" text="Se déconnecter" style="-fx-background-color: #C4C4C4; -fx-text-fill: black; -fx-pref-width: 200px; -fx-pref-height: 50px; -fx-margin: 10 0; -fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 5px; -fx-font-weight: bold; -fx-font-size: 14px;" />
+
             <ImageView fitHeight="167.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
         </VBox>
 

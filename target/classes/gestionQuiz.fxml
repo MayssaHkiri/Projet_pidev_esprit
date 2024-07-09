@@ -38,6 +38,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -64,11 +65,16 @@
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                             </columnResizePolicy>
                                         </TableView>
-                                        <Button fx:id="btnCreerQuiz" layoutX="368.0" layoutY="477.0" mnemonicParsing="false" onAction="#handleCreationQuiz" prefHeight="40.0" prefWidth="226.0" style="-fx-background-color: #C21010FF; -fx-border-color: black;" text="Créer un quiz" textFill="WHITE">
+                                        <Button fx:id="btnCreerQuiz" layoutX="84.0" layoutY="481.0" mnemonicParsing="false" onAction="#handleCreationQuiz" prefHeight="40.0" prefWidth="226.0" style="-fx-background-color: #C21010FF; -fx-border-color: black;" text="Créer un quiz" textFill="WHITE">
                                             <font>
                                                 <Font size="16.0" />
                                             </font>
                                         </Button>
+                                        <TextField fx:id="matiereFilterTextField" layoutX="643.0" layoutY="485.0" onAction="#findAll" promptText="Filter par matiere">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></TextField>
+                              <Button fx:id="trie" onAction="#handleSortByDate" layoutX="405.0" layoutY="488.0" mnemonicParsing="false" text="Trier par date du creation" />
                                     </children>
                                 </AnchorPane>
                                 <Label alignment="CENTER" layoutX="389.0" layoutY="19.0" minWidth="60.0" prefHeight="31.0" prefWidth="223.0" style="&#10;" text="Quiz Dashboard" textAlignment="CENTER" textFill="#8f1919" wrapText="false">

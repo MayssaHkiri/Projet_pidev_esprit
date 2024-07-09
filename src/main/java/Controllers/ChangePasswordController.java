@@ -26,6 +26,8 @@ public class ChangePasswordController {
     @FXML
     private Button btnBack;
 
+    @FXML
+    private Button btnCancel;
 
     @FXML
     private PasswordField pfOldPassword;
@@ -89,23 +91,12 @@ public class ChangePasswordController {
     }
 
     @FXML
-    private void handleBack() {
-        try {
-            // Charger l'interface UserProfile.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UserProfile.fxml"));
-            Parent root = loader.load();
-
-            // Afficher la nouvelle scène dans la fenêtre principale
-            Stage stage = (Stage) btnBack.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Gérer l'erreur d'entrée/sortie si le chargement échoue
-            showAlert("Erreur", "Impossible de charger l'interface UserProfile.");
-        }
+    private void handleCancel() {
+        // Fermer l'interface courante ChangePassword.fxml
+        Stage currentStage = (Stage) btnCancel.getScene().getWindow();
+        currentStage.close();
     }
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

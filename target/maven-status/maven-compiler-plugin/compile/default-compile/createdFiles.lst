@@ -72,6 +72,7 @@ StartApplication\MainFX.class
 Services\ServiceCandidature.class
 Services\InscriptionService.class
 Controllers\AjoutChapitreView.class
+Controllers\ForgetPasswordController.class
 Controllers\AjouterOffre.class
 Controllers\GererUtilisateurs.class
 Entities\Candidature.class

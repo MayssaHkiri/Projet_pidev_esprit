@@ -2,6 +2,7 @@ package Controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,15 +26,26 @@ public class LoginInterface {
 
     private UserService userService = new UserService();
 
+    private static final String ESPRIT_EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@esprit\\.tn$";
+
     @FXML
     public void authentification(ActionEvent event) {
         String email = emailField.getText();
         String password = passwordField.getText();
 
+        if (!isValidEspritEmail(email)) {
+            showAlert("Invalid Email", "Please enter a valid Esprit email address (e.g., example@esprit.tn).");
+            return;
+        }
+
         try {
             User authenticatedUser = userService.authenticate(email, password);
             if (authenticatedUser != null) {
-                redirectUser(event, authenticatedUser);
+                if (authenticatedUser == UserService.DISACTIVE_USER) {
+                    showAlert("Account Inactive", "Your account is inactive. Please contact support.");
+                } else {
+                    redirectUser(event, authenticatedUser);
+                }
             } else {
                 showAlert("Authentication Failed", "Invalid email or password.");
             }
@@ -44,6 +56,11 @@ public class LoginInterface {
             e.printStackTrace();
             showAlert("Error", "An error occurred while loading the interface.");
         }
+    }
+
+    private boolean isValidEspritEmail(String email) {
+        Pattern pattern = Pattern.compile(ESPRIT_EMAIL_PATTERN);
+        return pattern.matcher(email).matches();
     }
 
     private void redirectUser(ActionEvent event, User user) throws IOException {
@@ -93,4 +110,20 @@ public class LoginInterface {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    @FXML
+    public void showForgetPasswordInterface(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ForgetPasswordInterface.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "An error occurred while loading the reset password interface.");
+        }
+    }
+
 }

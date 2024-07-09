@@ -1,7 +1,6 @@
 package StartApplication;
 
-import Controllers.MainStudentController;
-import Controllers.MainTeacherController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

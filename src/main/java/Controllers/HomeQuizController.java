@@ -21,6 +21,7 @@ import javafx.stage.Window;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Comparator;
 import java.util.Optional;
 
 public class HomeQuizController {
@@ -34,6 +35,8 @@ public class HomeQuizController {
     private TableColumn<Quiz, Void> actions;
     @FXML
     private Button btnCreerQuiz;
+    @FXML
+    private TextField matiereFilterTextField;
     private User authenticatedUser;
 
     private QuizService quizService;
@@ -98,12 +101,27 @@ public class HomeQuizController {
     public void findAll() {
         try {
             ObservableList<Quiz> quizzes = FXCollections.observableArrayList(quizService.readAll());
+
+            // Sort the quizzes by dateCreation
+            quizzes.sort(Comparator.comparing(Quiz::getDateCreation).reversed());
+
+            // Filter the quizzes by matiere if the TextField is not empty
+            String matiereToFilterBy = matiereFilterTextField.getText(); // Get the matiere to filter by from the TextField
+            if (!matiereToFilterBy.isEmpty()) {
+                quizzes = quizzes.filtered(quiz -> quiz.getMatiere().getNom().equals(matiereToFilterBy));
+            }
+
             quizTable.setItems(quizzes);
             titre.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
             matiere.setCellValueFactory(cellData -> cellData.getValue().matiereProperty());
         } catch (SQLException e) {
             System.out.println("Error while displaying all quizzes: " + e.getMessage());
         }
+    }
+    public void handleSortByDate(ActionEvent $event) throws SQLException {
+        ObservableList<Quiz> quizzes = FXCollections.observableArrayList(quizService.readAll());
+        quizzes.sort(Comparator.comparing(Quiz::getDateCreation));
+        quizTable.setItems(quizzes);
     }
 
     public void handleCreationQuiz(ActionEvent actionEvent) {
@@ -117,7 +135,6 @@ public class HomeQuizController {
             System.out.println("No quiz selected");
         }
     }
-
     public void handleAffichageQuiz(ActionEvent actionEvent) {
         Quiz selectedQuiz = quizTable.getSelectionModel().getSelectedItem();
         if (selectedQuiz != null) {
