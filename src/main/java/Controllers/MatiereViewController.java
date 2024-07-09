@@ -24,8 +24,8 @@ public class MatiereViewController {
 
     public void setUser(User user) {
         this.authenticatedUser = user;
-
     }
+
     @FXML
     private TableView<Matiere> tableView;
     @FXML
@@ -65,20 +65,42 @@ public class MatiereViewController {
     @FXML
     private void handleAdd() {
         String nom = nomField.getText();
-        int coeff = Integer.parseInt(coeffField.getText());
+        String coeffText = coeffField.getText();
         String modeEval = modeEvalField.getText();
-        Matiere newMatiere = new Matiere(0, nom, coeff, modeEval);
+
+        if (nom == null || nom.isEmpty() || coeffText == null || coeffText.isEmpty() || modeEval == null || modeEval.isEmpty()) {
+            showErrorDialog("Champs obligatoires", "Veuillez remplir les champs obligatoires", "Tous les champs doivent être remplis.");
+            return;
+        }
+
+        String errorMessage = "";
 
         try {
-            serviceMatiere.ajouter(newMatiere);
-            matiereList.add(newMatiere);
-            nomField.clear();
-            coeffField.clear();
-            modeEvalField.clear();
-            showSuccessDialog("Succès", "Ajout réussi", "La matière a été ajoutée avec succès.");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showErrorDialog("Erreur", "Impossible d'ajouter la matière", e.getMessage());
+            int coeff = Integer.parseInt(coeffText);
+            if (coeff <= 0) {
+                errorMessage += "Le coefficient doit être un entier positif!\n";
+            }
+        } catch (NumberFormatException e) {
+            errorMessage += "Le coefficient doit être un nombre entier!\n";
+        }
+
+        if (errorMessage.isEmpty()) {
+            int coeff = Integer.parseInt(coeffText);
+            Matiere newMatiere = new Matiere(nom, coeff, modeEval);
+
+            try {
+                serviceMatiere.ajouter(newMatiere);
+                matiereList.add(newMatiere);
+                nomField.clear();
+                coeffField.clear();
+                modeEvalField.clear();
+                showSuccessDialog("Succès", "Ajout réussi", "La matière a été ajoutée avec succès.");
+            } catch (SQLException e) {
+                e.printStackTrace();
+                showErrorDialog("Erreur", "Impossible d'ajouter la matière", e.getMessage());
+            }
+        } else {
+            showErrorDialog("Champs invalides", "Veuillez corriger les champs invalides", errorMessage);
         }
     }
 
@@ -156,3 +178,4 @@ public class MatiereViewController {
         }
     }
 }
+
