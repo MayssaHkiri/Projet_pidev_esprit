@@ -36,6 +36,9 @@ public class User {
         this.id = id ;
         this.role = role ;
     }
+    public User(String status ) {
+        this.status = status ;
+    }
     public User(int id, String nom, String prenom, String email, String password, String role  , String status) {
         this.id = id;
         this.nom = nom;

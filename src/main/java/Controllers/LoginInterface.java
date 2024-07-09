@@ -33,7 +33,11 @@ public class LoginInterface {
         try {
             User authenticatedUser = userService.authenticate(email, password);
             if (authenticatedUser != null) {
-                redirectUser(event, authenticatedUser);
+                if (authenticatedUser == UserService.DISACTIVE_USER) {
+                    showAlert("Account Inactive", "Your account is inactive. Please contact support.");
+                } else {
+                    redirectUser(event, authenticatedUser);
+                }
             } else {
                 showAlert("Authentication Failed", "Invalid email or password.");
             }

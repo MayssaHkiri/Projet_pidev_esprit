@@ -16,6 +16,8 @@ import java.util.Date;
 
 public class UserService implements IService<User> {
     private Connection cnx= DataSource.getInstance().getCon();
+
+    public static final User DISACTIVE_USER = new User( "DISACTIVE");
     private Statement ste;
 
     public UserService() {
@@ -181,11 +183,16 @@ public class UserService implements IService<User> {
             System.out.println("le email ne se trouve pas !");
             return null; // Retourne null si l'email n'existe pas
         }
-        String query = "SELECT id, nom, prenom, email, role, pwd FROM user WHERE email = ?";
+
+        String query = "SELECT id, nom, prenom, email, role, pwd, status FROM user WHERE email = ?";
         try (PreparedStatement preparedStatement = cnx.prepareStatement(query)) {
             preparedStatement.setString(1, email);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    String status = resultSet.getString("status");
+                    if (!"ACTIVE".equals(status)) {
+                        return DISACTIVE_USER; // Utilisateur désactivé
+                    }
                     int userId = resultSet.getInt("id");
                     String role = resultSet.getString("role");
                     String storedPassword = resultSet.getString("pwd");
@@ -194,7 +201,11 @@ public class UserService implements IService<User> {
                         String prenom = resultSet.getString("prenom");
                         String emailFromDb = resultSet.getString("email");
                         return new User(userId, nom, prenom, emailFromDb, storedPassword, role);
+                    } else {
+                        System.out.println("Mot de passe incorrect !");
                     }
+                } else {
+                    System.out.println("Utilisateur inexistant !");
                 }
             }
         } catch (SQLException e) {
@@ -203,6 +214,7 @@ public class UserService implements IService<User> {
         }
         return null; // Retourne null si l'authentification échoue ou s'il y a une erreur
     }
+
 
     public List<User> search(String searchTerm) throws SQLException {
         List<User> users = new ArrayList<>();
