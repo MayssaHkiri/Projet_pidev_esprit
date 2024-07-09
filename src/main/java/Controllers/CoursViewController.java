@@ -178,6 +178,7 @@ public class CoursViewController implements Initializable {
             return;
         }
         Cours updatedCours = showEditDialog(selectedCours);
+        tableView.refresh();
     }
 
 
