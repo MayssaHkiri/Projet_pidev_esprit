@@ -15,18 +15,18 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CoursViewController">
-    <VBox alignment="CENTER" spacing="10" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+    <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <Label style="-fx-font-size: 18px;" text="Gestion des Cours" />
 
-        <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+        <TableView fx:id="tableView" VBox.vgrow="ALWAYS" prefHeight="300" prefWidth="400">
             <columns>
-                <TableColumn fx:id="titreColumn" text="Titre" />
-                <TableColumn fx:id="descriptionColumn" text="Description" />
-                <TableColumn fx:id="pdfColumn" text="PDF File" />
+                <TableColumn fx:id="titreColumn" text="Titre" prefWidth="150" />
+                <TableColumn fx:id="descriptionColumn" text="Description" prefWidth="100" />
+                <TableColumn fx:id="pdfColumn" text="PDF File" prefWidth="150" />
             </columns>
         </TableView>
 
-        <GridPane hgap="10" vgap="10">
+        <GridPane hgap="10" vgap="10" alignment="CENTER">
             <padding>
                 <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
@@ -38,13 +38,14 @@
             <ChoiceBox fx:id="matiereChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="Chapitre:" GridPane.rowIndex="3" />
             <ChoiceBox fx:id="chapitreChoiceBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button onAction="#handleChooseFile" text="Choose PDF" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4" />
-         <Button mnemonicParsing="false" onAction="#HandleAjoutChapitre" text="Ajouter chapitre" GridPane.columnIndex="1" GridPane.rowIndex="3">
-            <GridPane.margin>
-               <Insets left="157.0" />
-            </GridPane.margin>
-         </Button>
+            <Button mnemonicParsing="false" onAction="#HandleAjoutChapitre" text="Ajouter chapitre" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                <GridPane.margin>
+                    <Insets left="10.0" />
+                </GridPane.margin>
+            </Button>
+            <Button onAction="#handleChooseFile" text="Choose PDF" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="4" />
             <columnConstraints>
+                <ColumnConstraints />
                 <ColumnConstraints />
                 <ColumnConstraints />
             </columnConstraints>

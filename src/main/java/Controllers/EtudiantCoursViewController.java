@@ -69,8 +69,8 @@ public class EtudiantCoursViewController {
 
         loadCoursFromDatabase();
 
-        // Calculer le nombre de pages nécessaires pour afficher 5 cours par page
-        int itemsPerPage = 5;
+        // Calculer le nombre de pages nécessaires pour afficher 3 cours par page
+        int itemsPerPage = 3;
         int pageCount = (int) Math.ceil((double) coursList.size() / itemsPerPage);
 
         pagination.setPageCount(pageCount);
@@ -102,7 +102,7 @@ public class EtudiantCoursViewController {
         pageBox.setAlignment(Pos.CENTER);
 
         // Calculer l'index de début et de fin pour la page actuelle
-        int itemsPerPage = 5;
+        int itemsPerPage = 3;
         int startIndex = pageIndex * itemsPerPage;
         int endIndex = Math.min(startIndex + itemsPerPage, coursList.size());
 
@@ -200,7 +200,7 @@ public class EtudiantCoursViewController {
                 noResultsLabel.setVisible(filteredCours.isEmpty());
 
                 // Réinitialisation de la pagination
-                int itemsPerPage = 5;
+                int itemsPerPage = 3;
                 int pageCount = (int) Math.ceil((double) coursList.size() / itemsPerPage);
                 pagination.setPageCount(pageCount);
                 pagination.setCurrentPageIndex(0);
@@ -213,7 +213,6 @@ public class EtudiantCoursViewController {
             noResultsLabel.setVisible(false);
         }
     }
-
 
     @FXML
     private void handleFilter(ActionEvent actionEvent) {
@@ -229,7 +228,7 @@ public class EtudiantCoursViewController {
                 noResultsLabel.setVisible(filteredCours.isEmpty());
 
                 // Réinitialisation de la pagination
-                int itemsPerPage = 5;
+                int itemsPerPage = 3;
                 int pageCount = (int) Math.ceil((double) coursList.size() / itemsPerPage);
                 pagination.setPageCount(pageCount);
                 pagination.setCurrentPageIndex(0);
@@ -240,6 +239,26 @@ public class EtudiantCoursViewController {
         } else {
             coursList.setAll(allCoursList);
             noResultsLabel.setVisible(false);
+        }
+    }
+
+    @FXML
+    private void handleRefresh(ActionEvent actionEvent) {
+        try {
+            loadCoursFromDatabase();
+
+            // Vider les sélections de matière et de chapitre
+            matiereChoiceBox.getSelectionModel().clearSelection();
+            chapitreChoiceBox.getSelectionModel().clearSelection();
+
+            // Réinitialisation de la pagination
+            int itemsPerPage = 3;
+            int pageCount = (int) Math.ceil((double) coursList.size() / itemsPerPage);
+            pagination.setPageCount(pageCount);
+            pagination.setCurrentPageIndex(0);
+            pagination.setPageFactory(this::createPage);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

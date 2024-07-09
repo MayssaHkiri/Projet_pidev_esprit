@@ -9,30 +9,32 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.EtudiantCoursViewController">
     <children>
-        <VBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0" spacing="10.0">
+        <VBox alignment="CENTER" spacing="10.0" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
             <!-- NavBar -->
-            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #f0f0f0; -fx-padding: 10;">
+            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #f0f0f0; -fx-padding: 10;" HBox.hgrow="ALWAYS">
                 <ImageView fitHeight="50.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@logoEsprit1.jpg" />
                     </image>
                 </ImageView>
-                <HBox alignment="CENTER_RIGHT" spacing="10.0" style="-fx-padding: 0 10 0 0;">
+                <HBox alignment="CENTER_RIGHT" spacing="10.0" HBox.hgrow="ALWAYS">
                     <Label text="Matière:" />
                     <ChoiceBox fx:id="matiereChoiceBox" prefWidth="150.0" />
                     <Label text="Chapitre:" />
+                    <ChoiceBox fx:id="chapitreChoiceBox" prefWidth="150.0" />
+                    <Button mnemonicParsing="false" text="Filtrer" onAction="#handleFilter" />
+                    <Button fx:id="refreshButton" onAction="#handleRefresh" text="Rafraîchir" />
                 </HBox>
-                <ChoiceBox fx:id="chapitreChoiceBox" prefWidth="150.0" />
-                <Button mnemonicParsing="false" text="filtrer" onAction="#handleFilter" />
             </HBox>
 
             <!-- Barre de recherche -->
-            <HBox alignment="CENTER" spacing="10.0" style="-fx-padding: 10;">
-                <TextField fx:id="searchField" promptText="Rechercher par nom de cours" />
+            <HBox alignment="CENTER" spacing="10.0" style="-fx-padding: 10;" HBox.hgrow="ALWAYS">
+                <TextField fx:id="searchField" promptText="Rechercher par nom de cours" HBox.hgrow="ALWAYS"/>
                 <Button fx:id="searchButton" onAction="#handleSearch" style="-fx-background-color: #007BFF; -fx-text-fill: white; -fx-font-weight: bold;" text="Rechercher" />
             </HBox>
 
@@ -40,10 +42,12 @@
             <Label fx:id="noResultsLabel" style="-fx-text-fill: red; -fx-font-weight: bold;" text="Aucun résultat trouvé" visible="false" />
 
             <!-- Conteneur pour les offres -->
-            <HBox alignment="CENTER" style="-fx-padding: 10;" />
+            <HBox alignment="CENTER" style="-fx-padding: 10;" HBox.hgrow="ALWAYS">
+                <!-- Les offres seront ajoutées ici -->
+            </HBox>
 
             <!-- Pagination -->
-            <HBox alignment="CENTER" style="-fx-padding: 10;">
+            <HBox alignment="CENTER" style="-fx-padding: 10;" HBox.hgrow="ALWAYS">
                 <Pagination fx:id="pagination" prefHeight="300.0" prefWidth="570.0" />
             </HBox>
         </VBox>
